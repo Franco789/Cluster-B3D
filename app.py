@@ -3,13 +3,13 @@ import streamlit.components.v1 as components
 import json
 
 st.set_page_config(
-    page_title="Atlas Neurobiológico & Conectómico 3D: Cluster B",
+    page_title="Atlas Neuroconectómico 3D: Cluster B",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Estética quirúrgica dark mode de alta precisión
+# Estética quirúrgica dark mode de alta gama
 st.markdown("""
 <style>
     .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
@@ -24,7 +24,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Base de Datos Neurobiológica y Conectómica con Citas Académicas Rigurosas
+# Base de Datos Neurobiológica con Analogías Pedagógicas y Citas Académicas
 # -------------------------------------------------------------------------
 CLINICAL_DATABASE = {
     "Trastorno Límite de la Personalidad (TLP)": {
@@ -34,7 +34,7 @@ CLINICAL_DATABASE = {
         "vmpfc_act": 0.22,
         "dacc_act": 1.90,
         "color_accent": "#ef4444",
-        "circuit_name": "Hiperreactividad Límbica, Ruptura Uncinada & Alarma de Dolor Social",
+        "circuit_name": "Falla del Freno Top-Down & Alarma Nociceptiva del Dolor Social",
         "dti_ref": "Schmahl et al. (2014, Biological Psychiatry) & New et al. (2009, NeuroImage): Desorganización microestructural con reducción severa de FA (< 0.20) en el fascículo uncinado bilateral.",
         "fmri_ref": "Eisenberger & Lieberman (2004, Science) & Ruocco et al. (2013, AJP): Coactivación paroxística de dACC e ínsula anterior ante el rechazo percibido en paradigmas Cyberball.",
         "nodes": [
@@ -45,8 +45,8 @@ CLINICAL_DATABASE = {
                 "rad": 1.20,
                 "hz": 8.0,
                 "status": "HIPERTRÓFICA FÁSICA",
-                "desc": "Alarma paroxística de supervivencia; traduce rostros neutros como amenazantes.",
-                "voice": "Amígdala basolateral derecha. Hiperactividad fásica desregulada. Según New y colaboradores en NeuroImage 2009, existe un retraso crítico en la extinción del condicionamiento aversivo, interpretando la neutralidad afectiva como hostilidad inminente."
+                "desc": "Alarma paroxística de supervivencia; decodificación errónea de rostros neutros como amenazantes.",
+                "voice": "Amígdala basolateral derecha. Imaginemos una alarma de humo ultrasensible, tan descalibrada que no sólo detecta fuego, sino que hace sonar la sirena de evacuación ante el simple vapor de una taza de café. En el paciente con TLP, un rostro neutro o un mensaje sin responder por diez minutos es interpretado por esta amígdala como una amenaza mortal de abandono inminente. Como demostraron New y colaboradores en NeuroImage, el circuito queda atrapado en una tormenta adrenérgica prolongada sin poder extinguir el miedo."
             },
             {
                 "name": "Amígdala Basolateral Izquierda",
@@ -56,7 +56,7 @@ CLINICAL_DATABASE = {
                 "hz": 8.0,
                 "status": "HIPERTRÓFICA FÁSICA",
                 "desc": "Descarga simpática autónoma inmediata ante la sospecha de distanciamiento interpersonal.",
-                "voice": "Amígdala basolateral izquierda. Desencadena descargas adrenérgicas inmediatas ante señales de separación, constituyendo el sustrato biológico del terror al abandono."
+                "voice": "Amígdala basolateral izquierda. Funciona como un gatillo biológico de pánico relacional. Por ejemplo, en una discusión de pareja, mientras una persona promedio experimenta incomodidad, aquí se desata una descarga autonómica de taquicardia y terror similar a estar frente a un depredador real."
             },
             {
                 "name": "Córtex Prefrontal Ventromedial (vmPFC)",
@@ -66,7 +66,7 @@ CLINICAL_DATABASE = {
                 "hz": 1.0,
                 "status": "COLAPSO INHIBITORIO",
                 "desc": "Falla del freno inhibitorio top-down; incapacidad de modular el afecto negativo.",
-                "voice": "Corteza prefrontal ventromedial. Presenta hipofunción severa. Como demuestran Schmahl y Ruocco en el American Journal of Psychiatry, la falla de reclutamiento inhibitorio frontal anula la capacidad de mentalización durante crisis emocionales."
+                "voice": "Corteza prefrontal ventromedial. Es el pedal de freno del cerebro emocional. En el TLP, este freno se queda sin líquido hidráulico. El paciente sabe racionalmente que autolesionarse o romper un teléfono no resuelve el problema, pero la corteza frontal no tiene la fuerza sináptica para detener la inercia del impulso. Schmahl y Ruocco confirmaron en el American Journal of Psychiatry esta profunda desconexión prefrontal."
             },
             {
                 "name": "Cíngulo Anterior Dorsal (dACC)",
@@ -76,7 +76,7 @@ CLINICAL_DATABASE = {
                 "hz": 7.2,
                 "status": "DOLOR SOCIAL AGUDO",
                 "desc": "Epicentro de la Red de Prominencia; traduce la distancia vincular en angustia física.",
-                "voice": "Córtex cingulado anterior dorsal. Nodo maestro de la red de prominencia. Naomi Eisenberger demostró en la revista Science que la vivencia de exclusión social activa exactamente los mismos vóxeles que el dolor físico somático agudo."
+                "voice": "Cíngulo anterior dorsal. Es la estación central del dolor social. Naomi Eisenberger demostró en la revista Science que el cerebro no distingue la exclusión afectiva de una quemadura física real. Cuando el paciente siente que es ignorado o rechazado, este núcleo se enciende con tal violencia que el corte físico en la piel muchas veces busca paradójicamente distraer o 'apagar' este dolor psíquico abrumador."
             },
             {
                 "name": "Ínsula Anterior Agranular",
@@ -86,7 +86,7 @@ CLINICAL_DATABASE = {
                 "hz": 6.5,
                 "status": "HIPEREXCITACIÓN INTEROCEPTIVA",
                 "desc": "Sustrato neurofisiológico de la vivencia de vacío crónico y disforia visceral.",
-                "voice": "Ínsula anterior agranular. Procesa la interocepción aversiva desregulada. Corresponde al correlato visceral de la vivencia subjetiva de vacío interior crónico y disforia paroxística."
+                "voice": "Ínsula anterior agranular. Es el traductor de las vísceras. Aquí reside el correlato biológico de ese 'agujero en el pecho' o vacío crónico que describe el paciente en consultorio; una sensación visceral desagradable e intolerable que a menudo empuja al consumo compulsivo o a la búsqueda desesperada de apego."
             }
         ],
         "tracts": [
@@ -95,29 +95,29 @@ CLINICAL_DATABASE = {
                 "name": "Fascículo Uncinado Derecho",
                 "status": "broken",
                 "desc": "Tracto axonómico desmielinizado; pérdida de anisotropía fraccional (FA: 0.18).",
-                "voice": "Fascículo uncinado derecho. La tractografía por tensor de difusión evidencia desmielinización y pérdida microestructural severa, interrumpiendo el canal de modulación prefrontal sobre el polo temporal."
+                "voice": "Fascículo uncinado derecho. Es el cable de fibra óptica que conecta la razón con la emoción. En el TLP, este cable está deshilachado y con pérdida severa de aislamiento de mielina. La orden de 'cálmate, no te están abandonando' que envía el lóbulo frontal llega demasiado tarde o degradada a la amígdala."
             },
             {
                 "from": [-2.3, -0.6, -1.4], "to": [0.0, 4.4, -0.8], "ctrl": [-3.4, 1.8, -2.2],
                 "name": "Fascículo Uncinado Izquierdo",
                 "status": "broken",
                 "desc": "Interrupción de la conectividad recíproca amígdalo-prefrontal bilateral.",
-                "voice": "Fascículo uncinado izquierdo. Presenta pérdida crítica de anisotropía fraccional documentada por Schmahl en Biological Psychiatry 2014, base estructural de la impulsividad conductual."
+                "voice": "Fascículo uncinado izquierdo. La tractografía DTI documentada por Schmahl revela una baja anisotropía fraccional bilateral, explicando por qué las crisis emocionales son tan difíciles de regular mediante la lógica convencional."
             },
             {
                 "from": [0.0, 2.2, 2.8], "to": [0.0, 4.4, -0.8], "ctrl": [0.0, 3.4, 1.0],
                 "name": "Proyección Cíngulo-Frontal",
                 "status": "hyper",
                 "desc": "Sobrecarga de conflicto social transmitida sin modulación prefrontal.",
-                "voice": "Proyección cíngulo-frontal. Transmite sobrecarga continua de alarma afectiva hacia una corteza prefrontal incapaz de modular la respuesta conductual."
+                "voice": "Proyección cíngulo-frontal. Bombardea a la corteza ejecutiva con un flujo constante de alarma y sufrimiento, saturando los recursos cognitivos y provocando el clásico bloqueo reflexivo durante el conflicto."
             }
         ],
         "ecosystem": [
-            {"name": "Vínculo de Pareja / Apego", "desc": "Splitting, idealización vs devaluación y terror pánico al desapego.", "tension": 0.98, "coords": [7.0, 4.0, 2.0], "color": "#ef4444", "voice": "Esfera conyugal y de apego. Dominada por el mecanismo de escisión o splitting, oscilación violenta entre idealización y odio, y terror catastrófico a la separación."},
-            {"name": "Guardia Médica / Urgencias", "desc": "Consultas reiteradas por gestos parasuicidas, sobredosis e impulsividad.", "tension": 0.95, "coords": [-6.5, 5.0, -2.5], "color": "#ef4444", "voice": "Servicio de urgencias. Hiperfrecuentación y saturación asistencial por conductas parasuicidas recurrentes, intoxicaciones impulsivas y microcrisis disfóricas."},
-            {"name": "Sentido de Identidad / Self", "desc": "Sensación de vacío insoportable, autodifusión y fluctuación moral.", "tension": 0.94, "coords": [5.0, -5.5, -2.5], "color": "#f43f5e", "voice": "Eje identitario. Dispersión del self, vivencia intolerable de vacío crónico y labilidad severa de la autoimagen conforme al entorno."},
-            {"name": "Soporte Familiar Primario", "desc": "Agotamiento de cuidadores, dinámicas de doble vínculo y claudicación.", "tension": 0.88, "coords": [-5.5, -4.0, 3.5], "color": "#fb923c", "voice": "Red familiar primaria. Agotamiento crónico de la red de cuidadores, tensión relacional permanente y claudicación del soporte afectivo."},
-            {"name": "Ámbito Académico / Laboral", "desc": "Interrupción de ciclos de estudio/trabajo por crisis afectivas cíclicas.", "tension": 0.70, "coords": [2.0, 6.5, -3.5], "color": "#eab308", "voice": "Ámbito laboral y académico. Desestructuración de metas a mediano plazo por descompensaciones emocionales agudas recurrentes."}
+            {"name": "Vínculo de Pareja / Apego", "desc": "Splitting, idealización vs devaluación y terror pánico al desapego.", "tension": 0.98, "coords": [7.0, 4.0, 2.0], "color": "#ef4444", "voice": "Esfera de pareja. Opera como un péndulo sin amortiguador. En un instante la pareja es el salvador absoluto, y ante una mínima tardanza pasa a ser el peor enemigo. Este mecanismo de escisión o splitting es la manifestación relacional directa de la desregulación amigdalina."},
+            {"name": "Guardia Médica / Urgencias", "desc": "Consultas reiteradas por gestos parasuicidas, sobredosis e impulsividad.", "tension": 0.95, "coords": [-6.5, 5.0, -2.5], "color": "#ef4444", "voice": "Servicio de guardia. El paciente llega en crisis paroxística tras una discusión afectiva, requiriendo contención institucional ante gestos autolesivos que no siempre buscan la muerte, sino silenciar la agonía del dolor psíquico."},
+            {"name": "Sentido de Identidad / Self", "desc": "Sensación de vacío insoportable, autodifusión y fluctuación moral.", "tension": 0.94, "coords": [5.0, -5.5, -2.5], "color": "#f43f5e", "voice": "Eje identitario. Es como un camaleón que cambia de color para no morir. El paciente adopta los gustos, valores o ideologías de la persona que tiene al lado por terror a que, al quedarse solo, no quede nada de sí mismo."},
+            {"name": "Soporte Familiar Primario", "desc": "Agotamiento de cuidadores, dinámicas de doble vínculo y claudicación.", "tension": 0.88, "coords": [-5.5, -4.0, 3.5], "color": "#fb923c", "voice": "Entorno familiar. Los familiares viven caminando sobre cáscaras de huevo, midiendo cada palabra para no disparar una crisis, lo que a largo plazo agota los recursos de soporte y genera rechazo involuntario."},
+            {"name": "Ámbito Académico / Laboral", "desc": "Interrupción de ciclos de estudio/trabajo por crisis afectivas cíclicas.", "tension": 0.70, "coords": [2.0, 6.5, -3.5], "color": "#eab308", "voice": "Ámbito laboral y académico. Se caracteriza por renuncias intempestivas o despidos tras discusiones explosivas con jefes o compañeros, desmoronando carreras promisorias por fallas en la tolerancia a la frustración."}
         ]
     },
     "Trastorno Antisocial de la Personalidad (TASP)": {
@@ -139,7 +139,7 @@ CLINICAL_DATABASE = {
                 "hz": 0.4,
                 "status": "ATROFIA FUNCIONAL",
                 "desc": "Inmunidad al condicionamiento por miedo o castigo; refractariedad autonómica.",
-                "voice": "Amígdala hipoactiva. Craig y Blair demostraron la ausencia de respuesta hemodinámica ante expresiones faciales de terror o contingencias punitivas futuras."
+                "voice": "Amígdala hipoactiva. Imaginemos un detector de humo al que le quitaron la batería. Aunque haya fuego y sirenas reales alrededor, no emite ningún sonido. Mientras una persona común siente taquicardia y sudoración fría al infringir una regla o al ver llorar a alguien, el individuo psicopático permanece en calma fisiológica absoluta. Craig y Blair demostraron en NeuroImage esta marcada refractariedad autonómica al castigo."
             },
             {
                 "name": "vmPFC (Polo Moral Desconectado)",
@@ -149,7 +149,7 @@ CLINICAL_DATABASE = {
                 "hz": 0.5,
                 "status": "HIPOCONECTADA",
                 "desc": "Juicio lógico analítico frío, pero sin integración somática del sufrimiento ajeno.",
-                "voice": "Corteza prefrontal ventromedial. Desconectada de la señal autonómica amigdalina. Conduce a un razonamiento moral utilitario desprovisto de resonancia empática somática."
+                "voice": "Corteza prefrontal ventromedial. Funciona como una calculadora financiera desprovista de escrúpulos. La persona comprende con total lucidez las reglas del juego y lo que está bien o mal en términos teóricos, pero esa comprensión no tiene anclaje afectivo. Dañar al otro es simplemente un costo transaccional admisible para alcanzar un objetivo."
             },
             {
                 "name": "Núcleo Accumbens (Estriado)",
@@ -159,7 +159,7 @@ CLINICAL_DATABASE = {
                 "hz": 7.5,
                 "status": "HIPERACTIVIDAD PREDATORIA",
                 "desc": "Búsqueda insaciable de recompensa inmediata y dominancia instrumental.",
-                "voice": "Núcleo accumbens estriatal. Hiperreactividad orientada a la ganancia inmediata y al control instrumental, sin cálculo de consecuencias negativas a terceros."
+                "voice": "Núcleo accumbens. Es el motor predatorio de recompensa. Si una persona común ve un fajo de billetes en una mesa ajena, el freno moral inhibe el impulso; aquí el estriado se sobreactiva exigiendo la gratificación inmediata, sin importar las consecuencias legales o el daño causado."
             },
             {
                 "name": "Ínsula Anterior (Anestesiada)",
@@ -169,7 +169,7 @@ CLINICAL_DATABASE = {
                 "hz": 0.3,
                 "status": "ANESTESIA INTEROCEPTIVA",
                 "desc": "Carencia absoluta de culpa visceral o remordimiento somatizado.",
-                "voice": "Ínsula anterior agranular anestesiada. Ausencia de marcadores viscerales de aversión o remordimiento frente a conductas transgresoras."
+                "voice": "Ínsula anterior anestesiada. Es la sede de la resonancia somática vicaria. Su hipofunción explica por qué estas personas pueden presenciar el dolor de una víctima sin experimentar la menor aversión ni remordimiento en el estómago."
             }
         ],
         "tracts": [
@@ -178,22 +178,22 @@ CLINICAL_DATABASE = {
                 "name": "Fascículo Uncinado (Ablación Conectómica)",
                 "status": "broken",
                 "desc": "Interrupción casi completa del tracto microestructural (FA: 0.08).",
-                "voice": "Fascículo uncinado. Demuestra ablación microestructural masiva documentada por Motzkin en el Journal of Neuroscience, suprimiendo la retroalimentación inhibitoria."
+                "voice": "Fascículo uncinado cortado. Motzkin comprobó en reclusos que la línea de comunicación entre el centro del miedo y el juicio moral está rota. El cerebro no puede enviar la señal de freno somático ante la transgresión."
             },
             {
                 "from": [0.0, 4.4, -0.8], "to": [1.3, 1.4, -0.8], "ctrl": [0.7, 3.0, -0.8],
                 "name": "Vía Córtico-Estriatal Desinhibida",
                 "status": "hyper",
                 "desc": "El estriado opera sin freno inhibitorio frontal, facilitando conductas predatorias.",
-                "voice": "Vía córtico-estriatal desinhibida. Opera sin freno frontal, facilitando la toma de decisiones orientada al beneficio instrumental exclusivo."
+                "voice": "Vía córtico-estriatal desinhibida. El lóbulo frontal no sólo no frena al núcleo de recompensa, sino que se pone a su servicio para planificar estafas y manipulaciones con frialdad metodológica."
             }
         ],
         "ecosystem": [
-            {"name": "Fuero Penal & Penitenciario", "desc": "Reiteración delictiva, crímenes patrimoniales/violentos y encarcelamiento.", "tension": 0.99, "coords": [-7.5, -3.5, 2.5], "color": "#ef4444", "voice": "Fuero penal y penitenciario. Colisión sistemática con el ordenamiento jurídico, litigios judiciales y reincidencia delictiva."},
-            {"name": "Víctimas / Vínculos Explotados", "desc": "Cosificación instrumental, violencia predatoria y despojo patrimonial.", "tension": 0.96, "coords": [7.0, 4.5, 3.0], "color": "#ef4444", "voice": "Entorno vincular y víctimas. Cosificación utilitaria, violencia predatoria y manipulación interpersonal sin resonancia afectiva."},
-            {"name": "Ámbito Contractual / Financiero", "desc": "Fraudes sistemáticos, estafas y ausencia de lealtad comercial.", "tension": 0.88, "coords": [-5.0, 5.5, -3.5], "color": "#fb923c", "voice": "Ámbito comercial y contractual. Fraudes reiterados, estafas premeditadas y transgresión continua de acuerdos normativos."},
-            {"name": "Peritajes Médico-Legales", "desc": "Simulación calculada de trastornos mentales para eludir sanciones penales.", "tension": 0.65, "coords": [3.5, -6.0, -3.0], "color": "#eab308", "voice": "Peritajes forenses. Simulación instrumental de psicopatología para intentar eludir la imputabilidad judicial."},
-            {"name": "Eje Identitario", "desc": "Egosintonía perfecta; ausencia de autocrítica o malestar interno.", "tension": 0.12, "coords": [5.5, -2.0, 4.5], "color": "#10b981", "voice": "Eje identitario. Egosintonía completa; ausencia radical de conflicto intrapsíquico o culpa subjetiva."}
+            {"name": "Fuero Penal & Penitenciario", "desc": "Reiteración delictiva, crímenes patrimoniales/violentos y encarcelamiento.", "tension": 0.99, "coords": [-7.5, -3.5, 2.5], "color": "#ef4444", "voice": "Fuero penal y penitenciario. El paciente no aprende del castigo ni de la cárcel. Al salir de prisión, la falta de condicionamiento al miedo hace que reincida exactamente en las mismas conductas delictivas."},
+            {"name": "Víctimas / Vínculos Explotados", "desc": "Cosificación instrumental, violencia predatoria y despojo patrimonial.", "tension": 0.96, "coords": [7.0, 4.5, 3.0], "color": "#ef4444", "voice": "Vínculos explotados. Las parejas y allegados son considerados meras herramientas o fichas de ajedrez. Una vez que ya no proveen dinero, estatus o placer, son desechados sin el menor atisbo de nostalgia."},
+            {"name": "Ámbito Contractual / Financiero", "desc": "Fraudes sistemáticos, estafas y ausencia de lealtad comercial.", "tension": 0.88, "coords": [-5.0, 5.5, -3.5], "color": "#fb923c", "voice": "Ámbito financiero. Creación de empresas fantasma, estafas piramidales y desvío de fondos. La promesa verbal es utilizada como un anzuelo sin intención real de cumplimiento."},
+            {"name": "Peritajes Médico-Legales", "desc": "Simulación calculada de trastornos mentales para eludir sanciones penales.", "tension": 0.65, "coords": [3.5, -6.0, -3.0], "color": "#eab308", "voice": "Peritajes forenses. El sujeto simula delirios o amnesia durante el examen psiquiátrico forense para ser declarado inimputable, desarmando la farsa cuando está fuera del ámbito judicial."},
+            {"name": "Eje Identitario", "desc": "Egosintonía perfecta; ausencia de autocrítica o malestar interno.", "tension": 0.12, "coords": [5.5, -2.0, 4.5], "color": "#10b981", "voice": "Eje identitario. Plena egosintonía. El individuo no acude voluntariamente a consulta porque no sufre en absoluto; considera que el problema es de los demás por ser débiles o ingenuos."}
         ]
     },
     "Trastorno Narcisista de la Personalidad (TNP)": {
@@ -215,7 +215,7 @@ CLINICAL_DATABASE = {
                 "hz": 7.4,
                 "status": "HIPERREACTIVO AL DESPRECIO",
                 "desc": "Alarma desmedida ante el desacato, la crítica o la pérdida de admiración.",
-                "voice": "Cíngulo anterior dorsal. Opera como un sensor hipersensible de rango social. Cualquier indicio de crítica detona una señal paroxística de amenaza al estatus."
+                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Por ejemplo, en una reunión de trabajo, si una opinión suya no es aplaudida de inmediato, este núcleo detecta una ofensa mortal a su estatus, detonando una respuesta de furia fría o venganza calculada."
             },
             {
                 "name": "vmPFC (Autoimagen Grandiosa)",
@@ -225,7 +225,7 @@ CLINICAL_DATABASE = {
                 "hz": 2.8,
                 "status": "COMPENSACIÓN GRANDIOSA",
                 "desc": "Mantenimiento activo del constructo de superioridad como defensa ante el vacío.",
-                "voice": "Corteza prefrontal medial. Sostiene de forma compensatoria el relato de autosuficiencia y grandeza para proteger la extrema vulnerabilidad del self."
+                "voice": "Corteza prefrontal ventromedial. Es como construir un andamio de oro sobre cimientos de barro. Se gasta una enorme cantidad de energía metabólica en sostener el relato de que se es superior a todos, precisamente para tapar un terror pánico a la mediocridad o al vacío interior."
             },
             {
                 "name": "Amígdala (Rabia Narcisista)",
@@ -235,7 +235,7 @@ CLINICAL_DATABASE = {
                 "hz": 5.2,
                 "status": "VULNERABILIDAD FÁSICA",
                 "desc": "Explosiones coléricas vindicativas ante la exposición de debilidad.",
-                "voice": "Amígdala reactiva. Dispara respuestas fásicas de hostilidad y cólera vindicativa cuando la imagen idealizada es cuestionada públicamente."
+                "voice": "Amígdala fásica. Dispara la llamada 'rabia narcisista'. Ante una crítica fundada de un colega o pareja, la herida narcisista desata una reacción colérica desproporcionada que busca descalificar y aniquilar verbalmente al otro para restituir el propio valor dañado."
             },
             {
                 "name": "Ínsula (Desconexión Vicaria)",
@@ -245,7 +245,7 @@ CLINICAL_DATABASE = {
                 "hz": 0.8,
                 "status": "ANESTESIA EMPÁTICA",
                 "desc": "Incapacidad neurofisiológica de registrar el dolor causado a subordinados.",
-                "voice": "Ínsula anterior desconectada. Fan demostró la existencia de una disociación crítica: preservación de la teoría de la mente cognitiva con anestesia de la empatía somatoafectiva."
+                "voice": "Ínsula anterior desconectada. Fan demostró en la revista SCAN la presencia de una disociación clave: el narcisista tiene empatía cognitiva intacta, es decir, 'sabe' perfectamente qué te duele y cómo herirte, pero carece de empatía afectiva, lo que significa que 'no siente' compasión alguna al hacerlo."
             }
         ],
         "tracts": [
@@ -254,29 +254,29 @@ CLINICAL_DATABASE = {
                 "name": "Eje de Autoevaluación Hipervigilante",
                 "status": "hyper",
                 "desc": "Circuito de monitoreo constante del estatus y de la aprobación externa.",
-                "voice": "Eje cíngulo-frontal. Monitorea permanentemente el nivel de reconocimiento externo para regular la homeostasis de la autoestima."
+                "voice": "Eje de autoevaluación. Obliga al sujeto a monitorear obsesivamente cuántos 'me gusta', aplausos o muestras de sumisión recibe por minuto para mantener equilibrado su estado de ánimo."
             },
             {
                 "from": [2.3, -0.6, -1.4], "to": [0.0, 2.2, 2.8], "ctrl": [1.2, 0.7, 0.8],
                 "name": "Circuito de Ira Vindicativa",
                 "status": "hyper",
                 "desc": "Descarga amigdalina directa al cíngulo que alimenta la hostilidad defensiva.",
-                "voice": "Circuito amígdalo-cingulado. Transmite la señal de herida narcisista convirtiéndola en conductas de represalia interpersonal."
+                "voice": "Circuito de ira vindicativa. Es el puente por donde la herida del orgullo se transforma en desprecio hacia quien osó marcarle un error."
             },
             {
                 "from": [3.6, 0.8, -0.1], "to": [0.0, 4.4, -0.8], "ctrl": [2.2, 2.4, -0.5],
                 "name": "Desconexión Fronto-Insular",
                 "status": "broken",
                 "desc": "Bloqueo selectivo de la resonancia afectiva hacia el sufrimiento ajeno.",
-                "voice": "Desconexión fronto-insular. Sustrato biológico del trato despersonalizado hacia personas percibidas de menor jerarquía."
+                "voice": "Desconexión fronto-insular. El tracto responsable de frenar la crueldad en las relaciones está apagado; el otro es tratado como un objeto utilitario sin costo de conciencia."
             }
         ],
         "ecosystem": [
-            {"name": "Vínculo de Pareja", "desc": "Cosificación, exigencia de pleitesía, humillación y ley del hielo.", "tension": 0.92, "coords": [6.5, 4.0, 2.0], "color": "#ef4444", "voice": "Relación conyugal. Exigencia de pleitesía incondicional, dinámica de devaluación y castigo mediante la ley del hielo frente a desacuerdos."},
-            {"name": "Autoimagen & Cohesión del Self", "desc": "Fragilidad extrema; colapso disfórico profundo ante pérdidas de estatus.", "tension": 0.96, "coords": [0.0, -7.0, -2.5], "color": "#a855f7", "voice": "Cohesión del self. Riesgo elevado de colapso disfórico depresivo profundo cuando la fachada de éxito se quiebra de forma irrevocable."},
-            {"name": "Ámbito Corporativo / Laboral", "desc": "Rivalidades destructivas, litigios por honra y boicot a colaboradores.", "tension": 0.84, "coords": [-6.0, 4.5, 3.0], "color": "#fb923c", "voice": "Ámbito corporativo y laboral. Rivalidad destructiva con pares, maltrato hacia subordinados y litigios constantes por preservación de estatus."},
-            {"name": "Familia de Origen", "desc": "Exigencia de tributo incondicional o ruptura agresiva con exclusión total.", "tension": 0.76, "coords": [-5.0, -4.5, 3.0], "color": "#fb923c", "voice": "Familia de origen. Imposición de jerarquías rígidas y castigo con exclusión afectiva ante cualquier confrontación."},
-            {"name": "Consultas a Salud Mental", "desc": "Abandono de psicoterapia ante señalamientos que confronten la grandiosidad.", "tension": 0.52, "coords": [4.0, 6.0, -3.0], "color": "#38bdf8", "voice": "Atención clínica. Elevada tasa de abandono terapéutico si el profesional no valida la posición de superioridad."}
+            {"name": "Vínculo de Pareja", "desc": "Cosificación, exigencia de pleitesía, humillación y ley del hielo.", "tension": 0.92, "coords": [6.5, 4.0, 2.0], "color": "#ef4444", "voice": "Vínculo conyugal. Se establece una dinámica de dominación donde la pareja debe orbitar en torno a sus necesidades. El menor desacuerdo es castigado con semanas de silencio gélido o devaluación humillante."},
+            {"name": "Autoimagen & Cohesión del Self", "desc": "Fragilidad extrema; colapso disfórico profundo ante pérdidas de estatus.", "tension": 0.96, "coords": [0.0, -7.0, -2.5], "color": "#a855f7", "voice": "Cohesión del self. Cuando se produce una quiebra real de estatus (una bancarrota, un divorcio público o el envejecimiento), el andamio grandioso se derrumba, dando paso a una depresión disfórica de altísimo riesgo suicida."},
+            {"name": "Ámbito Corporativo / Laboral", "desc": "Rivalidades destructivas, litigios por honra y boicot a colaboradores.", "tension": 0.84, "coords": [-6.0, 4.5, 3.0], "color": "#fb923c", "voice": "Ámbito laboral. Como líderes o jefes son tiranos que se apropian de los éxitos de los empleados y culpan a otros de sus propios errores, generando ambientes laborales tóxicos y renuncias masivas."},
+            {"name": "Familia de Origen", "desc": "Exigencia de tributo incondicional o ruptura agresiva con exclusión total.", "tension": 0.76, "coords": [-5.0, -4.5, 3.0], "color": "#fb923c", "voice": "Familia de origen. Trata a los hijos como extensiones de su propia imagen. El hijo que triunfa es exhibido como trofeo; el que piensa por sí mismo es desheredado o rechazado."},
+            {"name": "Consultas a Salud Mental", "desc": "Abandono de psicoterapia ante señalamientos que confronten la grandiosidad.", "tension": 0.52, "coords": [4.0, 6.0, -3.0], "color": "#38bdf8", "voice": "Consulta psiquiátrica. Llegan derivados o arrastrados por terceros. Ante la primera interpretación del terapeuta que señale sus falencias, abandonan el tratamiento argumentando que el profesional 'no está a su nivel'."}
         ]
     },
     "Trastorno Histriónico de la Personalidad (THP)": {
@@ -298,7 +298,7 @@ CLINICAL_DATABASE = {
                 "hz": 6.2,
                 "status": "HIPEREXCITABLE LÁBIL",
                 "desc": "Emotividad intensa y cambiante; intolerancia al desinterés del entorno.",
-                "voice": "Amígdala límbica lábil. Respuesta afectiva inmediata pero superficial y sujeta a rápida oscilación según el grado de atención recibida."
+                "voice": "Amígdala límbica lábil. Funciona como fuegos artificiales de corta duración: una explosión de llanto dramático ante una nimiedad, seguida a los diez minutos por risas y seducción como si nada hubiera ocurrido. Es una afectividad tan intensa como superficial."
             },
             {
                 "name": "Núcleo Accumbens Social",
@@ -308,7 +308,7 @@ CLINICAL_DATABASE = {
                 "hz": 6.5,
                 "status": "HIPERRESPUESTA AL FEEDBACK",
                 "desc": "Dependencia absoluta del halago, la seducción y la validación externa.",
-                "voice": "Núcleo accumbens social. Circuito de recompensa adicto a la mirada ajena, la seducción activa y el reconocimiento público constante."
+                "voice": "Núcleo accumbens social. Es un circuito adicto a los reflectores. La persona no tolera no ser el centro de atención en una reunión; si la conversación gira hacia otro tema, recurrirá a risas excesivas, seducción inapropiada o una repentina indisposición física para recuperar la mirada de todos."
             },
             {
                 "name": "Ínsula Somatosensorial",
@@ -318,7 +318,7 @@ CLINICAL_DATABASE = {
                 "hz": 5.4,
                 "status": "SOMATIZACIÓN INTEROCEPTIVA",
                 "desc": "Conversión corporal de angustias afectivas; teatralidad física y somatizaciones.",
-                "voice": "Ínsula somatosensorial. Traduce el malestar afectivo no metabolizado en manifestaciones corporales de carácter conversivo y teatral."
+                "voice": "Ínsula somatosensorial. El teatro no se actúa en palabras, se actúa en el cuerpo. Ante un conflicto interpersonal no resuelto, la ínsula amplifica las señales corporales provocando parálisis funcionales, afonías súbitas o desmayos sin base orgánica."
             },
             {
                 "name": "vmPFC Impresionista",
@@ -328,7 +328,7 @@ CLINICAL_DATABASE = {
                 "hz": 1.4,
                 "status": "PROCESAMIENTO DIFUSO",
                 "desc": "Falla en el procesamiento lógico analítico; razonamiento guiado por impresiones.",
-                "voice": "Corteza prefrontal medial impresionista. Procesamiento cognitivo global sin anclaje en el análisis detallado de contingencias complejas."
+                "voice": "Corteza prefrontal impresionista. Su estilo cognitivo es como una pintura al óleo vista de lejos: capta el ambiente emocional global pero es incapaz de dar precisiones lógicas o detalladas sobre los hechos que provocaron el conflicto."
             }
         ],
         "tracts": [
@@ -337,22 +337,22 @@ CLINICAL_DATABASE = {
                 "name": "Eje Límbico-Recompensa Interpersonal",
                 "status": "hyper",
                 "desc": "Circuito reforzador del histrionismo relacional.",
-                "voice": "Eje límbico-recompensa. Refuerza de forma condicionada las conductas de seducción y dramatización afectiva."
+                "voice": "Eje límbico de recompensa. Condiciona la conducta para que el individuo repita permanentemente puestas en escena teatrales que le aseguren la aprobación externa."
             },
             {
                 "from": [0.0, 4.4, -0.8], "to": [2.3, -0.6, -1.4], "ctrl": [1.4, 1.9, -1.1],
                 "name": "Modulación Frontal Deficitaria",
                 "status": "broken",
                 "desc": "Falla del control prefrontal para modular la labilidad afectiva.",
-                "voice": "Modulación frontal deficitaria. Pérdida de contención inhibitoria frente a frustraciones interpersonales menores."
+                "voice": "Modulación frontal deficitaria. Falla en poner orden y sobriedad cuando la situación amerita contención emocional, como velorios o reuniones formales de trabajo."
             }
         ],
         "ecosystem": [
-            {"name": "Vínculo Conyugal / Pareja", "desc": "Seducción inapropiada, celopatía y reclamo permanente de protagonismo.", "tension": 0.85, "coords": [6.0, 3.5, 2.0], "color": "#ef4444", "voice": "Pareja. Reclamo permanente de exclusividad, conductas seductoras descontextualizadas y celotipia reactiva intensa."},
-            {"name": "Guardia Médica de Emergencias", "desc": "Ingresos por síntomas neurológicos funcionales, pseudocrisis o hiperventilación.", "tension": 0.82, "coords": [-5.0, 5.5, -2.5], "color": "#fb923c", "voice": "Servicio de guardia. Consultas reiteradas por pseudocrisis no epilépticas, parestesias funcionales y cuadros conversivos agudos."},
-            {"name": "Círculo Social Amplio", "desc": "Relaciones superficiales asumidas como íntimas; agotamiento del entorno.", "tension": 0.72, "coords": [4.5, -5.0, 2.5], "color": "#fb923c", "voice": "Círculo social. Idealización acelerada de vínculos superficiales y posterior desgaste del entorno por demandas afectivas continuas."},
-            {"name": "Eje de Autoestima", "desc": "Sensación de desvanecimiento subjetivo ante la falta de atención o halago.", "tension": 0.80, "coords": [-1.8, -6.0, -2.0], "color": "#06b6d4", "voice": "Autoestima. Percepción de vacío y desaparición psicológica si no se cuenta con el interés manifiesto de la mirada ajena."},
-            {"name": "Ámbito Laboral Metódico", "desc": "Incapacidad para labores rutinarias o sin visibilidad protagónica.", "tension": 0.50, "coords": [2.2, 6.5, -3.5], "color": "#38bdf8", "voice": "Ámbito laboral. Abandono prematuro de proyectos que exigen disciplina metódica y carecen de visibilidad protagónica."}
+            {"name": "Vínculo Conyugal / Pareja", "desc": "Seducción inapropiada, celopatía y reclamo permanente de protagonismo.", "tension": 0.85, "coords": [6.0, 3.5, 2.0], "color": "#ef4444", "voice": "Pareja. Exige demostraciones de amor novelescas y apasionadas todos los días. La rutina cotidiana normal es vivida como desamor, provocando celos infundados o coqueteos con terceros para reactivar el drama."},
+            {"name": "Guardia Médica de Emergencias", "desc": "Ingresos por síntomas neurológicos funcionales, pseudocrisis o hiperventilación.", "tension": 0.82, "coords": [-5.0, 5.5, -2.5], "color": "#fb923c", "voice": "Guardia médica. Clásica consulta de madrugada por pseudocrisis no epilépticas o crisis de hiperventilación tras una discusión doméstica, requiriendo un abordaje empático pero firme que evite la sobremedicalización innecesaria."},
+            {"name": "Círculo Social Amplio", "desc": "Relaciones superficiales asumidas como íntimas; agotamiento del entorno.", "tension": 0.72, "coords": [4.5, -5.0, 2.5], "color": "#fb923c", "voice": "Círculo de amistades. Conocen a alguien hace dos días y ya lo consideran su 'hermano del alma', para luego distanciarse con la misma velocidad ante cualquier pequeñez que no satisfaga su estándar novelesco."},
+            {"name": "Eje de Autoestima", "desc": "Sensación de desvanecimiento subjetivo ante la falta de atención o halago.", "tension": 0.80, "coords": [-1.8, -6.0, -2.0], "color": "#06b6d4", "voice": "Autoestima. Si nadie los mira, sienten literalmente que no existen. Su valor interno es totalmente prestado por la mirada del público circunstancial."},
+            {"name": "Ámbito Laboral Metódico", "desc": "Incapacidad para labores rutinarias o sin visibilidad protagónica.", "tension": 0.50, "coords": [2.2, 6.5, -3.5], "color": "#38bdf8", "voice": "Ámbito laboral. Excelente desenvolvimiento inicial en relaciones públicas o ventas, pero con un rápido agotamiento cuando el rol exige trabajo metódico de archivo o concentración sin público."}
         ]
     }
 }
@@ -388,7 +388,7 @@ with m4:
     st.markdown(f"""<div class="biomarker-panel"><div class="biomarker-lbl">Ratio Inhibitorio Top-Down</div><div class="biomarker-val" style="color: {col_r};">{ratio_ctrl:.2f}</div></div>""", unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Motor WebGL Three.js con Manejo Nativo de PointerEvents y Síntesis Vocal
+# Motor WebGL Three.js con Manejo Nativo de PointerEvents y Voz Humanizada
 # -------------------------------------------------------------------------
 payload = {
     "view": view_selector,
@@ -447,7 +447,7 @@ html_webgl = f"""
     </div>
     <div id="hud">
       <div id="hud-head" class="hud-title">Conectoma Interactivo 3D</div>
-      <div id="hud-body" class="hud-desc">1. Haz clic en "Iniciar Audio" arriba a la izquierda.<br>2. Arrastra con el ratón directamente sobre el cerebro para rotarlo en 360° o usa la rueda para zoom.<br>3. Haz clic sobre cualquier estructura para escuchar su análisis neurocientífico.</div>
+      <div id="hud-body" class="hud-desc">1. Haz clic en "Iniciar Audio" arriba a la izquierda.<br>2. Arrastra con el ratón directamente sobre el cerebro para rotarlo en 360° o usa la rueda para zoom.<br>3. Haz clic sobre cualquier estructura para escuchar su análisis clínico, analogías y citas científicas.</div>
     </div>
   </div>
 
@@ -456,16 +456,33 @@ html_webgl = f"""
     const container = document.getElementById('viewport');
 
     // -------------------------------------------------------------
-    // MOTOR DE VOZ CLÍNICA (WEB SPEECH API CON DESTRABE MANUAL)
+    // MOTOR DE VOZ CLÍNICA HUMANIZADA (SELECCIÓN DE VOCES NATURALES)
     // -------------------------------------------------------------
     let voiceActive = false;
+    let selectedVoice = null;
+
+    function populateVoices() {{
+      if (!window.speechSynthesis) return;
+      const voices = window.speechSynthesis.getVoices();
+      // Priorizar voces en español naturales/neuronales
+      selectedVoice = voices.find(v => v.lang.startsWith('es') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Paulina') || v.name.includes('Jorge') || v.name.includes('Sabina'))) ||
+                      voices.find(v => v.lang.startsWith('es')) || null;
+    }}
+
+    if (window.speechSynthesis) {{
+      populateVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {{
+        window.speechSynthesis.onvoiceschanged = populateVoices;
+      }}
+    }}
+
     function initVoiceSystem() {{
       voiceActive = !voiceActive;
       const b = document.getElementById('voice-btn');
       if (voiceActive) {{
-        b.innerText = "🔊 Voz Científica: Activa";
+        b.innerText = "🔊 Voz Humanizada: Activa";
         b.classList.add("btn-active");
-        speakText("Motor neuro-vocal activado. Haz clic sobre cualquier núcleo o tracto para escuchar su correlato fisiopatológico.");
+        speakText("Motor de síntesis vocal activado. Selecciona cualquier estructura o vía axonal para escuchar su mecanismo fisiopatológico con ejemplos y evidencia científica.");
       }} else {{
         b.innerText = "🔇 Voz Silenciada";
         b.classList.remove("btn-active");
@@ -477,9 +494,10 @@ html_webgl = f"""
       if (!voiceActive || !window.speechSynthesis) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
+      if (selectedVoice) utter.voice = selectedVoice;
       utter.lang = 'es-ES';
-      utter.rate = 1.0;
-      utter.pitch = 1.0;
+      utter.rate = 0.94;  // Cadencia más pausada, estilo clase/conferencia médica
+      utter.pitch = 1.02; // Modulación tonal más natural y menos metálica
       window.speechSynthesis.speak(utter);
     }}
 
