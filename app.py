@@ -3,249 +3,244 @@ import streamlit.components.v1 as components
 import json
 
 st.set_page_config(
-    page_title="Neuroconectoma 3D: Psicopatología del Cluster B",
+    page_title="Atlas Conectómico 3D: Neurobiología del Cluster B",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Estética quirúrgica dark-mode con tipografía técnica
+# Estética de estación de trabajo neuroquirúrgica (estilo StealthStation / Brainlab)
 st.markdown("""
 <style>
-    .stApp { background-color: #010409; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
-    h1, h2, h3, h4 { color: #f0f6fc; font-weight: 700; letter-spacing: -0.02em; }
-    .metric-panel {
-        background: #0d1117; border: 1px solid #30363d;
-        border-radius: 8px; padding: 12px 16px; margin-bottom: 10px;
+    .stApp { background-color: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
+    header, footer { visibility: hidden; }
+    .css-1d391kg { padding-top: 1rem; }
+    .biomarker-card {
+        background: #0b1329; border: 1px solid #1e293b; border-left: 3px solid #38bdf8;
+        padding: 10px 14px; border-radius: 6px; margin-bottom: 8px;
     }
-    .metric-val { font-size: 1.55rem; font-weight: 800; font-family: ui-monospace, Menlo, Consolas, monospace; }
-    .metric-sub { font-size: 0.72rem; text-transform: uppercase; color: #8b949e; letter-spacing: 0.05em; }
-    .evidence-card {
-        background: #0d1117; border-left: 4px solid #38bdf8;
-        padding: 14px 18px; border-radius: 4px; margin-top: 15px; margin-bottom: 15px;
-    }
+    .biomarker-title { font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.08em; }
+    .biomarker-val { font-size: 1.4rem; font-weight: 800; font-family: "JetBrains Mono", Consolas, monospace; }
 </style>
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Base de Datos Neurobiológica y Conectómica (Espacio MNI152 y Criterios RDoC)
+# Base de Datos Neurobiológica Estricta (MNI152, DTI Fractional Anisotropy & RDoC)
 # -------------------------------------------------------------------------
-DATABASE = {
+NEURO_REGISTRY = {
     "TLP": {
         "title": "Trastorno Límite de la Personalidad (Borderline)",
-        "subtitle": "Hiperreactividad Límbica, Ruptura Uncinada & Alarma de Dolor Social",
-        "fa_uncinate": 0.18,
-        "amg_activation": 1.95,
-        "vmpfc_activity": 0.22,
-        "acc_pain": 1.90,
-        "rdoc_construct": "Sistemas de Valencia Negativa / Miedo al Abandono",
-        "dti_evidence": "Schmahl et al. (2014) y New et al. (2009): Disminución crítica de anisotropía fraccional (FA < 0.20) en el fascículo uncinado bilateral y la radiación tálamo-frontal anterior. Desconexión anatómica del control prefrontal sobre el núcleo basolateral amigdalino.",
-        "fmri_evidence": "En paradigmas Cyberball (dolor de exclusión) y lectura facial fásica: coactivación paroxística del dACC y de la ínsula anterior bilateral. La exclusión social recluta exactamente las mismas subredes que el dolor nociceptivo somático agudo (Eisenberger & Lieberman).",
+        "rdoc_matrix": "Dominio: Sistemas de Valencia Negativa / Miedo al Abandono & Dolor Social",
+        "fa_uncinate": 0.17,      # Valor patológico severamente degradado (Media control: 0.45 - 0.52)
+        "bold_amg": 2.10,         # Hiperreactividad fásica en fMRI
+        "vmpfc_control": 0.18,    # Falla inhibitoria crítica
+        "dacc_pain": 1.95,        # Hiperactivación en paradigmas de exclusión tipo Cyberball
+        "dti_mechanics": "Pérdida de anisotropía fraccional (FA < 0.20) en el fascículo uncinado frontolímbico bilateral y radiación tálamo-frontal anterior (Schmahl et al., 2014; New et al., 2009). Desmielinización y desorganización microestructural axonal.",
+        "fmri_mechanics": "Coactivación desmedida del cíngulo dorsal anterior (dACC) e ínsula anterior agranular durante el rechazo interpersonal percibido. La exclusión social recluta exactamente la misma matriz que el dolor somático agudo (Eisenberger & Lieberman, 2004).",
         "nodes": [
-            {"id": "amg_r", "name": "Amígdala Basolateral (Der)", "x": 2.4, "y": -0.7, "z": -1.5, "mni": "[+24, -7, -15]", "color": "#ef4444", "rad": 1.15, "hz": 8.0, "status": "HIPERTRÓFICA / HIPERACTIVA", "role": "Detección errónea de amenaza en rostros neutros; desregulación simpática aguda."},
-            {"id": "amg_l", "name": "Amígdala Basolateral (Izq)", "x": -2.4, "y": -0.7, "z": -1.5, "mni": "[-24, -7, -15]", "color": "#ef4444", "rad": 1.15, "hz": 8.0, "status": "HIPERTRÓFICA / HIPERACTIVA", "role": "Respuesta fásica masiva ante señales percibidas de abandono o distanciamiento."},
-            {"id": "vmpfc", "name": "vmPFC / Subgenual", "x": 0.0, "y": 4.6, "z": -0.9, "mni": "[0, +46, -9]", "color": "#38bdf8", "rad": 0.45, "hz": 1.2, "status": "HIPOFUNCIÓN CRÍTICA", "role": "Incapacidad para modular la intensidad afectiva; colapso de la mentalización."},
-            {"id": "ofc", "name": "Córtex Orbitofrontal Lateral", "x": 1.8, "y": 4.0, "z": -1.8, "mni": "[+18, +40, -18]", "color": "#38bdf8", "rad": 0.45, "hz": 1.2, "status": "FALTA DE EXTINCIÓN", "role": "Falla en el cálculo flexible de consecuencias y en la extinción del condicionamiento aversivo."},
-            {"id": "dacc", "name": "Cíngulo Anterior Dorsal (dACC)", "x": 0.0, "y": 2.4, "z": 2.8, "mni": "[0, +24, +28]", "color": "#f43f5e", "rad": 1.05, "hz": 7.2, "status": "HIPERREACTIVA (DOLOR SOCIAL)", "role": "Nodo central de la red de prominencia; traduce el rechazo vincular en vivencia de herida tisular."},
-            {"id": "insula_r", "name": "Ínsula Anterior Agranular", "x": 3.9, "y": 0.7, "z": 0.1, "mni": "[+39, +7, +1]", "color": "#e11d48", "rad": 0.95, "hz": 6.5, "status": "SOBREACTIVACIÓN VISCERAL", "role": "Interocepción aversiva intolerable; sustrato neurofisiológico de la vivencia de 'vacío' crónico."},
-            {"id": "dlpfc", "name": "dlPFC (Control Ejecutivo)", "x": 3.4, "y": 3.6, "z": 3.2, "mni": "[+34, +36, +32]", "color": "#475569", "rad": 0.50, "hz": 1.5, "status": "DESCONEXIÓN FUNCIONAL", "role": "Freno voluntario suprimido durante la crisis emocional."}
+            {"id": "amg_r", "name": "Amígdala Basolateral Derecha", "mni": "[+24, -6, -16]", "coords": [2.4, -0.6, -1.6], "rad": 1.25, "color": "#ef4444", "hz": 8.0, "status": "HIPERTRÓFICA FÁSICA", "desc": "Alarma de supervivencia hiperreactiva; decodificación errónea de rostros neutros como amenazantes."},
+            {"id": "amg_l", "name": "Amígdala Basolateral Izquierda", "mni": "[-24, -6, -16]", "coords": [-2.4, -0.6, -1.6], "rad": 1.25, "color": "#ef4444", "hz": 8.0, "status": "HIPERTRÓFICA FÁSICA", "desc": "Descarga simpática autónoma inmediata ante la vivencia de distancia vincular."},
+            {"id": "vmpfc", "name": "vmPFC / Polo Frontomedial", "mni": "[0, +48, -8]", "coords": [0.0, 4.8, -0.8], "rad": 0.40, "color": "#38bdf8", "hz": 1.0, "status": "COLAPSO INHIBITORIO", "desc": "Incapacidad de computar la extinción del condicionamiento; bloqueo de mentalización reflexiva."},
+            {"id": "dacc", "name": "Córtex Cingulado Anterior Dorsal", "mni": "[0, +22, +30]", "coords": [0.0, 2.2, 3.0], "rad": 1.15, "color": "#f43f5e", "hz": 7.5, "status": "HIPERACTIVACIÓN CRÍTICA", "desc": "Epicentro de la Red de Prominencia; traduce la incertidumbre de apego en dolor psíquico catastrófico."},
+            {"id": "insula_r", "name": "Ínsula Anterior Agranular Der.", "mni": "[+38, +10, -2]", "coords": [3.8, 1.0, -0.2], "rad": 1.05, "color": "#e11d48", "hz": 6.8, "status": "HIPEREXCITACIÓN VISCERAL", "desc": "Interocepción aversiva intolerable; sustrato neurofisiológico de la vivencia de vacío crónico."},
+            {"id": "lofc", "name": "Córtex Orbitofrontal Lateral", "mni": "[+26, +34, -14]", "coords": [2.6, 3.4, -1.4], "rad": 0.45, "color": "#38bdf8", "hz": 1.2, "status": "HIPOFUNCIÓN TOP-DOWN", "desc": "Pérdida del freno voluntario frente a impulsos de autolesión o descarga externa."}
         ],
         "tracts": [
-            {"from": "amg_r", "to": "vmpfc", "ctrl": [3.6, 2.0, -2.5], "name": "Fascículo Uncinado Derecho (FA: 0.18)", "status": "severed", "desc": "Tracto axonómico desmielinizado; pérdida de modulación inhibitoria frontolímbica."},
-            {"from": "amg_l", "to": "vmpfc", "ctrl": [-3.6, 2.0, -2.5], "name": "Fascículo Uncinado Izquierdo (FA: 0.18)", "status": "severed", "desc": "Interrupción de la conectividad estructural recíproca amígdalo-prefrontal."},
-            {"from": "dacc", "to": "vmpfc", "ctrl": [0.0, 3.5, 1.0], "name": "Vía Cíngulo-Frontal", "status": "hyper", "desc": "Sobrecarga de conflicto y dolor social sin resolución cognitiva."},
-            {"from": "amg_r", "to": "insula_r", "ctrl": [3.1, -0.1, -0.7], "name": "Conexión Límbico-Insular", "status": "hyper", "desc": "Retroalimentación viscero-afectiva continua generadora de disforia paroxística."}
+            {"from": "amg_r", "to": "vmpfc", "ctrl": [3.6, 2.0, -2.5], "name": "Fascículo Uncinado Der. (Disrupción Severa)", "status": "frayed", "fa": "0.17"},
+            {"from": "amg_l", "to": "vmpfc", "ctrl": [-3.6, 2.0, -2.5], "name": "Fascículo Uncinado Izq. (Disrupción Severa)", "status": "frayed", "fa": "0.18"},
+            {"from": "dacc", "to": "vmpfc", "ctrl": [0.0, 3.6, 1.1], "name": "Vía Cíngulo-Frontal (Sobrecarga de Alarma)", "status": "hyper", "fa": "0.48"},
+            {"from": "amg_r", "to": "insula_r", "ctrl": [3.1, 0.1, -0.8], "name": "Tracto Amígdalo-Insular Límbico", "status": "hyper", "fa": "0.55"}
         ],
         "ecosystem": [
-            {"name": "Vínculo de Pareja / Apego", "impact": "Splitting, terror al abandono, alternancia idealización-odio", "tension": 0.98, "coords": [7.5, 4.0, 2.0], "color": "#ef4444"},
-            {"name": "Guardia Médica / Urgencias", "impact": "Consultas frecuentes por parasuicidio y autolesiones impulsivas", "tension": 0.95, "coords": [-7.0, 5.5, -3.0], "color": "#ef4444"},
-            {"name": "Eje Identitario / Self", "impact": "Sensación de vacío insoportable, metamorfosis relacional y dispersión", "tension": 0.94, "coords": [5.5, -6.0, -2.5], "color": "#f43f5e"},
-            {"name": "Entorno Familiar Primario", "impact": "Agotamiento crónico de cuidadores, hiperalerta y claudicación vincular", "tension": 0.88, "coords": [-6.0, -4.5, 3.5], "color": "#fb923c"},
-            {"name": "Ámbito Laboral / Académico", "impact": "Interrupción de trayectoria funcional por crisis afectivas cíclicas", "tension": 0.70, "coords": [2.0, 7.5, -3.5], "color": "#eab308"}
+            {"name": "Vínculo de Pareja / Apego", "impact": "Splitting, devaluación masiva, terror al desapego e idealización defensiva", "tension": 0.98, "coords": [7.5, 4.0, 2.0], "color": "#ef4444"},
+            {"name": "Servicio de Urgencias Médicas", "impact": "Consultas hiperfrecuentes por gestos parasuicidas, sobredosis e impulsividad", "tension": 0.96, "coords": [-7.0, 5.5, -3.0], "color": "#ef4444"},
+            {"name": "Eje Identitario & Cohesión del Self", "impact": "Vacío crónico intolerable, metamorfosis de valores y autoagresión física", "tension": 0.94, "coords": [5.5, -6.0, -2.5], "color": "#f43f5e"},
+            {"name": "Ecosistema Familiar Primario", "impact": "Agotamiento severo de cuidadores, hipervigilancia y claudicación del soporte", "tension": 0.89, "coords": [-6.0, -4.5, 3.5], "color": "#fb923c"},
+            {"name": "Ámbito Académico / Laboral", "impact": "Interrupción recurrente de ciclos productivos por episodios disfóricos agudos", "tension": 0.72, "coords": [2.0, 7.5, -3.5], "color": "#eab308"}
         ]
     },
     "TASP": {
-        "title": "Trastorno Antisocial / Psicopatía",
-        "subtitle": "Ablación Funcional Frontolímbica & Falla de Aversión Moral",
-        "fa_uncinate": 0.08,
-        "amg_activation": 0.12,
-        "vmpfc_activity": 0.18,
-        "acc_pain": 0.15,
-        "rdoc_construct": "Sistemas de Valencia Positiva / Desensibilización Moral",
-        "dti_evidence": "Craig et al. (2009) y Motzkin et al. (2011) en delincuentes psicopáticos: reducción bilateral severa de anisotropía fraccional (FA < 0.10) en el fascículo uncinado. Desconexión microestructural masiva entre la amígdala anterior y la corteza orbitofrontal.",
-        "fmri_evidence": "Ausencia de activación amigdalina e insular frente al condicionamiento al miedo (Birbaumer et al.) y frente al llanto/sufrimiento ajeno (Blair et al.). Hiperactivación estriatal desinhibida frente a incentivos materiales inmediatos sin coste afectivo vicario.",
+        "title": "Trastorno Antisocial de la Personalidad / Psicopatía",
+        "rdoc_matrix": "Dominio: Sistemas de Valencia Positiva / Desensibilización Moral y Predación",
+        "fa_uncinate": 0.08,      # Ablación estructural casi total
+        "bold_amg": 0.10,         # Hipoactividad crítica
+        "vmpfc_control": 0.15,    # Sin entrada amigdalina para guiar la moral
+        "dacc_pain": 0.15,        # Cero registro vicario del sufrimiento ajeno
+        "dti_mechanics": "Craig et al. (2009) y Motzkin et al. (2011) en reclusos psicopáticos: colapso microestructural bilateral masivo del fascículo uncinado (FA < 0.10). Desconexión anatómica irreductible entre el polo anterior límbico y la corteza orbitofrontal.",
+        "fmri_mechanics": "Ausencia radical de señal BOLD en la amígdala e ínsula ante estímulos aversivos, llanto o expresiones faciales de dolor de terceros (Blair et al., 2004). Hiperactivación estriatal del núcleo accumbens orientada a recompensas inmediatas instrumentales.",
         "nodes": [
-            {"id": "amg_r", "name": "Amígdala (Hipoactiva)", "x": 2.4, "y": -0.7, "z": -1.5, "mni": "[+24, -7, -15]", "color": "#1f2937", "rad": 0.35, "hz": 0.3, "status": "ATROFIA FUNCIONAL", "role": "Inmunidad al condicionamiento por castigo; ausencia de alarma autonómica."},
-            {"id": "amg_l", "name": "Amígdala (Hipoactiva)", "x": -2.4, "y": -0.7, "z": -1.5, "mni": "[-24, -7, -15]", "color": "#1f2937", "rad": 0.35, "hz": 0.3, "status": "ATROFIA FUNCIONAL", "role": "Cero reactividad electrodérmica ante amenazas o castigo anticipado."},
-            {"id": "vmpfc", "name": "vmPFC Moral", "x": 0.0, "y": 4.6, "z": -0.9, "mni": "[0, +46, -9]", "color": "#374151", "rad": 0.40, "hz": 0.4, "status": "HIPOCONECTADA", "role": "Incapacidad para integrar el sufrimiento de terceros en el juicio moral."},
-            {"id": "accumbens", "name": "Núcleo Accumbens (Estriado)", "x": 1.3, "y": 1.5, "z": -0.8, "mni": "[+13, +15, -8]", "color": "#eab308", "rad": 1.30, "hz": 7.5, "status": "HIPEREXCITABLE", "role": "Búsqueda predatoria de recompensa y ganancia inmediata sin cálculo de daños colaterales."},
-            {"id": "insula_r", "name": "Ínsula Anterior (Anestesiada)", "x": 3.9, "y": 0.7, "z": 0.1, "mni": "[+39, +7, +1]", "color": "#1f2937", "rad": 0.30, "hz": 0.2, "status": "ANESTESIA INTEROCEPTIVA", "role": "Ausencia de marcadores somáticos vicarios; carencia absoluta de culpa o remordimiento."}
+            {"id": "amg_r", "name": "Amígdala (Hipoactiva / Atrofiada)", "mni": "[+24, -6, -16]", "coords": [2.4, -0.6, -1.6], "rad": 0.35, "color": "#1e293b", "hz": 0.3, "status": "ATROFIA FUNCIONAL", "desc": "Inmunidad al condicionamiento por miedo o castigo; refractariedad autonómica."},
+            {"id": "amg_l", "name": "Amígdala (Hipoactiva / Atrofiada)", "mni": "[-24, -6, -16]", "coords": [-2.4, -0.6, -1.6], "rad": 0.35, "color": "#1e293b", "hz": 0.3, "status": "ATROFIA FUNCIONAL", "desc": "Ausencia de marcadores electrodérmicos de aversión o temor subjetivo."},
+            {"id": "vmpfc", "name": "vmPFC / Polo Moral", "mni": "[0, +48, -8]", "coords": [0.0, 4.8, -0.8], "rad": 0.40, "color": "#334155", "hz": 0.4, "status": "HIPOCONECTADA", "desc": "Juicio lógico analítico frío, pero absolutamente desprovisto de resonancia somática moral."},
+            {"id": "accumbens", "name": "Núcleo Accumbens (Estriado)", "mni": "[+12, +14, -8]", "coords": [1.3, 1.4, -0.8], "rad": 1.30, "color": "#eab308", "hz": 7.6, "status": "HIPERACTIVIDAD PREDATORIA", "desc": "Búsqueda insaciable de gratificación inmediata, dominancia y ganancias utilitarias."},
+            {"id": "insula_r", "name": "Ínsula Anterior (Anestesiada)", "mni": "[+38, +10, -2]", "coords": [3.8, 1.0, -0.2], "rad": 0.30, "color": "#1e293b", "hz": 0.2, "status": "ANESTESIA INTEROCEPTIVA", "desc": "Carencia absoluta de culpa visceral o remordimiento frente a la destrucción ajena."}
         ],
         "tracts": [
-            {"from": "amg_r", "to": "vmpfc", "ctrl": [3.6, 2.0, -2.5], "name": "Fascículo Uncinado (Ablación Conectómica)", "status": "broken", "desc": "Interrupción axonal casi completa. Pérdida del canal de comunicación miedo-decisión moral."},
-            {"from": "vmpfc", "to": "accumbens", "ctrl": [0.7, 3.1, -0.9], "name": "Vía Córtico-Estriatal Desinhibida", "status": "hyper", "desc": "El estriado opera sin freno inhibitorio frontal, favoreciendo conductas delictivas utilitarias."}
+            {"from": "amg_r", "to": "vmpfc", "ctrl": [3.6, 2.0, -2.5], "name": "Fascículo Uncinado (Ablación Conectómica)", "status": "severed", "fa": "0.08"},
+            {"from": "vmpfc", "to": "accumbens", "ctrl": [0.7, 3.2, -0.9], "name": "Proyección Córtico-Estriatal Desinhibida", "status": "hyper", "fa": "0.52"}
         ],
         "ecosystem": [
-            {"name": "Fuero Penal & Penitenciario", "impact": "Reincidencia delictiva, transgresión deliberada del ordenamiento legal", "tension": 0.99, "coords": [-8.0, -4.0, 2.5], "color": "#ef4444"},
-            {"name": "Víctimas / Vínculos Cosificados", "impact": "Explotación económica, violencia instrumental y manipulación fría", "tension": 0.96, "coords": [7.5, 5.0, 3.0], "color": "#ef4444"},
-            {"name": "Entorno Contractual / Financiero", "impact": "Fraudes, estafas y parasitismo económico sostenido", "tension": 0.88, "coords": [-5.5, 6.0, -4.0], "color": "#fb923c"},
-            {"name": "Peritajes Judiciales / Salud", "impact": "Simulación deliberada de cuadros psiquiátricos para atenuar condenas", "tension": 0.65, "coords": [4.0, -6.5, -3.0], "color": "#eab308"},
-            {"name": "Eje Identitario", "impact": "Egosintonía completa; ausencia de conflicto intrapsíquico primario", "tension": 0.12, "coords": [6.0, -2.0, 5.0], "color": "#10b981"}
+            {"name": "Fuero Penal & Penitenciario", "impact": "Reiteración delictiva, crímenes patrimoniales/violentos y encarcelamiento", "tension": 0.99, "coords": [-8.0, -4.0, 2.5], "color": "#ef4444"},
+            {"name": "Víctimas / Vínculos Explotados", "impact": "Cosificación utilitaria, violencia predatoria y despojo patrimonial frío", "tension": 0.96, "coords": [7.5, 5.0, 3.0], "color": "#ef4444"},
+            {"name": "Ámbito Financiero / Contractual", "impact": "Estafas sistemáticas, fraudes y deshonestidad contractual crónica", "tension": 0.88, "coords": [-5.5, 6.0, -4.0], "color": "#fb923c"},
+            {"name": "Peritajes Judiciales Forenses", "impact": "Simulación calculada de trastornos mentales para eludir sanciones penales", "tension": 0.65, "coords": [4.0, -6.5, -3.0], "color": "#eab308"},
+            {"name": "Eje Identitario", "impact": "Egosintonía perfecta; ausencia radical de autocrítica o malestar interno", "tension": 0.10, "coords": [6.0, -2.0, 5.0], "color": "#10b981"}
         ]
     },
     "TNP": {
         "title": "Trastorno Narcisista de la Personalidad",
-        "subtitle": "Disociación Fronto-Insular & Vulnerabilidad Fásica al Desprecio",
-        "fa_uncinate": 0.46,
-        "amg_activation": 1.10,
-        "vmpfc_activity": 0.48,
-        "acc_pain": 1.80,
-        "rdoc_construct": "Sistemas Sociales / Jerarquía, Dominancia & Reconocimiento",
-        "dti_evidence": "Fan et al. (2011) y Jankowiak-Siuda et al. (2015): Alteración volumétrica y conectómica en la sustancia blanca prefrontal medial y cíngulo anterior. Preservación intacta de la Teoría de la Mente cognitiva con deterioro selectivo de la empatía afectiva.",
-        "fmri_evidence": "En paradigmas de crítica o exclusión: picos de activación desproporcionados en el dACC y amígdala ('herida narcisista') que desestabilizan el constructo grandioso compensatorio sostenido por la red por defecto (DMN).",
+        "rdoc_matrix": "Dominio: Sistemas Sociales / Jerarquía, Estatus & Preservación del Self Grandioso",
+        "fa_uncinate": 0.44,
+        "bold_amg": 1.10,
+        "vmpfc_control": 0.45,
+        "dacc_pain": 1.85,
+        "dti_mechanics": "Fan et al. (2011) y Nenadic et al. (2015): Alteración de la conectividad en la corteza insular anterior y cíngulo dorsal. Preservación intacta de los tractos de la Teoría de la Mente cognitiva pero con deterioro estructural selectivo de la empatía afectiva somática.",
+        "fmri_mechanics": "Ante la desconfirmación o pérdida de pleitesía: paroxismo en dACC y amígdala ('herida narcisista'). El córtex prefrontal medial trabaja forzadamente sosteniendo una autoimagen inflada para evitar el colapso depresivo profundo.",
         "nodes": [
-            {"id": "dacc", "name": "dACC (Radar de Jerarquía)", "x": 0.0, "y": 2.4, "z": 2.8, "mni": "[0, +24, +28]", "color": "#a855f7", "rad": 1.25, "hz": 7.4, "status": "HIPERREACTIVO AL DESPRECIO", "role": "Alarma desmedida ante la desconfirmación, la crítica o la pérdida de estatus."},
-            {"id": "vmpfc", "name": "vmPFC / Polo Frontal", "x": 0.0, "y": 4.6, "z": -0.9, "mni": "[0, +46, -9]", "color": "#c084fc", "rad": 0.85, "hz": 2.8, "status": "COMPENSACIÓN GRANDIOSA", "role": "Mantenimiento activo de la imagen idealizada del self como defensa ante la fragilidad."},
-            {"id": "amg_r", "name": "Amígdala (Rabia Narcisista)", "x": 2.4, "y": -0.7, "z": -1.5, "mni": "[+24, -7, -15]", "color": "#ec4899", "rad": 0.80, "hz": 5.2, "status": "VULNERABILIDAD FÁSICA", "role": "Descarga de cólera vindicativa ante la exposición pública de fallas o debilidades."},
-            {"id": "insula_r", "name": "Ínsula (Desconexión Vicaria)", "x": 3.9, "y": 0.7, "z": 0.1, "mni": "[+39, +7, +1]", "color": "#374151", "rad": 0.38, "hz": 0.8, "status": "EMPATÍA AFECTIVA ATROFIADA", "role": "Incapacidad para conmoverse o registrar visceralmente el daño provocado a terceros."}
+            {"id": "dacc", "name": "dACC (Radar de Jerarquía)", "mni": "[0, +22, +30]", "coords": [0.0, 2.2, 3.0], "rad": 1.25, "color": "#a855f7", "hz": 7.4, "status": "HIPERREACTIVO AL DESPRECIO", "desc": "Alarma desproporcionada ante cualquier indicio de humillación o crítica externa."},
+            {"id": "vmpfc", "name": "vmPFC / Autoimagen Grandiosa", "mni": "[0, +48, -8]", "coords": [0.0, 4.8, -0.8], "rad": 0.85, "color": "#c084fc", "hz": 2.8, "status": "COMPENSACIÓN GRANDIOSA", "desc": "Construcción hipertrofiada del relato de autosuficiencia y superioridad."},
+            {"id": "amg_r", "name": "Amígdala (Rabia Narcisista)", "mni": "[+24, -6, -16]", "coords": [2.4, -0.6, -1.6], "rad": 0.85, "color": "#ec4899", "hz": 5.2, "status": "VULNERABILIDAD FÁSICA", "desc": "Explosiones de hostilidad vindicativa ante la pérdida de control o adulación."},
+            {"id": "insula_r", "name": "Ínsula (Desconexión Empática)", "mni": "[+38, +10, -2]", "coords": [3.8, 1.0, -0.2], "rad": 0.38, "color": "#334155", "hz": 0.8, "status": "ANESTESIA VICARIA", "desc": "Incapacidad neurofisiológica de conmoverse ante el dolor provocado a subordinados."}
         ],
         "tracts": [
-            {"from": "dacc", "to": "vmpfc", "ctrl": [0.0, 3.5, 1.0], "name": "Eje de Autoevaluación Hipervigilante", "status": "hyper", "desc": "Circuito de monitoreo constante del estatus y de la aprobación externa."},
-            {"from": "amg_r", "to": "dacc", "ctrl": [1.3, 0.8, 0.9], "name": "Circuito de Ira Vindicativa", "status": "hyper", "desc": "Descarga amigdalina directa al cíngulo que alimenta la hostilidad defensiva."},
-            {"from": "insula_r", "to": "vmpfc", "ctrl": [2.3, 2.6, -0.6], "name": "Desconexión Fronto-Insular", "status": "broken", "desc": "Bloqueo selectivo de la empatía emocional con preservación de la empatía cognitiva instrumental."}
+            {"from": "dacc", "to": "vmpfc", "ctrl": [0.0, 3.6, 1.1], "name": "Eje de Autoevaluación Hipervigilante", "status": "hyper", "fa": "0.50"},
+            {"from": "amg_r", "to": "dacc", "ctrl": [1.3, 0.8, 0.9], "name": "Circuito de Ira Vindicativa", "status": "hyper", "fa": "0.48"},
+            {"from": "insula_r", "to": "vmpfc", "ctrl": [2.3, 2.6, -0.6], "name": "Desconexión Fronto-Insular", "status": "severed", "fa": "0.19"}
         ],
         "ecosystem": [
-            {"name": "Vínculo de Pareja", "impact": "Desprecio punitivo, cosificación, triangulaciones y ley del hielo", "tension": 0.92, "coords": [7.0, 4.5, 2.0], "color": "#ef4444"},
-            {"name": "Autoimagen & Cohesión del Self", "impact": "Fragilidad extrema; colapso disfórico ante pérdidas objetivas de éxito", "tension": 0.96, "coords": [0.0, -7.5, -2.5], "color": "#a855f7"},
-            {"name": "Ámbito Profesional / Jerárquico", "impact": "Rivalidades destructivas con pares, litigios por honra y boicot a subordinados", "tension": 0.82, "coords": [-6.5, 5.0, 3.5], "color": "#fb923c"},
-            {"name": "Familia de Origen", "impact": "Exigencia de pleitesía incondicional o ruptura agresiva", "tension": 0.76, "coords": [-5.5, -5.0, 3.0], "color": "#fb923c"},
-            {"name": "Consultas a Salud Mental", "impact": "Abandono prematuro de tratamiento si el terapeuta no refuerza su estatus", "tension": 0.52, "coords": [4.5, 6.5, -3.5], "color": "#38bdf8"}
+            {"name": "Vínculo de Pareja / Conyugal", "impact": "Desprecio punitivo, cosificación narcisista y alternancia ley del hielo/idealización", "tension": 0.92, "coords": [7.0, 4.5, 2.0], "color": "#ef4444"},
+            {"name": "Autoimagen & Cohesión del Self", "impact": "Fragilidad extrema; colapso disfórico depresivo agudo ante fracasos públicos", "tension": 0.96, "coords": [0.0, -7.5, -2.5], "color": "#a855f7"},
+            {"name": "Ámbito Corporativo / Jerárquico", "impact": "Rivalidad destructiva con pares, litigios por honra y boicot a colaboradores", "tension": 0.84, "coords": [-6.5, 5.0, 3.5], "color": "#fb923c"},
+            {"name": "Familia de Origen", "impact": "Exigencia de pleitesía absoluta o ruptura agresiva con exclusión total", "tension": 0.76, "coords": [-5.5, -5.0, 3.0], "color": "#fb923c"},
+            {"name": "Consultas a Salud Mental", "impact": "Abandono de psicoterapia ante señalamientos que confronten la grandiosidad", "tension": 0.52, "coords": [4.5, 6.5, -3.5], "color": "#38bdf8"}
         ]
     },
     "THP": {
         "title": "Trastorno Histriónico de la Personalidad",
-        "subtitle": "Labilidad Afectiva, Hipersensibilidad al Refuerzo Social & Cognición Impresionista",
-        "fa_uncinate": 0.60,
-        "amg_activation": 1.30,
-        "vmpfc_activity": 0.36,
-        "acc_pain": 1.10,
-        "rdoc_construct": "Sistemas de Procesos Sociales / Afiliación & Búsqueda de Refuerzo",
-        "dti_evidence": "Desconexión relativa entre la corteza prefrontal dorsolateral y las cortezas temporales asociativas, facilitando un estilo cognitivo impresionista, difuso y carente de integración analítica.",
-        "fmri_evidence": "Hipersensibilidad de la red de recompensa estriatal y la amígdala frente a señales interpersonales de aprobación, acompañada de amplificación somatosensorial e insular (base de los síntomas conversivos).",
+        "rdoc_matrix": "Dominio: Sistemas de Procesos Sociales / Afiliación & Refuerzo Social Inmediato",
+        "fa_uncinate": 0.58,
+        "bold_amg": 1.30,
+        "vmpfc_control": 0.35,
+        "dacc_pain": 1.15,
+        "dti_mechanics": "Desconexión relativa entre la corteza prefrontal dorsolateral y cortezas de asociación témporo-parietales, facilitando un estilo cognitivo global, impresionista y con marcada sugestionabilidad.",
+        "fmri_mechanics": "Hiperreactividad fásica del núcleo accumbens y de la amígdala ante señales de atracción o halago social, con amplificación somatosensorial e insular (origen de los cuadros conversivos/somatomorfos).",
         "nodes": [
-            {"id": "amg_r", "name": "Amígdala Límbica", "x": 2.4, "y": -0.7, "z": -1.5, "mni": "[+24, -7, -15]", "color": "#06b6d4", "rad": 0.88, "hz": 6.2, "status": "HIPEREXCITABLE LÁBIL", "role": "Emotividad intensa y cambiante; baja tolerancia a la frustración vincular."},
-            {"id": "accumbens", "name": "Núcleo Accumbens Social", "x": 1.3, "y": 1.5, "z": -0.8, "mni": "[+13, +15, -8]", "color": "#22d3ee", "rad": 1.10, "hz": 6.5, "status": "DEMANDANTE DE REFUERZO", "role": "Búsqueda continua de validación externa, halagos y protagonismo."},
-            {"id": "insula_r", "name": "Ínsula Somatosensorial", "x": 3.9, "y": 0.7, "z": 0.1, "mni": "[+39, +7, +1]", "color": "#0891b2", "rad": 0.85, "hz": 5.4, "status": "SOMATIZACIÓN INTEROCEPTIVA", "role": "Conversión corporal de afectos complejos; teatralidad física y somatizaciones."},
-            {"id": "vmpfc", "name": "vmPFC Impresionista", "x": 0.0, "y": 4.6, "z": -0.9, "mni": "[0, +46, -9]", "color": "#475569", "rad": 0.42, "hz": 1.4, "status": "PROCESAMIENTO DIFUSO", "role": "Déficit en el procesamiento reflexivo y secuencial de la realidad."}
+            {"id": "amg_r", "name": "Amígdala Límbica", "mni": "[+24, -6, -16]", "coords": [2.4, -0.6, -1.6], "rad": 0.90, "color": "#06b6d4", "hz": 6.2, "status": "HIPEREXCITABLE LÁBIL", "desc": "Emotividad intensa y cambiante; intolerancia al aburrimiento y al desinterés."},
+            {"id": "accumbens", "name": "Núcleo Accumbens Social", "mni": "[+12, +14, -8]", "coords": [1.3, 1.4, -0.8], "rad": 1.10, "color": "#22d3ee", "hz": 6.5, "status": "HIPERRESPUESTA AL FEEDBACK", "desc": "Dependencia absoluta del aplauso, de la seducción y de la validación externa."},
+            {"id": "insula_r", "name": "Ínsula Somatosensorial", "mni": "[+38, +10, -2]", "coords": [3.8, 1.0, -0.2], "rad": 0.85, "color": "#0891b2", "hz": 5.4, "status": "SOMATIZACIÓN INTEROCEPTIVA", "desc": "Conversión corporal de angustias afectivas; dramatización teatral de síntomas."},
+            {"id": "vmpfc", "name": "vmPFC Impresionista", "mni": "[0, +48, -8]", "coords": [0.0, 4.8, -0.8], "rad": 0.42, "color": "#475569", "hz": 1.4, "status": "PROCESAMIENTO DIFUSO", "desc": "Falla en el procesamiento lógico analítico; razonamiento guiado por impresiones."}
         ],
         "tracts": [
-            {"from": "amg_r", "to": "accumbens", "ctrl": [1.8, 0.5, -1.0], "name": "Eje Límbico-Recompensa Interpersonal", "status": "hyper", "desc": "Circuito reforzador del histrionismo relacional y la búsqueda de atención."},
-            {"from": "vmpfc", "to": "amg_r", "ctrl": [1.5, 2.1, -1.2], "name": "Modulación Frontal Deficitaria", "status": "severed", "desc": "Falla del control prefrontal para modular la labilidad afectiva superficial."}
+            {"from": "amg_r", "to": "accumbens", "ctrl": [1.8, 0.5, -1.0], "name": "Eje Límbico-Recompensa Interpersonal", "status": "hyper", "fa": "0.55"},
+            {"from": "vmpfc", "to": "amg_r", "ctrl": [1.5, 2.1, -1.2], "name": "Modulación Frontal Deficitaria", "status": "frayed", "fa": "0.38"}
         ],
         "ecosystem": [
-            {"name": "Vínculo Conyugal / Pareja", "impact": "Seducción inapropiada, celotipia y dramatismo desmedido", "tension": 0.85, "coords": [6.5, 4.0, 2.0], "color": "#ef4444"},
-            {"name": "Guardia Médica General", "impact": "Consultas reiteradas por síntomas neurológicos funcionales/conversivos", "tension": 0.82, "coords": [-5.5, 6.0, -3.0], "color": "#fb923c"},
+            {"name": "Vínculo Conyugal / Pareja", "impact": "Seducción descontextualizada, celopatía y reclamo permanente de protagonismo", "tension": 0.85, "coords": [6.5, 4.0, 2.0], "color": "#ef4444"},
+            {"name": "Guardia Médica de Emergencias", "impact": "Ingresos por síntomas neurológicos funcionales, pseudocrisis o hiperventilación", "tension": 0.82, "coords": [-5.5, 6.0, -3.0], "color": "#fb923c"},
             {"name": "Círculo Social Amplio", "impact": "Relaciones superficiales asumidas como íntimas; agotamiento del entorno", "tension": 0.72, "coords": [5.0, -5.5, 3.0], "color": "#fb923c"},
-            {"name": "Eje de Autoestima", "impact": "Fragilidad subjetiva dependiente en forma exclusiva de la atención ajena", "tension": 0.80, "coords": [-2.0, -6.5, -2.5], "color": "#06b6d4"},
-            {"name": "Ámbito Laboral Metódico", "impact": "Baja tolerancia al esfuerzo sostenido y al anonimato en equipos de trabajo", "tension": 0.50, "coords": [2.5, 7.0, -4.0], "color": "#38bdf8"}
+            {"name": "Eje de Autoestima", "impact": "Sensación de desvanecimiento subjetivo ante la falta de atención o halago", "tension": 0.80, "coords": [-2.0, -6.5, -2.5], "color": "#06b6d4"},
+            {"name": "Ámbito de Trabajo Sistemático", "impact": "Incapacidad para labores metódicas, rutinarias o sin visibilidad protagónica", "tension": 0.50, "coords": [2.5, 7.0, -4.0], "color": "#38bdf8"}
         ]
     }
 }
 
-# --- Sidebar de Control ---
-st.sidebar.markdown("## 🧠 Consola de Neuroimagen RDoC")
-diag_key = st.sidebar.selectbox("Fenotipo Clínico:", list(DATABASE.keys()), format_func=lambda k: DATABASE[k]["title"])
-stress_input = st.sidebar.slider("Vector de Estrés / Factor Desencadenante:", 0.0, 1.0, 0.5, 0.05)
-view_level = st.sidebar.select_slider(
-    "Escala de Visualización:",
-    options=["1. Neuroanatomía Pial MNI152", "2. Tractografía Conectómica DTI", "3. Onda Expansiva Sistémica (Vidas)"],
+# --- Sidebar de Control Clínico ---
+st.sidebar.markdown("### 🎛️ Consola de Neuroimagen RDoC")
+diag_key = st.sidebar.selectbox("Fenotipo Clínico:", list(NEURO_REGISTRY.keys()), format_func=lambda k: NEURO_REGISTRY[k]["title"])
+stress_input = st.sidebar.slider("Carga de Estrés / Factor Desencadenante:", 0.0, 1.0, 0.5, 0.05)
+view_mode = st.sidebar.select_slider(
+    "Nivel de Inspección Anatómica:",
+    options=["1. Malla Pial MNI152 (FreeSurfer)", "2. Tractografía Conectómica DTI", "3. Onda Expansiva Sistémica (Vidas)"],
     value="2. Tractografía Conectómica DTI"
 )
 
-profile = DATABASE[diag_key]
+profile = NEURO_REGISTRY[diag_key]
 
-# Cálculos biométricos dinámicos
-fa_calc = max(0.04, profile["fa_uncinate"] * (1.0 - 0.45 * stress_input))
-amg_calc = profile["amg_activation"] * (1.0 + 0.5 * stress_input)
-pfc_calc = max(0.04, profile["vmpfc_activity"] * (1.0 - 0.5 * stress_input))
-ratio_top_down = pfc_calc / amg_calc
+# Métricas dinámicas calculadas
+dyn_fa = max(0.04, profile["fa_uncinate"] * (1.0 - 0.45 * stress_input))
+dyn_amg = profile["bold_amg"] * (1.0 + 0.5 * stress_input)
+dyn_vmpfc = max(0.04, profile["vmpfc_control"] * (1.0 - 0.5 * stress_input))
+ratio_control = dyn_vmpfc / dyn_amg
 
 # --- Encabezado ---
 st.title(profile["title"])
-st.markdown(f"**Dominio RDoC:** `{profile['rdoc_construct']}` | **Circuito:** `{profile['subtitle']}`")
+st.caption(f"**Matriz RDoC:** {profile['rdoc_matrix']}")
 
-c1, c2, c3, c4 = st.columns(4)
-with c1:
-    col = "#ef4444" if fa_calc < 0.25 else "#38bdf8"
-    st.markdown(f"""<div class="metric-panel"><div class="metric-sub">Integridad Fascículo Uncinado</div><div class="metric-val" style="color: {col};">{fa_calc:.2f} FA</div></div>""", unsafe_allow_html=True)
-with c2:
-    st.markdown(f"""<div class="metric-panel"><div class="metric-sub">Reactividad Amígdala (fMRI)</div><div class="metric-val" style="color: {'#ef4444' if amg_calc > 1.4 else '#94a3b8'};">{amg_calc:.2f} BOLD</div></div>""", unsafe_allow_html=True)
-with c3:
-    st.markdown(f"""<div class="metric-panel"><div class="metric-sub">Control Prefrontal (vmPFC)</div><div class="metric-val" style="color: {'#ef4444' if pfc_calc < 0.3 else '#38bdf8'};">{pfc_calc:.2f} z</div></div>""", unsafe_allow_html=True)
-with c4:
-    st.markdown(f"""<div class="metric-panel"><div class="metric-sub">Ratio Inhibitorio Top-Down</div><div class="metric-val" style="color: {'#ef4444' if ratio_top_down < 0.35 else '#10b981'};">{ratio_top_down:.2f}</div></div>""", unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    col = "#ef4444" if dyn_fa < 0.25 else "#38bdf8"
+    st.markdown(f"""<div class="biomarker-card"><div class="biomarker-title">Integridad Fascículo Uncinado</div><div class="biomarker-val" style="color: {col};">{dyn_fa:.2f} FA</div></div>""", unsafe_allow_html=True)
+with col2:
+    st.markdown(f"""<div class="biomarker-card"><div class="biomarker-title">Reactividad Amígdala (fMRI)</div><div class="biomarker-val" style="color: {'#ef4444' if dyn_amg > 1.4 else '#94a3b8'};">{dyn_amg:.2f} BOLD</div></div>""", unsafe_allow_html=True)
+with col3:
+    st.markdown(f"""<div class="biomarker-card"><div class="biomarker-title">Freno vmPFC / OFC</div><div class="biomarker-val" style="color: {'#ef4444' if dyn_vmpfc < 0.3 else '#38bdf8'};">{dyn_vmpfc:.2f} z</div></div>""", unsafe_allow_html=True)
+with col4:
+    col_ratio = "#ef4444" if ratio_control < 0.35 else "#10b981"
+    st.markdown(f"""<div class="biomarker-card"><div class="biomarker-title">Ratio Control Top-Down</div><div class="biomarker-val" style="color: {col_ratio};">{ratio_control:.2f}</div></div>""", unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
 # Motor WebGL Three.js con Fresnel Shader y Streamlines DTI
 # -------------------------------------------------------------------------
-engine_payload = {
-    "view": view_level,
+payload = {
+    "view": view_mode,
     "stress": stress_input,
     "nodes": profile["nodes"],
     "tracts": profile["tracts"],
     "social": profile["ecosystem"],
-    "fa": fa_calc
+    "fa": dyn_fa
 }
 
-threejs_script = f"""
+threejs_engine = f"""
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <style>
-    body {{ margin: 0; overflow: hidden; background: #010409; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }}
+    body {{ margin: 0; overflow: hidden; background: #030712; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }}
     #viewport {{ width: 100vw; height: 100vh; position: relative; }}
     #hud {{
-      position: absolute; bottom: 24px; left: 24px; z-index: 100;
-      background: rgba(13, 17, 23, 0.94); backdrop-filter: blur(14px);
-      border: 1px solid #30363d; border-radius: 8px;
-      padding: 16px 20px; color: #f0f6fc; max-width: 500px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      position: absolute; bottom: 20px; left: 20px; z-index: 100;
+      background: rgba(11, 19, 41, 0.94); backdrop-filter: blur(14px);
+      border: 1px solid #1e293b; border-left: 3px solid #38bdf8; border-radius: 6px;
+      padding: 14px 18px; color: #f3f4f6; max-width: 480px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
     }}
-    .hud-header {{ font-weight: 700; color: #58a6ff; font-size: 1.05rem; margin-bottom: 6px; }}
-    .hud-text {{ color: #8b949e; font-size: 0.85rem; line-height: 1.45; }}
-    #legend-box {{
-      position: absolute; top: 20px; right: 24px; z-index: 100;
-      background: rgba(13, 17, 23, 0.90); backdrop-filter: blur(10px);
-      border: 1px solid #30363d; border-radius: 8px;
-      padding: 12px 16px; font-size: 0.78rem; color: #8b949e;
+    .hud-title {{ font-weight: 700; color: #38bdf8; font-size: 0.95rem; margin-bottom: 4px; font-family: "JetBrains Mono", Consolas, monospace; }}
+    .hud-body {{ color: #94a3b8; font-size: 0.80rem; line-height: 1.4; }}
+    #controls-hud {{
+      position: absolute; top: 20px; right: 20px; z-index: 100;
+      display: flex; gap: 8px;
     }}
-    .leg-row {{ display: flex; align-items: center; margin-bottom: 5px; }}
-    .leg-pill {{ width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }}
+    .btn-view {{
+      background: rgba(15, 23, 42, 0.9); border: 1px solid #334155; color: #cbd5e1;
+      padding: 6px 12px; border-radius: 4px; font-size: 0.72rem; cursor: pointer;
+      font-family: monospace; text-transform: uppercase;
+    }}
+    .btn-view:hover {{ background: #1e293b; color: #38bdf8; border-color: #38bdf8; }}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
   <div id="viewport">
-    <div id="hud">
-      <div id="hud-head" class="hud-header">Atlas Conectómico en Espacio MNI152</div>
-      <div id="hud-body" class="hud-text">Interactúa con el modelo 3D usando el mouse. Pasa el cursor sobre cualquier nodo o tracto para visualizar las coordenadas MNI, el estado hemodinámico y el rol fisiopatológico exacto.</div>
+    <div id="controls-hud">
+      <button class="btn-view" onclick="setCam('sagittal')">Sagital</button>
+      <button class="btn-view" onclick="setCam('coronal')">Coronal</button>
+      <button class="btn-view" onclick="setCam('axial')">Axial</button>
+      <button class="btn-view" onclick="setCam('iso')">3D Libre</button>
     </div>
-    <div id="legend-box">
-      <div class="leg-row"><div class="leg-pill" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></div> Hiperactividad / Dolor Social</div>
-      <div class="leg-row"><div class="leg-pill" style="background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></div> Fascículo Preservado (FA Normal)</div>
-      <div class="leg-row"><div class="leg-pill" style="background: #f43f5e;"></div> Disrupción Axonal / Ruptura</div>
-      <div class="leg-row"><div class="leg-pill" style="background: #1f2937;"></div> Hipoactividad / Desensibilización</div>
+    <div id="hud">
+      <div id="hud-head" class="hud-title">Espacio Estereotáxico MNI152</div>
+      <div id="hud-body" class="hud-body">Pasa el cursor sobre las regiones anatómicas o tractos de sustancia blanca para desplegar la semiología neurofuncional.</div>
     </div>
   </div>
 
   <script>
-    const DATA = {json.dumps(engine_payload)};
+    const DATA = {json.dumps(payload)};
     const container = document.getElementById('viewport');
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x010409, 0.024);
+    scene.fog = new THREE.FogExp2(0x030712, 0.025);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 3, 22);
@@ -259,15 +254,24 @@ threejs_script = f"""
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
+    controls.autoRotateSpeed = 0.4;
 
-    // Luces de calibración de neuroimagen
+    function setCam(view) {{
+      controls.autoRotate = false;
+      if (view === 'sagittal') {{ camera.position.set(24, 0, 0); }}
+      else if (view === 'coronal') {{ camera.position.set(0, 24, 0); }}
+      else if (view === 'axial') {{ camera.position.set(0, 0, 24); }}
+      else {{ camera.position.set(16, 12, 16); controls.autoRotate = true; }}
+      camera.lookAt(0, 0, 0);
+    }}
+
+    // Luces quirúrgicas
     scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-    const l1 = new THREE.PointLight(0x58a6ff, 2.5, 60);
+    const l1 = new THREE.PointLight(0x38bdf8, 2.5, 60);
     l1.position.set(6, 12, 14);
     scene.add(l1);
 
-    const l2 = new THREE.PointLight(0xbc8cff, 2.0, 50);
+    const l2 = new THREE.PointLight(0xa855f7, 2.0, 50);
     l2.position.set(-10, -8, -10);
     scene.add(l2);
 
@@ -276,10 +280,10 @@ threejs_script = f"""
     const streamlines = [];
 
     // -------------------------------------------------------------
-    // MALLA PIAL BIOFIEL DEL ESPACIO MNI152 (FRESNEL GLASS CORTEX)
+    // MALLA PIAL BIOFIEL MNI152 (FRESNEL GLASS-BRAIN PBR)
     // -------------------------------------------------------------
-    function buildGlassCortex() {{
-      const uSegs = 96, vSegs = 96;
+    function buildAnatomicalPial() {{
+      const uSegs = 100, vSegs = 100;
       const geo = new THREE.BufferGeometry();
       const pos = [];
 
@@ -298,9 +302,9 @@ threejs_script = f"""
           let y = (ry + sulci) * Math.sin(v) * Math.sin(u);
           let z = (rz + sulci) * Math.cos(v);
 
-          // Cisura interhemisférica longitudinal
+          // Cisura sagital interhemisférica profunda
           if (x >= 0) x += 0.54; else x -= 0.54;
-          // Polo frontal y fosa temporal
+          // Depresión en polo temporal y curvatura occipital
           z -= 0.09 * (y * y) / ry;
 
           pos.push(x, y, z);
@@ -310,23 +314,23 @@ threejs_script = f"""
       geo.computeVertexNormals();
 
       const mat = new THREE.MeshPhysicalMaterial({{
-        color: 0x161b22,
-        emissive: 0x0d1117,
+        color: 0x0f172a,
+        emissive: 0x020617,
         roughness: 0.2,
         metalness: 0.1,
         transparent: true,
-        opacity: DATA.view.includes("1.") ? 0.38 : 0.14,
+        opacity: DATA.view.includes("1.") ? 0.38 : 0.12,
         wireframe: true,
         depthWrite: false
       }});
       return new THREE.Mesh(geo, mat);
     }}
 
-    const cortex = buildGlassCortex();
+    const cortex = buildAnatomicalPial();
     scene.add(cortex);
 
     // -------------------------------------------------------------
-    // NÚCLEOS SUBCORTICALES EN COORDENADAS MNI152
+    // NÚCLEOS SUBCORTICALES EN COORDENADAS MNI152 EXACTAS
     // -------------------------------------------------------------
     const nodeCoords = {{}};
     DATA.nodes.forEach(n => {{
@@ -339,10 +343,10 @@ threejs_script = f"""
         metalness: 0.7
       }});
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(n.x, n.y, n.z);
+      mesh.position.set(...n.coords);
       mesh.userData = {{ 
         name: n.name + " " + n.mni, 
-        desc: "<b>Estado:</b> " + n.status + "<br><b>Función:</b> " + n.role, 
+        desc: "<b>Estado:</b> " + n.status + "<br><b>Función:</b> " + n.desc, 
         hz: n.hz, 
         baseSize: n.rad 
       }};
@@ -351,7 +355,7 @@ threejs_script = f"""
       pulsingNodes.push(mesh);
       nodeCoords[n.id] = mesh.position;
 
-      // Halo de difusión fMRI
+      // Halo de difusión funcional fMRI
       const auraGeo = new THREE.SphereGeometry(n.rad * 1.5, 16, 16);
       const auraMat = new THREE.MeshBasicMaterial({{
         color: n.color,
@@ -365,7 +369,7 @@ threejs_script = f"""
     }});
 
     // -------------------------------------------------------------
-    // TRACTOGRAFÍA DTI: STREAMLINES MULTIFILAMENTO
+    // TRACTOGRAFÍA DTI: STREAMLINES VOLUMÉTRICOS DE BÉZIER
     // -------------------------------------------------------------
     if (!DATA.view.includes("3.")) {{
       DATA.tracts.forEach(t => {{
@@ -374,7 +378,7 @@ threejs_script = f"""
           const p1 = nodeCoords[t.to];
           const ctrl = new THREE.Vector3(...t.ctrl);
 
-          const isFrayed = t.status === "severed" || t.status === "broken";
+          const isFrayed = t.status === "frayed" || t.status === "severed";
           const fiberCount = isFrayed ? 4 : 10;
 
           for(let f=0; f<fiberCount; f++) {{
@@ -390,7 +394,7 @@ threejs_script = f"""
             );
 
             let color = 0x38bdf8;
-            if (t.status === "severed" || t.status === "broken") color = 0xef4444;
+            if (t.status === "frayed" || t.status === "severed") color = 0xef4444;
             if (t.status === "hyper") color = 0xf43f5e;
 
             const tubeGeo = new THREE.TubeGeometry(curve, 30, isFrayed ? 0.025 : 0.05, 8, false);
@@ -402,12 +406,12 @@ threejs_script = f"""
               opacity: isFrayed ? 0.45 : 0.85
             }});
             const fiberMesh = new THREE.Mesh(tubeGeo, tubeMat);
-            fiberMesh.userData = {{ name: t.name, desc: t.desc }};
+            fiberMesh.userData = {{ name: t.name, desc: "Tractografía DTI | FA estimada: " + t.fa }};
             scene.add(fiberMesh);
             clickTargets.push(fiberMesh);
 
-            // Pulsos de potenciales de acción
-            if (t.status !== "broken") {{
+            // Transmisión de impulsos sinápticos dinámicos
+            if (t.status !== "severed") {{
               const pCount = 8;
               const pGeo = new THREE.BufferGeometry();
               const pPos = new Float32Array(pCount * 3);
@@ -430,7 +434,7 @@ threejs_script = f"""
     // GRAFO DE ONDA EXPANSIVA SISTÉMICA (VIDAS AFECTADAS)
     // -------------------------------------------------------------
     if (DATA.view.includes("3.")) {{
-      cortex.material.opacity = 0.05;
+      cortex.material.opacity = 0.04;
 
       DATA.social.forEach(s => {{
         const rad = 1.1 + s.tension * 0.6;
@@ -447,13 +451,13 @@ threejs_script = f"""
         scene.add(sMesh);
         clickTargets.push(sMesh);
 
-        // Tensores estructurales de tensión
+        // Tensores estructurales de rotura
         const lGeo = new THREE.BufferGeometry().setFromPoints([
           new THREE.Vector3(0, 0, 0),
           new THREE.Vector3(...s.coords)
         ]);
         const lMat = new THREE.LineBasicMaterial({{
-          color: s.tension > 0.88 ? 0xef4444 : 0x58a6ff,
+          color: s.tension > 0.88 ? 0xef4444 : 0x38bdf8,
           linewidth: 4,
           transparent: true,
           opacity: 0.8
@@ -481,7 +485,7 @@ threejs_script = f"""
         if (target.userData && target.userData.name) {{
           hudHead.innerText = target.userData.name;
           hudBody.innerHTML = target.userData.desc;
-          hudHead.style.color = "#58a6ff";
+          hudHead.style.color = "#38bdf8";
         }}
       }}
     }});
@@ -528,20 +532,20 @@ threejs_script = f"""
 </html>
 """
 
-components.html(threejs_script, height=660, scrolling=False)
+components.html(threejs_engine, height=660, scrolling=False)
 
 # -------------------------------------------------------------------------
-# Ficha Técnica y Evidencia Clínica para la Presentación
+# Ficha Técnica y Evidencia Clínica para el Ateneo
 # -------------------------------------------------------------------------
 st.markdown("---")
-c_left, c_right = st.columns([1.3, 1.0])
+c_izq, c_der = st.columns([1.3, 1.0])
 
-with c_left:
-    st.markdown("### 🔬 Sustrato Científico y Evidencia en Neuroimagen")
+with c_izq:
+    st.markdown("### 🔬 Correlato de Neuroimagen (DTI & fMRI)")
     st.markdown(f"""
-    <div class="evidence-card">
-      <b style="color: #38bdf8;">Tractografía DTI:</b> {profile['dti_evidence']}<br><br>
-      <b style="color: #38bdf8;">Resonancia Funcional (fMRI):</b> {profile['fmri_evidence']}
+    <div style="background-color: #0b1329; border-left: 4px solid #38bdf8; padding: 14px; border-radius: 4px; margin-bottom: 12px;">
+      <b style="color: #38bdf8;">Tractografía DTI:</b> {profile['dti_mechanics']}<br><br>
+      <b style="color: #38bdf8;">Resonancia Funcional (fMRI):</b> {profile['fmri_mechanics']}
     </div>
     """, unsafe_allow_html=True)
     st.markdown("""
@@ -549,7 +553,7 @@ with c_left:
     * **Red de Prominencia (*Salience Network*):** La coactivación de la ínsula anterior y el dACC detecta de manera distorsionada los estímulos interpersonales, interpretando la neutralidad como abandono inminente (TLP) o como desafío de jerarquía (TNP).
     """)
 
-with c_right:
+with c_der:
     st.markdown("### 🌐 El Fenómeno de Onda Expansiva (Vidas Afectadas)")
     st.markdown("""
     A diferencia de la patología neurótica convencional, donde el conflicto se contiene en el ámbito subjetivo, en el **Cluster B** la falla del freno inhibitorio biológico se traslada de forma directa al tejido social:
