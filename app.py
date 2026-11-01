@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estética de consola médica de alta gama con tipografía equilibrada
+# Estética de consola médica de neuropsiquiatría
 st.markdown("""
 <style>
     .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -31,10 +31,6 @@ st.markdown("""
     .disclaimer-box {
         background: rgba(15, 23, 42, 0.7); border: 1px solid #334155; border-radius: 6px;
         padding: 10px 14px; font-size: 0.76rem; color: #94a3b8; margin-bottom: 12px; line-height: 1.35;
-    }
-    .criteria-card {
-        background: #0b1329; border: 1px solid #1e293b; border-radius: 8px;
-        padding: 16px 20px; margin-bottom: 10px;
     }
     .rule-badge {
         display: inline-block; background: #0284c7; color: #ffffff; font-weight: 700;
@@ -109,7 +105,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Basolateral",
-                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.9, -0.6, -1.3],
                 "color": "#ef4444",
@@ -118,14 +114,14 @@ CLINICAL_REGISTRY = {
                 "status": "HIPERTRÓFICA FÁSICA",
                 "analogy": "Sensor de alarma descalibrado que suena ante el mínimo estímulo.",
                 "example": "Una demora de 30 minutos en un mensaje de texto detona taquicardia y pánico de abandono inminente.",
-                "healthy_desc": "Activación fásica controlada ante estímulos aversivos; retorno rápido a línea de base.",
-                "patient_desc": "Hiperreactividad BOLD persistente ante caras neutras o distancia relacional.",
+                "healthy_desc": "Respuesta fásica contenida frente a estímulos aversivos; rápida habituación y retorno a la línea de base autonómica sin desbordamiento.",
+                "patient_desc": "Paroxismo hemodinámico BOLD masivo y prolongado ante rostros neutros o ambigüedad vincular; retardo patológico en la extinción del miedo.",
                 "voice": "Amígdala basolateral derecha. Imaginemos una alarma de humo ultrasensible que se activa no solo ante el fuego, sino ante el simple vapor de una taza de café. En el trastorno límite, un mensaje sin responder durante media hora es interpretado como un riesgo vital de abandono. New y colaboradores documentaron en NeuroImage que este núcleo presenta un retardo significativo en extinguir la señal de miedo."
             },
             {
                 "id": "vmpfc",
                 "name": "Corteza Prefrontal Ventromedial (vmPFC)",
-                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#38bdf8",
@@ -134,14 +130,14 @@ CLINICAL_REGISTRY = {
                 "status": "COLAPSO INHIBITORIO",
                 "analogy": "Freno hidráulico que pierde presión durante una emergencia.",
                 "example": "El paciente comprende que romper objetos empeorará todo, pero no logra detener el impulso motor en el momento crítico.",
-                "healthy_desc": "Control inhibitorio activo sobre el complejo amigdalino.",
-                "patient_desc": "Desacoplamiento funcional transitorio durante picos de desregulación afectiva.",
+                "healthy_desc": "Control inhibitorio top-down sostenido sobre las eferencias límbicas, permitiendo la reevaluación reflexiva y la modulación del afecto.",
+                "patient_desc": "Desacoplamiento funcional severo; caída de la señal BOLD durante la crisis afectiva que bloquea la capacidad de mentalización.",
                 "voice": "Corteza prefrontal ventromedial. Actúa como el pedal de freno del cerebro emocional. En este cuadro, el freno pierde eficacia hidráulica durante la crisis. Aunque la persona comprenda racionalmente que autolesionarse empeorará la situación, la corteza no logra ejercer la fuerza sináptica necesaria para detener la inercia del impulso."
             },
             {
                 "id": "dacc",
                 "name": "Cíngulo Anterior Dorsal (dACC)",
-                "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso",
+                "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso (Áreas 24/32)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 1.8, 1.8],
                 "color": "#f43f5e",
@@ -150,8 +146,8 @@ CLINICAL_REGISTRY = {
                 "status": "DOLOR SOCIAL AGUDO",
                 "analogy": "Procesador que traduce el desapego en dolor físico visceral.",
                 "example": "Una discusión se vive como una quemadura física; las conductas autolesivas buscan mitigar esa angustia psíquica.",
-                "healthy_desc": "Procesamiento de conflicto cognitivo sin activación de la matriz nociceptiva física.",
-                "patient_desc": "Reclutamiento masivo de circuitos de dolor somático ante la exclusión percibida.",
+                "healthy_desc": "Monitorización de conflicto cognitivo sin reclutamiento masivo de la matriz somatosensorial de dolor físico.",
+                "patient_desc": "Coactivación paroxística ante la exclusión interpersonal; traduce la incertidumbre vincular en una señal idéntica a una agresión tisular aguda.",
                 "voice": "Córtex cingulado anterior dorsal. Es el nodo central del dolor social. Naomi Eisenberger demostró en la revista Science que el cerebro procesa la exclusión en los mismos circuitos que una quemadura somática. Ante la vivencia de rechazo, este núcleo se activa con tal intensidad que la autolesión suele buscar, de manera disfuncional, atenuar un dolor psíquico que resulta intolerable."
             },
             {
@@ -166,8 +162,8 @@ CLINICAL_REGISTRY = {
                 "status": "HIPEREXCITACIÓN INTEROCEPTIVA",
                 "analogy": "El altavoz que proyecta el vacío interno como dolor somático.",
                 "example": "Sensación constante de un vacío físico en el pecho que se intenta calmar con conductas impulsivas.",
-                "healthy_desc": "Integración interoceptiva basal y modulación homeostática estable.",
-                "patient_desc": "Hipersensibilidad visceral; correlato anatómico de la vivencia de vacío crónico.",
+                "healthy_desc": "Integración homeostática normal de las señales autonómicas viscerales del organismo.",
+                "patient_desc": "Amplificación somatosensorial aversiva continua; correlato fisiopatológico de la disforia paroxística y el vacío en el pecho.",
                 "voice": "Ínsula anterior agranular. Traduce el malestar afectivo en sensaciones corporales. Constituye el sustrato de esa vivencia de vacío interior o dolor en el pecho que se describe con frecuencia en la clínica y que precipita intentos de alivio inmediato."
             }
         ],
@@ -288,7 +284,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala (Hipoactiva)",
-                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.9, -0.6, -1.3],
                 "color": "#1e293b",
@@ -297,14 +293,14 @@ CLINICAL_REGISTRY = {
                 "status": "ATROFIA FUNCIONAL",
                 "analogy": "Detector de humo al que se le quitó la batería: no suena ante el peligro.",
                 "example": "El sujeto comete una estafa grave manteniendo 55 latidos por minuto, sin temblor ni sudoración.",
-                "healthy_desc": "Reactividad fásica conservada ante contingencias aversivas y de castigo.",
-                "patient_desc": "Hipoactividad severa; refractariedad al condicionamiento por miedo.",
+                "healthy_desc": "Reactividad fásica conservada ante señales de castigo o rostros temerosos.",
+                "patient_desc": "Hipoactivación BOLD crítica ante estímulos aversivos; insensibilidad al miedo y a la sanción.",
                 "voice": "Amígdala hipoactiva. Imaginemos un detector de humo sin batería. Aunque haya fuego real alrededor, no se activa. Mientras una persona promedio experimenta taquicardia ante la transgresión o el sufrimiento ajeno, aquí predomina la estabilidad autonómica. Craig y Blair documentaron en NeuroImage esta marcada refractariedad al castigo."
             },
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Polo Moral Desconectado)",
-                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#334155",
@@ -313,8 +309,8 @@ CLINICAL_REGISTRY = {
                 "status": "HIPOCONECTADA",
                 "analogy": "Calculadora desprovista de escrúpulos que no siente remordimientos.",
                 "example": "Comprende conceptualmente que defraudar a sus padres está penado por la ley, pero no le produce culpa afectiva en el cuerpo.",
-                "healthy_desc": "Integración del juicio normativo con la señal somática de culpa.",
-                "patient_desc": "Juicio utilitario frío desprovisto de anclaje afectivo visceral.",
+                "healthy_desc": "Integración del juicio ético con el freno vicario de culpa somatizada.",
+                "patient_desc": "Procesamiento moral instrumental disociado; cálculo utilitario sin resonancia afectiva.",
                 "voice": "Corteza prefrontal ventromedial. Funciona de manera calculadora y analítica. Comprende las normas jurídicas a nivel conceptual, pero esa información carece de resonancia afectiva. Dañar a un tercero se procesa como un costo de transacción admisible para lograr un objetivo."
             },
             {
@@ -329,8 +325,8 @@ CLINICAL_REGISTRY = {
                 "status": "HIPERACTIVIDAD PREDATORIA",
                 "analogy": "Acelerador voraz que busca dinero o poder sin reparar en el daño.",
                 "example": "Frente a la posibilidad de un beneficio personal rápido, el impulso motor descarta cualquier noción de riesgo legal.",
-                "healthy_desc": "Respuesta de recompensa modulada por el cálculo de consecuencias futuras.",
-                "patient_desc": "Hiperreactividad dopaminérgica focalizada en la ganancia inmediata.",
+                "healthy_desc": "Búsqueda de incentivo regulada por el cálculo de costos y consecuencias sociales.",
+                "patient_desc": "Hiperactivación dopaminérgica inmediata desprovista de inhibición frontal punitiva.",
                 "voice": "Núcleo accumbens estriatal. Es el centro de búsqueda de recompensa. Frente a la oportunidad de obtener un beneficio inmediato a costa de otros, este núcleo se sobreactiva sin que intervenga el freno inhibitorio frontal."
             },
             {
@@ -345,8 +341,8 @@ CLINICAL_REGISTRY = {
                 "status": "ANESTESIA INTEROCEPTIVA",
                 "analogy": "Mirar el sufrimiento de una persona como si fuera una película de ficción.",
                 "example": "Presencia el llanto desconsolado de su víctima sin registrar ninguna aversión o compasión interna.",
-                "healthy_desc": "Resonancia somática refleja ante expresiones de dolor ajeno.",
-                "patient_desc": "Ausencia de marcadores somáticos de aversión o remordimiento.",
+                "healthy_desc": "Resonancia somatosensorial refleja frente al dolor ajeno (empatía afectiva).",
+                "patient_desc": "Inactividad insular ante el llanto ajeno; ausencia de aversión o remordimiento visceral.",
                 "voice": "Ínsula anterior agranular anestesiada. Es el asiento de la empatía emocional somatizada. Su hipoactivación explica por qué estas personas pueden presenciar el daño causado sin experimentar malestar gástrico ni remordimiento."
             }
         ],
@@ -469,7 +465,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "dacc",
                 "name": "dACC (Radar de Jerarquía)",
-                "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso",
+                "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso (Áreas 24/32)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 1.8, 1.8],
                 "color": "#a855f7",
@@ -478,14 +474,14 @@ CLINICAL_REGISTRY = {
                 "status": "HIPERREACTIVO AL DESPRECIO",
                 "analogy": "Sensor de jerarquía en guardia continua ante la falta de elogios.",
                 "example": "Si en una reunión no se aprueba de inmediato su propuesta, experimenta una afrenta personal intolerable.",
-                "healthy_desc": "Modulación equilibrada frente a críticas constructivas.",
-                "patient_desc": "Violeta/Rojo paroxístico: detonación aguda de alarma por descalificación.",
+                "healthy_desc": "Procesamiento de evaluación social equilibrado sin reactividad defensiva desmedida.",
+                "patient_desc": "Pico de activación fásica del dACC ('herida narcisista') ante la crítica o falta de pleitesía.",
                 "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo detecta una ofensa mortal a su estatus, detonando una respuesta de furia fría o venganza calculada."
             },
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Autoimagen Grandiosa)",
-                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#c084fc",
@@ -494,14 +490,14 @@ CLINICAL_REGISTRY = {
                 "status": "COMPENSACIÓN GRANDIOSA",
                 "analogy": "Un andamio dorado que requiere energía continua para no desplomarse.",
                 "example": "Gasta horas rumiando sobre sus éxitos pasados para no sentir la angustia de un fracaso reciente.",
-                "healthy_desc": "Autoestima estable sin necesidad de reafirmación constante.",
-                "patient_desc": "Hipermetabolismo compensatorio: sostén de la fachada de superioridad.",
-                "voice": "Corteza prefrontal ventromedial. Es como construir un andamio de oro sobre cimientos de barro. Se gasta una enorme cantidad de energía metabólica en sostener el relato de que se es superior a todos, precisamente para tapar un terror pánico a la mediocridad o al vacío interior."
+                "healthy_desc": "Autoestima estable que no precisa reafirmación externa obsesiva.",
+                "patient_desc": "Hipermetabolismo en la red por defecto medial para sostener la narrativa grandiosa.",
+                "voice": "Corteza prefrontal ventromedial. Es como sostener un andamio elevado sobre cimientos frágiles. Se invierte un volumen considerable de recursos cognitivos en reafirmar la superioridad personal precisamente para contener el miedo subyacente a la insignificancia."
             },
             {
                 "id": "amg",
                 "name": "Amígdala (Rabia Narcisista)",
-                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.8, -0.6, -1.3],
                 "color": "#ec4899",
@@ -510,9 +506,9 @@ CLINICAL_REGISTRY = {
                 "status": "VULNERABILIDAD FÁSICA",
                 "analogy": "Una chispa que enciende fuego cuando se pone en duda su perfección.",
                 "example": "Ante una corrección menor de un colaborador, responde con descalificación tajante para restablecer control.",
-                "healthy_desc": "Regulación emocional sin hostilidad defensiva.",
-                "patient_desc": "Pico fásico de cólera ante la exposición de debilidad.",
-                "voice": "Amígdala reactiva. Detona la denominada rabia narcisista. Frente a una observación crítica de un subordinado o pareja, el afecto herido precipita una descalificación verbal tajante orientada a restituir la propia posición de valor."
+                "healthy_desc": "Tolerancia afectiva serena ante discrepancias de opinión.",
+                "patient_desc": "Descarga colérica amigdalina fásica orientada a castigar el desacato del otro.",
+                "voice": "Amígdala reactiva. Detona la denominada rabia narcisista. Frente a una observación crítica de un allegado o colega, el afecto herido precipita una descalificación verbal tajante orientada a restituir la propia posición de valor."
             },
             {
                 "id": "insula",
@@ -526,9 +522,9 @@ CLINICAL_REGISTRY = {
                 "status": "ANESTESIA EMPÁTICA",
                 "analogy": "Mover piezas en el tablero sin conmoverse por la pieza derribada.",
                 "example": "Nota con lucidez que sus comentarios hieren a su pareja, pero no experimenta compasión somática.",
-                "healthy_desc": "Resonancia afectiva compartida ante el llanto del otro.",
-                "patient_desc": "Azul grisáceo / Inactivo: ausencia de conmoción somática.",
-                "voice": "Ínsula anterior desconectada. Fan demostró en la revista SCAN que el narcisista tiene empatía cognitiva intacta, es decir, sabe perfectamente qué te duele y cómo herirte, pero carece de empatía afectiva; no siente compasión alguna al hacerlo."
+                "healthy_desc": "Activación insular vicaria frente al sufrimiento de un par (empatía afectiva).",
+                "patient_desc": "Hipoactivación insular afectiva con preservación de Teoría de la Mente estratégica.",
+                "voice": "Ínsula anterior desconectada. Fan comprobó en la revista SCAN la presencia de una disociación central: se conserva la empatía cognitiva (sabe qué siente el otro y cómo afectarlo), pero se presenta atenuada la empatía emocional (no experimenta compasión somática)."
             }
         ],
         "tracts": [
@@ -649,7 +645,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Límbica",
-                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.8, -0.6, -1.3],
                 "color": "#06b6d4",
@@ -658,8 +654,8 @@ CLINICAL_REGISTRY = {
                 "status": "HIPEREXCITABLE LÁBIL",
                 "analogy": "Fuegos artificiales intensos pero que se apagan a los pocos minutos.",
                 "example": "Llora intensamente en un conflicto menor y poco después ríe distendida al recibir una palabra de afecto.",
-                "healthy_desc": "Modulación afectiva armónica con habituación normal.",
-                "patient_desc": "Reactividad emocional paroxística de rápida fluctuación.",
+                "healthy_desc": "Modulación afectiva armónica con habituación normal a contingencias sociales.",
+                "patient_desc": "Reactividad emocional paroxística de rápida fluctuación y habituación precoz.",
                 "voice": "Amígdala límbica lábil. Presenta respuestas afectivas rápidas y de gran expresividad externa pero de corta duración. Puede observarse un llanto desconsolado ante una situación menor, seguido minutos después por serenidad si la atención del entorno se restablece."
             },
             {
@@ -674,8 +670,8 @@ CLINICAL_REGISTRY = {
                 "status": "HIPERRESPUESTA AL FEEDBACK",
                 "analogy": "Adicción al reflector y al aplauso de los demás.",
                 "example": "Si en una reunión el grupo habla de otro tema, recurre a dramatizaciones para volver a ser el centro.",
-                "healthy_desc": "Procesamiento equilibrado de incentivos sociales.",
-                "patient_desc": "Hipersensibilidad de recompensa dependiente de la validación externa.",
+                "healthy_desc": "Procesamiento equilibrado de incentivos sociales sin demanda permanente de atención.",
+                "patient_desc": "Hipersensibilidad de recompensa dependiente exclusivamente de la mirada del auditorio.",
                 "voice": "Núcleo accumbens social. Circuito estrechamente ligado a la validación interpersonal. La persona experimenta una necesidad marcada de protagonismo, recurriendo a la seducción o al dramatismo si percibe que el interés del grupo decae."
             },
             {
@@ -690,14 +686,14 @@ CLINICAL_REGISTRY = {
                 "status": "SOMATIZACIÓN INTEROCEPTIVA",
                 "analogy": "El cuerpo hablando en voz alta lo que la mente no pone en palabras.",
                 "example": "Ante un desacuerdo familiar, experimenta mareos súbitos y pérdida de fuerza en las piernas sin causa orgánica.",
-                "healthy_desc": "Integración somatosensorial armónica sin somatizaciones.",
-                "patient_desc": "Amplificación de señales corporales que se traduce en síntomas funcionales.",
+                "healthy_desc": "Integración somatosensorial armónica sin cuadros conversivos.",
+                "patient_desc": "Amplificación de señales corporales que se traduce en síntomas neurológicos funcionales.",
                 "voice": "Ínsula somatosensorial. Traduce tensiones emocionales no elaboradas en manifestaciones físicas. Ante desencuentros interpersonales, amplifica las señales viscerales pudiendo generar síntomas neurológicos funcionales o desmayos psicógenos."
             },
             {
                 "id": "vmpfc",
                 "name": "vmPFC Impresionista",
-                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#475569",
@@ -706,8 +702,8 @@ CLINICAL_REGISTRY = {
                 "status": "PROCESAMIENTO DIFUSO",
                 "analogy": "Una mirada panorámica que no repara en la letra chica de los problemas.",
                 "example": "Relata un conflicto grave en términos teatrales y vagos ('fue un desastre') sin poder precisar los hechos concretos.",
-                "healthy_desc": "Razonamiento analítico estructurado y secuencial.",
-                "patient_desc": "Estilo cognitivo impresionista con escasa focalización en detalles objetivos.",
+                "healthy_desc": "Razonamiento analítico estructurado y secuencial de contingencias.",
+                "patient_desc": "Estilo cognitivo impresionista con escasa focalización en detalles lógicos objetivos.",
                 "voice": "Corteza prefrontal impresionista. Su estilo cognitivo capta la tonalidad afectiva general de las situaciones pero tiende a omitir el análisis detallado y secuencial de las contingencias."
             }
         ],
@@ -1314,7 +1310,7 @@ html_webgl = f"""
 components.html(html_webgl, height=660, scrolling=False)
 
 # -------------------------------------------------------------------------
-# Módulos Temáticos Interactivos (Diseño Limpio en Solapas/Tabs)
+# Módulos Temáticos Interactivos en Solapas (Tabs)
 # -------------------------------------------------------------------------
 st.markdown("---")
 
@@ -1325,131 +1321,135 @@ tab_neuro, tab_diag, tab_case, tab_social = st.tabs([
     "📊 Matriz de Discapacidad WHODAS"
 ])
 
-# ----------------- SOLAPA 1: NEUROIMAGEN COMPARATIVA CON ESQUEMA ANATÓMICO REAL -----------------
+# ----------------- SOLAPA 1: NEUROIMAGEN COMPARATIVA VISUAL (CORTE ANATÓMICO ELEVADO) -----------------
 with tab_neuro:
-    st.subheader("Cortes Anatómicos y Localización de Estructuras Comprometidas")
-    st.caption("Esquema anatómico del encéfalo humano que ilustra la ubicación regional exacta y el patrón de activación BOLD (fMRI)")
+    st.subheader("Esquemas Anatómicos de Neuroimagen: Sujeto Control vs. Cuadro Clínico")
+    st.caption("Cortes encefálicos con delimitación de corteza, ventrículos, surcos y mapa de calor fMRI BOLD focalizado")
 
     selected_node_name = st.selectbox(
-        "Seleccionar estructura para desplegar su ubicación y comparación funcional:",
+        "Seleccionar estructura para proyectar su corte anatómico y correlato funcional:",
         [n["name"] for n in current_data["nodes"]]
     )
 
     active_node = next(n for n in current_data["nodes"] if n["name"] == selected_node_name)
 
-    # Esquemas anatómicos reales en SVG según la estructura
-    # 1. Amígdala: Corte coronal que muestra corteza, ventrículos laterales y lóbulo temporal medial
-    # 2. vmPFC: Corte sagital que muestra perfil frontal, cuerpo calloso y polo medial basal
-    # 3. dACC: Corte sagital medial destacando el arco sobre el cuerpo calloso
-    # 4. Ínsula: Corte axial que muestra el opérculo temporal/frontal y la cisura de Silvio profunda
-    
-    def get_anatomical_svg(struct_id, is_patient, color_hex):
+    # Generación de gráficos anatómicos de alta fidelidad estética (SVG médico detallado)
+    def render_medical_svg(struct_id, is_patient, color_hex):
         focal_color = color_hex if is_patient else "#10b981"
-        pulse_op = "0.9" if is_patient else "0.35"
-        label_text = "RESPUESTA ANÓMALA" if is_patient else "ACTIVACIÓN CONTROLADA"
+        pulse_op = "0.88" if is_patient else "0.35"
+        label_text = "PATRÓN DE SEÑAL ANÓMALO" if is_patient else "ACTIVACIÓN CONTROLADA"
         
         if struct_id == "amg":
-            # Corte Coronal
+            # Corte Coronal Médico a nivel de lóbulos temporales
             return f"""
-            <svg width="100%" height="220" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Silueta coronal del encéfalo -->
-                <path d="M 60 120 C 60 50, 110 30, 170 30 C 230 30, 280 50, 280 120 C 280 150, 260 185, 230 185 C 210 185, 200 160, 170 160 C 140 160, 130 185, 110 185 C 80 185, 60 150, 60 120 Z" fill="#090e1a" stroke="#334155" stroke-width="2"/>
-                <!-- Cisura interhemisférica -->
-                <line x1="170" y1="30" x2="170" y2="100" stroke="#1e293b" stroke-width="2"/>
-                <!-- Ventrículos laterales -->
-                <path d="M 155 85 C 155 70, 165 65, 170 75 C 175 65, 185 70, 185 85 C 185 105, 170 115, 170 115 C 170 115, 155 105, 155 85 Z" fill="#020617" stroke="#1e293b" stroke-width="1.5"/>
-                <!-- Lóbulos temporales basales -->
-                <ellipse cx="105" cy="145" rx="20" ry="15" fill="#0f172a" stroke="#1e293b"/>
-                <ellipse cx="235" cy="145" rx="20" ry="15" fill="#0f172a" stroke="#1e293b"/>
+            <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+                <!-- Manto cortical coronal con surcos definidos -->
+                <path d="M 60 130 C 50 80, 80 40, 180 35 C 280 40, 310 80, 300 130 C 295 160, 275 190, 240 190 C 215 190, 205 165, 180 165 C 155 165, 145 190, 120 190 C 85 190, 65 160, 60 130 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
+                <!-- Surcos piales superiores -->
+                <path d="M 120 40 C 130 55, 135 70, 130 85" fill="none" stroke="#1e293b" stroke-width="1.8"/>
+                <path d="M 240 40 C 230 55, 225 70, 230 85" fill="none" stroke="#1e293b" stroke-width="1.8"/>
+                <!-- Cisura sagital interhemisférica -->
+                <line x1="180" y1="35" x2="180" y2="105" stroke="#1e293b" stroke-width="2.5"/>
+                <!-- Ventrículos laterales con asta frontal y cuerpo -->
+                <path d="M 160 88 C 160 70, 172 65, 180 75 C 188 65, 200 70, 200 88 C 200 110, 180 120, 180 120 C 180 120, 160 110, 160 88 Z" fill="#020617" stroke="#38bdf8" stroke-width="1.5" opacity="0.6"/>
+                <!-- Astas temporales profundas -->
+                <ellipse cx="115" cy="150" rx="14" ry="10" fill="#020617" stroke="#1e293b"/>
+                <ellipse cx="245" cy="150" rx="14" ry="10" fill="#020617" stroke="#1e293b"/>
                 
-                <!-- Foco en Amígdala Medial -->
-                <circle cx="120" cy="142" r="16" fill="{focal_color}" opacity="{pulse_op}">
-                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                <!-- Mapa de calor fMRI en Complejo Amigdalino Bilateral -->
+                <circle cx="125" cy="148" r="22" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="18;24;18" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="120" cy="142" r="7" fill="{focal_color}"/>
-                <circle cx="220" cy="142" r="16" fill="{focal_color}" opacity="{pulse_op}">
-                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                <circle cx="125" cy="148" r="9" fill="{focal_color}"/>
+                <circle cx="235" cy="148" r="22" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="18;24;18" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="220" cy="142" r="7" fill="{focal_color}"/>
+                <circle cx="235" cy="148" r="9" fill="{focal_color}"/>
                 
-                <!-- Rótulos -->
-                <text x="170" y="24" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE CORONAL (LÓBULO TEMPORAL MEDIAL)</text>
-                <text x="170" y="205" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
+                <text x="180" y="22" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE CORONAL: LÓBULOS TEMPORALES MEDIALES</text>
+                <text x="180" y="215" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
             </svg>
             """
         elif struct_id == "vmpfc" or struct_id == "dacc":
-            # Corte Sagital Medial
-            target_cx = "225" if struct_id == "vmpfc" else "175"
-            target_cy = "130" if struct_id == "vmpfc" else "95"
-            tag_name = "vmPFC (SUELO FRONTAL)" if struct_id == "vmpfc" else "dACC (ARCO SUPRACALLOSO)"
+            # Corte Sagital Medial Detallado (Cuerpo Calloso, Suelo Frontal, Cerebelo)
+            target_cx = "235" if struct_id == "vmpfc" else "185"
+            target_cy = "135" if struct_id == "vmpfc" else "92"
+            tag_name = "vmPFC (SUELO FRONTAL MEDIAL)" if struct_id == "vmpfc" else "dACC (ARCO DEL CÍNGULO)"
             return f"""
-            <svg width="100%" height="220" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Perfil sagital encefálico -->
-                <path d="M 70 145 C 50 110, 80 40, 160 35 C 240 35, 275 75, 275 125 C 275 145, 250 155, 220 155 C 190 155, 170 185, 140 185 C 110 185, 95 160, 70 145 Z" fill="#090e1a" stroke="#334155" stroke-width="2"/>
-                <!-- Cuerpo Calloso (Arco característico) -->
-                <path d="M 130 115 C 140 90, 200 90, 215 115" fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
-                <!-- Cerebelo y tronco encefálico -->
-                <path d="M 85 145 C 75 175, 115 185, 125 165 Z" fill="#0f172a" stroke="#1e293b"/>
+            <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+                <!-- Perfil medial hemisférico -->
+                <path d="M 75 145 C 50 105, 80 40, 170 35 C 255 35, 295 75, 295 130 C 295 150, 270 160, 235 160 C 205 160, 185 190, 150 190 C 120 190, 105 165, 75 145 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
+                <!-- Cuerpo Calloso continuo (Arco grueso característico) -->
+                <path d="M 135 118 C 145 88, 215 88, 230 118" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+                <!-- Surco del cíngulo -->
+                <path d="M 130 102 C 145 72, 220 72, 240 105" fill="none" stroke="#1e293b" stroke-width="1.8"/>
+                <!-- Fosa posterior: Cerebelo y Tronco -->
+                <path d="M 90 148 C 80 180, 120 190, 130 170 Z" fill="#0f172a" stroke="#1e293b"/>
+                <path d="M 130 160 L 150 190 L 165 190" fill="none" stroke="#1e293b" stroke-width="2"/>
                 
-                <!-- Foco Funcional en Sagital -->
-                <circle cx="{target_cx}" cy="{target_cy}" r="18" fill="{focal_color}" opacity="{pulse_op}">
-                    <animate attributeName="r" values="15;20;15" dur="2.2s" repeatCount="indefinite"/>
+                <!-- Foco Funcional BOLD -->
+                <circle cx="{target_cx}" cy="{target_cy}" r="22" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="18;25;18" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="{target_cx}" cy="{target_cy}" r="8" fill="{focal_color}"/>
+                <circle cx="{target_cx}" cy="{target_cy}" r="9" fill="{focal_color}"/>
                 
-                <text x="170" y="24" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE SAGITAL MEDIAL: {tag_name}</text>
-                <text x="170" y="205" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
+                <text x="180" y="22" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE SAGITAL MEDIAL: {tag_name}</text>
+                <text x="180" y="215" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
             </svg>
             """
         else:
-            # Corte Axial (Ínsula o Accumbens)
+            # Corte Axial Medio (Ínsula en profundidad de cisura de Silvio)
             return f"""
-            <svg width="100%" height="220" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Corte horizontal ovoide (Axial) -->
-                <ellipse cx="170" cy="110" rx="90" ry="75" fill="#090e1a" stroke="#334155" stroke-width="2"/>
-                <!-- Fisura sagital longitudinal -->
-                <line x1="170" y1="35" x2="170" y2="185" stroke="#1e293b" stroke-width="2"/>
-                <!-- Cisuras laterales de Silvio profundas (invaginación insular) -->
-                <path d="M 80 110 C 110 110, 125 105, 130 95" fill="none" stroke="#334155" stroke-width="2"/>
-                <path d="M 260 110 C 230 110, 215 105, 210 95" fill="none" stroke="#334155" stroke-width="2"/>
+            <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+                <!-- Corte transversal ovoide anatómico -->
+                <ellipse cx="180" cy="115" rx="98" ry="80" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
+                <!-- Fisura longitudinal sagital -->
+                <line x1="180" y1="35" x2="180" y2="195" stroke="#1e293b" stroke-width="2.5"/>
+                <!-- Cisuras laterales de Silvio profundas bilaterales (opérculo e ínsula) -->
+                <path d="M 82 115 C 115 115, 130 110, 138 98" fill="none" stroke="#334155" stroke-width="2.2"/>
+                <path d="M 278 115 C 245 115, 230 110, 222 98" fill="none" stroke="#334155" stroke-width="2.2"/>
+                <!-- Ventrículos en asta anterior y posterior -->
+                <path d="M 170 85 C 170 70, 190 70, 190 85 C 190 100, 170 100, 170 85 Z" fill="#020617" stroke="#38bdf8" stroke-width="1.2" opacity="0.6"/>
+                <path d="M 172 145 C 172 135, 188 135, 188 145 C 188 158, 172 158, 172 145 Z" fill="#020617" stroke="#38bdf8" stroke-width="1.2" opacity="0.6"/>
                 
-                <!-- Foco en Ínsula Anterior Bilateral -->
-                <circle cx="125" cy="105" r="16" fill="{focal_color}" opacity="{pulse_op}">
-                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                <!-- Foco Funcional BOLD en Ínsula Anterior -->
+                <circle cx="132" cy="108" r="20" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="16;22;16" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="125" cy="105" r="7" fill="{focal_color}"/>
-                <circle cx="215" cy="105" r="16" fill="{focal_color}" opacity="{pulse_op}">
-                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                <circle cx="132" cy="108" r="8" fill="{focal_color}"/>
+                <circle cx="228" cy="108" r="20" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="16;22;16" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="215" cy="105" r="7" fill="{focal_color}"/>
+                <circle cx="228" cy="108" r="8" fill="{focal_color}"/>
                 
-                <text x="170" y="24" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE AXIAL MEDIO (PROFUNDIDAD DE CISURA LATERAL)</text>
-                <text x="170" y="205" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
+                <text x="180" y="22" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE AXIAL MEDIO: ÍNSULA ANTERIOR (CISURA DE SILVIO)</text>
+                <text x="180" y="215" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
             </svg>
             """
 
+    # Componente visual comparativo ampliado para evitar cualquier corte de texto
     comp_html = f"""
-    <div style="display: flex; gap: 16px; font-family: -apple-system, sans-serif;">
-        <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid #10b981; padding: 14px; border-radius: 8px;">
-            <div style="color: #10b981; font-weight: bold; font-size: 0.92rem; margin-bottom: 4px;">🟢 Sujeto Control Sano (Homeostasis)</div>
-            <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']} | <b>Región:</b> {active_node['region_loc']}</div>
-            {get_anatomical_svg(active_node['id'], False, "#10b981")}
-            <div style="font-size: 0.76rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">
-                <b>Respuesta Fisiológica:</b> {active_node['healthy_desc']}
+    <div style="display: flex; gap: 16px; font-family: -apple-system, sans-serif; height: 100%; box-sizing: border-box;">
+        <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid #10b981; padding: 16px; border-radius: 8px;">
+            <div style="color: #10b981; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">🟢 Sujeto Control Sano (Homeostasis)</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']}<br><b>Localización:</b> {active_node['region_loc']}</div>
+            {render_medical_svg(active_node['id'], False, "#10b981")}
+            <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 10px; line-height: 1.45;">
+                <b>Respuesta Fisiológica:</b><br>{active_node['healthy_desc']}
             </div>
         </div>
-        <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid {active_node['color']}; padding: 14px; border-radius: 8px;">
-            <div style="color: {active_node['color']}; font-weight: bold; font-size: 0.92rem; margin-bottom: 4px;">🔴 Paciente: {selected_disorder.split('(')[0]}</div>
-            <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']} | <b>Región:</b> {active_node['region_loc']}</div>
-            {get_anatomical_svg(active_node['id'], True, active_node['color'])}
-            <div style="font-size: 0.76rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">
-                <b>Patrón Clínico:</b> {active_node['patient_desc']}<br>
-                <b>Situación Real:</b> {active_node['example']}
+        <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid {active_node['color']}; padding: 16px; border-radius: 8px;">
+            <div style="color: {active_node['color']}; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">🔴 Paciente: {selected_disorder.split('(')[0]}</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']}<br><b>Localización:</b> {active_node['region_loc']}</div>
+            {render_medical_svg(active_node['id'], True, active_node['color'])}
+            <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 10px; line-height: 1.45;">
+                <b>Patrón Clínico:</b><br>{active_node['patient_desc']}<br><br>
+                <b>Situación Real:</b><br>{active_node['example']}
             </div>
         </div>
     </div>
     """
-    components.html(comp_html, height=330, scrolling=False)
+    components.html(comp_html, height=470, scrolling=False)
 
 # ----------------- SOLAPA 2: COMPENDIO NOSOLÓGICO Y CRITERIOS -----------------
 with tab_diag:
