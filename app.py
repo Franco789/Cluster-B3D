@@ -1,6 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import json
+import os
 
 st.set_page_config(
     page_title="Atlas Neurobiológico & Nosológico del Cluster B",
@@ -9,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estética de consola médica de neuropsiquiatría con simetría visual estricta
+# Estética quirúrgica dark mode de alta precisión
 st.markdown("""
 <style>
     .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -36,17 +37,19 @@ st.markdown("""
         display: inline-block; background: #0284c7; color: #ffffff; font-weight: 700;
         font-size: 0.76rem; padding: 4px 10px; border-radius: 12px; margin-bottom: 10px;
     }
-    
-    /* Unificación simétrica de tarjetas WHODAS */
-    .whodas-card {
-        background: #0b1329; border: 1px solid #1e293b; padding: 14px; border-radius: 8px;
-        min-height: 255px; display: flex; flex-direction: column; justify-content: space-between;
+    .therapy-card {
+        background: #0b1329; border: 1px solid #1e293b; border-radius: 8px;
+        padding: 14px 18px; margin-bottom: 12px; height: 100%;
+    }
+    .pearl-box {
+        background: #0f172a; border: 1px solid #334155; border-left: 4px solid #f59e0b;
+        padding: 14px 18px; border-radius: 8px; margin-top: 12px; margin-bottom: 12px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Base de Datos Neurocientífica, Pedagógica y Nosológica Completa
+# Base de Datos Neurocientífica, Pedagógica y de Tratamiento Integral
 # -------------------------------------------------------------------------
 CLINICAL_REGISTRY = {
     "Trastorno Límite de la Personalidad (TLP)": {
@@ -56,10 +59,11 @@ CLINICAL_REGISTRY = {
         "definition": "Patrón persistente de inestabilidad en las relaciones interpersonales, la autoimagen y los afectos, con notable impulsividad, que comienza en las primeras etapas de la edad adulta y se presenta en diversos contextos.",
         "dsm5_requirement": "Para el diagnóstico se exige cumplir como mínimo 5 de los siguientes 9 criterios:",
         "textbooks": [
-            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
-            "Gabbard: Psiquiatría Psicodinámica en la Práctica Clínica (5.ª Edición, Editorial Médica Panamericana)",
-            "Linehan, M. M.: Terapia Dialéctico-Conductual para el Trastorno Límite de la Personalidad (Guilford Press)",
-            "Kernberg, O. F.: Desórdenes Fronterizos y Narcisismo Patológico (Paidós)"
+            "American Psychiatric Association. DSM-5-TR. 2022.",
+            "World Health Organization. ICD-11. 2024.",
+            "Linehan MM. Cognitive-Behavioral Treatment of BPD. 1993.",
+            "Bateman A, Fonagy P. Mentalization-Based Treatment for Personality Disorders. 2016.",
+            "Zanarini MC, et al. Am J Psychiatry. 2010;167(6):663-667."
         ],
         "dsm5_criteria": [
             "Esfuerzos desesperados para evitar el desamparo o abandono real o imaginado.",
@@ -106,6 +110,44 @@ CLINICAL_REGISTRY = {
                 "summary": "Dificultad de la corteza prefrontal ventromedial para reclutar recursos reflexivos (mentalización) durante picos de desregulación autonómica elevada.",
                 "ref": "Cullen et al. (2011) | Coccaro et al. (2007)"
             }
+        },
+        "therapies": [
+            {
+                "name": "DBT (Terapia Dialéctico-Conductual)",
+                "author": "Linehan MM (1991, 1993)",
+                "focus": "Equilibrio dialéctico entre aceptación y cambio.",
+                "components": "Entrenamiento en 4 módulos: Mindfulness, Tolerancia al malestar, Regulación emocional y Efectividad interpersonal.",
+                "target": "Reducción de conductas autolesivas (CANS), estabilización en crisis y prevención de IAE."
+            },
+            {
+                "name": "MBT (Terapia Basada en la Mentalización)",
+                "author": "Bateman A, Fonagy P (2016)",
+                "focus": "Fortalecer la capacidad de percibir estados mentales propios y ajenos.",
+                "components": "Restaurar la mentalización bajo estrés emocional intenso en el contexto del apego.",
+                "target": "Mejorar la modulación del afecto, reducir interpretaciones paranoides y estabilizar el sentido de identidad."
+            },
+            {
+                "name": "TFP (Psicoterapia Focalizada en la Transferencia)",
+                "author": "Kernberg OF, Clarkin JF (2006)",
+                "focus": "Exploración de la transferencia y de las representaciones escindidas.",
+                "components": "Análisis en el 'aquí y ahora' de la relación paciente-terapeuta.",
+                "target": "Integración de representaciones polarizadas (bueno/malo) hacia una identidad consolidada."
+            },
+            {
+                "name": "Terapia de Esquemas",
+                "author": "Young J, Arntz A (2009)",
+                "focus": "Modificación de esquemas desadaptativos tempranos.",
+                "components": "Técnicas experienciales (re-atribución imaginativa), cognitivas y conductuales.",
+                "target": "Promover modos de adulto saludable y reparar necesidades emocionales no cubiertas en la infancia."
+            }
+        ],
+        "psychopharm_pearl": "No existe ningún fármaco aprobado por la FDA o agencias regulatorias para el tratamiento global del TLP. El uso de psicofármacos es sintomático y complementario (focalizado en comorbilidades como depresión mayor o impulsividad aguda severa), requiriendo reevaluación periódica de su necesidad (Guías NICE CG78).",
+        "longitudinal_data": {
+            "title": "Evolución Longitudinal a 10 Años (Cohorte Zanarini et al., 2010)",
+            "remission_2yr": "86% alcanza remisión sintomática sostenida por más de 2 años.",
+            "remission_4yr": "93% alcanza remisión sintomática por más de 4 años.",
+            "functional_recovery": "Solo el 50% logra recuperación funcional completa (autonomía laboral/social plena).",
+            "key_takeaway": "La remisión de los síntomas agudos (como las autolesiones) no equivale automáticamente a la recuperación de la autonomía social o vocacional. Ambas esferas requieren abordajes diferenciados."
         },
         "nodes": [
             {
@@ -241,9 +283,9 @@ CLINICAL_REGISTRY = {
         "definition": "Patrón dominante de inatención y vulneración de los derechos de los demás, que se produce desde los 15 años de edad (con antecedentes de trastorno de conducta antes de dicha edad), manifestado por incumplimiento de normas sociales, engaño, impulsividad e irritabilidad.",
         "dsm5_requirement": "Para el diagnóstico se exige tener al menos 18 años, evidencia de trastorno de la conducta antes de los 15 años y cumplir al menos 3 de los 7 criterios siguientes:",
         "textbooks": [
-            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
+            "American Psychiatric Association. DSM-5-TR. 2022.",
             "Hare, R. D.: Manual for the Revised Psychopathy Checklist (PCL-R, Multi-Health Systems)",
-            "Cleckley, H.: The Mask of Sanity (Mosby Medical)",
+            "Gibbon S, et al. Cochrane Database of Systematic Reviews. 2020;9:CD007668.",
             "Blair, J. et al.: The Psychopath: Emotion and the Brain (Blackwell Publishing)"
         ],
         "dsm5_criteria": [
@@ -290,6 +332,23 @@ CLINICAL_REGISTRY = {
                 "ref": "Buckholtz et al. (2010, Nature Neurosci)"
             }
         },
+        "therapies": [
+            {
+                "name": "Revisión Cochrane (Gibbon et al., 2020)",
+                "author": "Cochrane Database of Systematic Reviews",
+                "focus": "Evaluación de intervenciones psicológicas en el comportamiento antisocial.",
+                "components": "Análisis de ensayos clínicos controlados sobre programas cognitivo-conductuales e institucionales.",
+                "target": "Certeza de evidencia baja a muy baja: ninguna intervención ha demostrado un cambio generalizado en la estructura de personalidad antisocial. El foco clínico se traslada al manejo de contingencias y gestión de riesgo."
+            },
+            {
+                "name": "Gestión Dinámica de Riesgo de Violencia",
+                "author": "Guías NICE CG77",
+                "focus": "Diferenciación entre factores estáticos (no modificables) y factores dinámicos.",
+                "components": "Intervención intensiva sobre factores dinámicos: tratamiento del consumo activo de sustancias (TCS), impulsividad aguda y acceso a armas.",
+                "target": "Mitigación del daño y reducción de reincidencia mediante supervisión estructurada multidisciplinaria."
+            }
+        ],
+        "psychopharm_pearl": "El diagnóstico de TASP por sí mismo no constituye una indicación farmacológica. La prescripción debe restringirse al tratamiento de comorbilidades activas (TDAH, trastornos por uso de sustancias o descontrol impulsivo grave), advirtiendo el alto riesgo de desvío, abuso o intoxicación voluntaria.",
         "nodes": [
             {
                 "id": "amg",
@@ -424,10 +483,10 @@ CLINICAL_REGISTRY = {
         "definition": "Patrón dominante de grandeza (en la fantasía o en el comportamiento), necesidad de admiración constante y profunda falta de empatía, que comienza en las primeras etapas de la edad adulta y está presente en diversos contextos.",
         "dsm5_requirement": "Para el diagnóstico se exige cumplir como mínimo 5 de los 9 criterios siguientes:",
         "textbooks": [
-            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
-            "Kernberg, O. F.: Trastornos Graves de la Personalidad (El Manual Moderno)",
-            "Ronningstam, E.: Identifying and Understanding the Narcissistic Personality (Oxford University Press)",
-            "Kohut, H.: El Análisis del Self (Amorrortu Editores)"
+            "American Psychiatric Association. DSM-5-TR. 2022.",
+            "Pincus AL, Lukowitsky MR. Annu Rev Clin Psychol. 2010;6:421-446.",
+            "Mohajerin B, Howard R, Pincus AL. Clin Psychol Psychother. 2026;33(2):e70247.",
+            "Kernberg, O. F.: Trastornos Graves de la Personalidad (El Manual Moderno)"
         ],
         "dsm5_criteria": [
             "Sentimientos de grandeza y prepotencia (exagera logros y talentos, espera ser reconocido como superior).",
@@ -475,6 +534,16 @@ CLINICAL_REGISTRY = {
                 "ref": "Scalabrini et al. (2017, Hum Brain Mapp)"
             }
         },
+        "therapies": [
+            {
+                "name": "Ensayo Clínico Mohajerin et al. (2026)",
+                "author": "Clinical Psychology & Psychotherapy (114 pacientes)",
+                "focus": "Comparación directa entre Terapia de Esquemas (ST) y Protocolo Unificado (UP).",
+                "components": "ST focalizada en modos tempranos desadaptativos vs. UP focalizado en regulación emocional transdiagnóstica de Barlow.",
+                "target": "Ambos redujeron significativamente síntomas. ST demostró mayor eficacia modificando patrones interpersonales arraigados, mientras que UP fue superior en regular reactividad emocional aguda ante la crítica."
+            }
+        ],
+        "psychopharm_pearl": "El tratamiento farmacológico no altera la estructura caracterológica de la grandiosidad ni la falta de empatía. Se reserva para comorbilidades afectivas graves, especialmente episodios depresivos mayores tras el colapso de la fachada narcisista.",
         "nodes": [
             {
                 "id": "dacc",
@@ -491,7 +560,7 @@ CLINICAL_REGISTRY = {
                 "example": "Si en una reunión no se aprueba de inmediato su propuesta, experimenta una afrenta personal intolerable.",
                 "healthy_desc": "Procesamiento de evaluación social equilibrado sin reactividad defensiva desmedida.",
                 "patient_desc": "Pico de activación fásica del dACC ('herida narcisista') ante la crítica o falta de pleitesía.",
-                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo procesa una amenaza directa a la valía personal, facilitando respuestas de frialdad punitiva o revancha calculada."
+                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo detecta una ofensa mortal a su estatus, detonando una respuesta de furia fría o venganza calculada."
             },
             {
                 "id": "vmpfc",
@@ -609,10 +678,10 @@ CLINICAL_REGISTRY = {
         "definition": "Patrón dominante de emotividad excesiva y de búsqueda de atención continua, que comienza en las primeras etapas de la edad adulta y está presente en diversos contextos.",
         "dsm5_requirement": "Para el diagnóstico se exige cumplir como mínimo 5 de los 8 criterios siguientes:",
         "textbooks": [
-            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
+            "American Psychiatric Association. DSM-5-TR. 2022.",
+            "Bakkevig J, Karterud S. Compr Psychiatry. 2010;51(5):462-470.",
             "Shapiro, D.: Neurotic Styles (Basic Books)",
-            "Millon, T.: Trastornos de la Personalidad en la Vida Moderna (Masson)",
-            "Horowitz, M. J.: Hysterical Personality Style and the Histrionic Personality Disorder (Aronson)"
+            "Millon, T.: Trastornos de la Personalidad en la Vida Moderna (Masson)"
         ],
         "dsm5_criteria": [
             "Se siente incómodo en situaciones en las que no es el centro de atención.",
@@ -659,6 +728,16 @@ CLINICAL_REGISTRY = {
                 "ref": "Shapiro (Neurotic Styles) | Kernberg"
             }
         },
+        "therapies": [
+            {
+                "name": "Validez del Constructo (Bakkevig & Karterud, 2010)",
+                "author": "Comprehensive Psychiatry (Muestra N = 2289)",
+                "focus": "Evaluación psicométrica de los criterios diagnósticos del THP.",
+                "components": "Prevalencia clínica extremadamente baja (0.4%) y baja consistencia interna entre ítems.",
+                "target": "Cuestiona la validez independiente de la categoría diagnóstica pura. En la práctica clínica se superpone ampliamente con rasgos límites y variantes de personalidad histriónica integrada."
+            }
+        ],
+        "psychopharm_pearl": "No existe indicación para psicofármacos como tratamiento del estilo histriónico. Si aparecen crisis de ansiedad aguda o síntomas conversivos, el abordaje psicoterapéutico centrado en la verbalización debe primar para no reforzar la medicalización de la somatización.",
         "nodes": [
             {
                 "id": "amg",
@@ -788,12 +867,27 @@ CLINICAL_REGISTRY = {
     }
 }
 
-# --- Sidebar de Control Clínico ---
+# --- Sidebar de Control Clínico y Acceso a la Presentación ---
 st.sidebar.markdown("### 🎛️ Consola de Neuropsiquiatría")
 selected_disorder = st.sidebar.selectbox("Entidad Patológica:", list(CLINICAL_REGISTRY.keys()))
 view_selector = st.sidebar.radio("Nivel de Representación 3D:", ["1. Conectoma & Tractografía DTI", "2. Matriz de Discapacidad Funcional (WHODAS / CIE-11)"])
 
 current_data = CLINICAL_REGISTRY[selected_disorder]
+
+# Acceso directo al PowerPoint / PDF en la barra lateral
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 📥 Material de Presentación")
+pdf_path = "Trastornos_de_la_Personalidad_Cluster_B_(6).pdf"
+if os.path.exists(pdf_path):
+    with open(pdf_path, "rb") as f:
+        st.sidebar.download_button(
+            label="📄 Descargar Presentación (PDF)",
+            data=f,
+            file_name="Presentacion_Cluster_B_Ponce_Labella.pdf",
+            mime="application/pdf"
+        )
+else:
+    st.sidebar.info("💡 Colocá el archivo PDF o PPTX en el repo para habilitar la descarga directa.")
 
 # --- Encabezado ---
 st.title(selected_disorder)
@@ -1152,7 +1246,6 @@ html_webgl = f"""
         aura.position.copy(mesh.position);
         modelGroup.add(aura);
 
-        // Botón corregido con nombre exacto sin recortar
         const btn = document.createElement('span');
         btn.className = 'menu-item';
         btn.innerText = n.btn_label;
@@ -1337,14 +1430,16 @@ components.html(html_webgl, height=660, scrolling=False)
 # -------------------------------------------------------------------------
 st.markdown("---")
 
-tab_neuro, tab_diag, tab_case, tab_social = st.tabs([
+tab_neuro, tab_diag, tab_treat, tab_diff, tab_case, tab_social = st.tabs([
     "🔬 Neuroimagen Comparativa", 
     "📖 Compendio Diagnóstico & Criterios", 
+    "💊 Abordaje Terapéutico & Evidencia",
+    "🧭 Formulación Clínica & Diferencial",
     "📋 Viñeta Clínica & Salvedad", 
     "📊 Matriz de Discapacidad WHODAS"
 ])
 
-# ----------------- SOLAPA 1: NEUROIMAGEN COMPARATIVA VISUAL (CORTE ANATÓMICO ELEVADO) -----------------
+# ----------------- SOLAPA 1: NEUROIMAGEN COMPARATIVA VISUAL -----------------
 with tab_neuro:
     st.subheader("Esquemas Anatómicos de Neuroimagen: Sujeto Control vs. Cuadro Clínico")
     st.caption("Cortes encefálicos con delimitación de corteza, ventrículos, surcos y mapa de calor fMRI BOLD focalizado")
@@ -1356,14 +1451,12 @@ with tab_neuro:
 
     active_node = next(n for n in current_data["nodes"] if n["name"] == selected_node_name)
 
-    # Renderizado anatómico vectorial con orientación clínica precisa
     def render_medical_svg(struct_id, is_patient, color_hex):
         focal_color = color_hex if is_patient else "#10b981"
         pulse_op = "0.88" if is_patient else "0.35"
         label_text = "PATRÓN DE SEÑAL ANÓMALO" if is_patient else "ACTIVACIÓN CONTROLADA"
         
         if struct_id == "amg":
-            # Corte Coronal a nivel temporal
             return f"""
             <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
                 <path d="M 60 130 C 50 80, 80 40, 180 35 C 280 40, 310 80, 300 130 C 295 160, 275 190, 240 190 C 215 190, 205 165, 180 165 C 155 165, 145 190, 120 190 C 85 190, 65 160, 60 130 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
@@ -1388,17 +1481,13 @@ with tab_neuro:
             </svg>
             """
         elif struct_id == "vmpfc" or struct_id == "dacc":
-            # Corte Sagital Medial: Orientación Anterior (Izquierda) - Posterior (Derecha) estricta
             target_cx = "115" if struct_id == "vmpfc" else "175"
             target_cy = "142" if struct_id == "vmpfc" else "90"
             tag_name = "vmPFC (SUELO FRONTAL ANTERIOR)" if struct_id == "vmpfc" else "dACC (ARCO SUPRACALLOSO)"
             return f"""
             <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Perfil sagital: Polo Frontal Anterior a la izquierda, Occipital a la derecha -->
                 <path d="M 90 145 C 60 130, 65 75, 120 40 C 180 35, 270 45, 290 115 C 295 145, 270 170, 235 170 C 205 170, 195 190, 160 190 C 135 190, 120 165, 90 145 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
-                <!-- Cuerpo Calloso (Arco cian anatómico) -->
                 <path d="M 140 118 C 150 88, 215 88, 225 118" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
-                <!-- Cerebelo y fosa posterior a la derecha -->
                 <path d="M 230 165 C 255 170, 270 190, 245 195 C 225 195, 215 180, 230 165 Z" fill="#0f172a" stroke="#1e293b"/>
                 
                 <circle cx="{target_cx}" cy="{target_cy}" r="22" fill="{focal_color}" opacity="{pulse_op}">
@@ -1411,7 +1500,6 @@ with tab_neuro:
             </svg>
             """
         else:
-            # Corte Axial Medio (Ínsula o Accumbens)
             return f"""
             <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
                 <ellipse cx="180" cy="115" rx="98" ry="80" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
@@ -1481,7 +1569,78 @@ with tab_diag:
         for book in current_data["textbooks"]:
             st.markdown(f"* 📚 {book}")
 
-# ----------------- SOLAPA 3: VIÑETA CLÍNICA ILUSTRATIVA -----------------
+# ----------------- SOLAPA 3: ABORDAJE TERAPÉUTICO Y EVIDENCIA -----------------
+with tab_treat:
+    st.markdown("### Psicoterapias Especializadas y Evidencia Clínica")
+    st.caption("Modelos basados en la evidencia para el abordaje de trastornos de la personalidad")
+    
+    if "therapies" in current_data:
+        t_cols = st.columns(len(current_data["therapies"]))
+        for idx, t in enumerate(current_data["therapies"]):
+            with t_cols[idx]:
+                st.markdown(f"""
+                <div class="therapy-card">
+                    <div style="color: #38bdf8; font-weight: 700; font-size: 0.95rem;">{t['name']}</div>
+                    <div style="color: #94a3b8; font-size: 0.72rem; margin-bottom: 6px;"><i>{t['author']}</i></div>
+                    <div style="font-size: 0.78rem; color: #f8fafc; margin-bottom: 6px;"><b>Foco:</b> {t['focus']}</div>
+                    <div style="font-size: 0.74rem; color: #cbd5e1; margin-bottom: 6px;"><b>Componentes:</b> {t['components']}</div>
+                    <div style="font-size: 0.74rem; color: #38bdf8; border-top: 1px solid #1e293b; padding-top: 6px;"><b>Objetivo:</b> {t['target']}</div>
+                </div>
+                """, unsafe_allow_html=True)
+    
+    # Perla farmacológica
+    st.markdown(f"""
+    <div class="pearl-box">
+        <h4 style="color: #f59e0b; margin: 0 0 6px 0;">💊 Perla Clínica: Psicofarmacología</h4>
+        <p style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.45; margin: 0;">{current_data['psychopharm_pearl']}</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Estudio longitudinal si corresponde (TLP)
+    if "longitudinal_data" in current_data:
+        ld = current_data["longitudinal_data"]
+        st.markdown(f"#### 📈 {ld['title']}")
+        l1, l2, l3 = st.columns(3)
+        l1.metric("Remisión Sintomática (>2 años)", "86%", "Zanarini et al.")
+        l2.metric("Remisión Sintomática (>4 años)", "93%", "Zanarini et al.")
+        l3.metric("Recuperación Funcional Plena", "50%", "Brecha Funcional", delta_color="inverse")
+        st.caption(f"**Conclusión Clínica:** {ld['key_takeaway']}")
+
+# ----------------- SOLAPA 4: FORMULACIÓN CLÍNICA Y DIFERENCIAL -----------------
+with tab_diff:
+    st.markdown("### Formulación Clínica en 6 Pasos")
+    st.caption("De la conducta observable al plan de tratamiento sin recurrir a etiquetas prematuras (APA, 2022; Sharp et al., 2025)")
+    
+    step_cols = st.columns(6)
+    steps = [
+        {"num": "1", "title": "Describir", "desc": "Conductas observables sin juicio previo ni diagnósticos apresurados."},
+        {"num": "2", "title": "Evolución", "desc": "Línea de tiempo: ¿Es un rasgo persistente o un episodio reactivo?"},
+        {"num": "3", "title": "Análisis Funcional", "desc": "Antecedentes y consecuencias: ¿Qué precede y sigue a la conducta?"},
+        {"num": "4", "title": "Hipótesis", "desc": "Integrar la función adaptativa o desadaptativa de la conducta."},
+        {"num": "5", "title": "Contrastar", "desc": "Descartar diagnósticos alternativos (bipolaridad, consumo, trauma)."},
+        {"num": "6", "title": "Objetivos", "desc": "Metas terapéuticas concretas, medibles y evaluables en el tiempo."}
+    ]
+    for idx, s in enumerate(steps):
+        with step_cols[idx]:
+            st.markdown(f"""
+            <div style="background: #0b1329; border: 1px solid #1e293b; padding: 10px; border-radius: 6px; text-align: center; min-height: 130px;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 1.1rem;">{s['num']}</div>
+                <div style="font-weight: 700; font-size: 0.80rem; color: #f8fafc; margin-bottom: 4px;">{s['title']}</div>
+                <div style="font-size: 0.70rem; color: #94a3b8; line-height: 1.3;">{s['desc']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+    st.markdown("---")
+    st.markdown("#### Diagnóstico Diferencial Comparativo del Cluster B")
+    diff_table = {
+        "Trastorno": ["Límite (TLP)", "Narcisista (TNP)", "Histriónico (THP)", "Antisocial (TAP)"],
+        "Patrón Nuclear": ["Inestabilidad afectiva y terror al abandono", "Grandiosidad defensiva y falta de empatía", "Emotividad excesiva y búsqueda de atención", "Desprecio y vulneración de normas y derechos"],
+        "Pregunta Orientadora": ["¿Cómo se regula ante el estrés interpersonal?", "¿Cómo reacciona ante la crítica o falta de halago?", "¿Qué hace cuando no logra ser el centro de atención?", "¿Qué patrón evolutivo explica la transgresión previa a los 15 años?"],
+        "Error Habitual a Evitar": ["Reducir el cuadro a autolesiones aisladas", "Confundir la grandiosidad frágil con autoestima sana", "Interpretar la teatralidad como manipulación fría", "Equiparar conducta delictiva con psicopatología"]
+    }
+    st.table(diff_table)
+
+# ----------------- SOLAPA 5: VIÑETA CLÍNICA ILUSTRATIVA -----------------
 with tab_case:
     cv = current_data["case_vignette"]
     st.markdown(f"""
@@ -1498,7 +1657,7 @@ with tab_case:
     </div>
     """, unsafe_allow_html=True)
 
-# ----------------- SOLAPA 4: MATRIZ DE DISCAPACIDAD WHODAS 2.0 (SIMÉTRICA) -----------------
+# ----------------- SOLAPA 6: MATRIZ DE DISCAPACIDAD WHODAS 2.0 -----------------
 with tab_social:
     st.markdown("### Matriz de Discapacidad Funcional y Ruptura Relacional")
     st.caption("Alineada con el modelo dimensional de la CIE-11 y estudios longitudinales basados en la escala WHODAS 2.0 (OMS)")
@@ -1507,7 +1666,7 @@ with tab_social:
     for idx, item in enumerate(current_data["whodas_matrix"]):
         with matrix_cols[idx]:
             st.markdown(f"""
-            <div class="whodas-card" style="border-top: 4px solid {item['color']};">
+            <div style="background: #0b1329; border: 1px solid #1e293b; border-top: 4px solid {item['color']}; padding: 12px; border-radius: 6px; min-height: 250px; display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                     <div style="font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">{item['domain']}</div>
                     <div style="font-size: 0.86rem; font-weight: 800; color: {item['color']}; margin: 6px 0;">{item['pct_label']}</div>
