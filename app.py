@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estética de consola médica de neuropsiquiatría
+# Estética de consola médica de neuropsiquiatría con simetría visual estricta
 st.markdown("""
 <style>
     .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -17,7 +17,7 @@ st.markdown("""
     
     .evidence-panel {
         background: #0b1329; border: 1px solid #1e293b; border-left: 3px solid #38bdf8;
-        padding: 12px 14px; border-radius: 8px; margin-bottom: 8px; min-height: 155px;
+        padding: 12px 14px; border-radius: 8px; margin-bottom: 8px; min-height: 160px;
     }
     .evidence-header { font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.06em; }
     .evidence-title { font-size: 1.02rem; font-weight: 800; color: #38bdf8; font-family: ui-monospace, Menlo, monospace; margin: 2px 0; }
@@ -35,6 +35,12 @@ st.markdown("""
     .rule-badge {
         display: inline-block; background: #0284c7; color: #ffffff; font-weight: 700;
         font-size: 0.76rem; padding: 4px 10px; border-radius: 12px; margin-bottom: 10px;
+    }
+    
+    /* Unificación simétrica de tarjetas WHODAS */
+    .whodas-card {
+        background: #0b1329; border: 1px solid #1e293b; padding: 14px; border-radius: 8px;
+        min-height: 255px; display: flex; flex-direction: column; justify-content: space-between;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -105,6 +111,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Basolateral",
+                "btn_label": "Amígdala",
                 "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.9, -0.6, -1.3],
@@ -121,6 +128,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "vmpfc",
                 "name": "Corteza Prefrontal Ventromedial (vmPFC)",
+                "btn_label": "vmPFC",
                 "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
@@ -137,6 +145,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "dacc",
                 "name": "Cíngulo Anterior Dorsal (dACC)",
+                "btn_label": "dACC",
                 "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso (Áreas 24/32)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 1.8, 1.8],
@@ -153,6 +162,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula Anterior Agranular",
+                "btn_label": "Ínsula",
                 "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
                 "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
@@ -284,6 +294,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala (Hipoactiva)",
+                "btn_label": "Amígdala",
                 "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.9, -0.6, -1.3],
@@ -300,6 +311,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Polo Moral Desconectado)",
+                "btn_label": "vmPFC",
                 "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
@@ -316,6 +328,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "accumbens",
                 "name": "Núcleo Accumbens (Estriado)",
+                "btn_label": "Accumbens",
                 "region_loc": "Suelo del Estriado Ventral Anterior",
                 "plane": "Corte Coronal Basal",
                 "coords": [1.0, 1.1, -0.7],
@@ -332,6 +345,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula Anterior (Anestesiada)",
+                "btn_label": "Ínsula",
                 "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
                 "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
@@ -465,6 +479,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "dacc",
                 "name": "dACC (Radar de Jerarquía)",
+                "btn_label": "dACC",
                 "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso (Áreas 24/32)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 1.8, 1.8],
@@ -476,11 +491,12 @@ CLINICAL_REGISTRY = {
                 "example": "Si en una reunión no se aprueba de inmediato su propuesta, experimenta una afrenta personal intolerable.",
                 "healthy_desc": "Procesamiento de evaluación social equilibrado sin reactividad defensiva desmedida.",
                 "patient_desc": "Pico de activación fásica del dACC ('herida narcisista') ante la crítica o falta de pleitesía.",
-                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo detecta una ofensa mortal a su estatus, detonando una respuesta de furia fría o venganza calculada."
+                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo procesa una amenaza directa a la valía personal, facilitando respuestas de frialdad punitiva o revancha calculada."
             },
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Autoimagen Grandiosa)",
+                "btn_label": "vmPFC",
                 "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
@@ -497,6 +513,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala (Rabia Narcisista)",
+                "btn_label": "Amígdala",
                 "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.8, -0.6, -1.3],
@@ -513,6 +530,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula (Empatía Afectiva Desconectada)",
+                "btn_label": "Ínsula",
                 "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
                 "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
@@ -645,6 +663,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Límbica",
+                "btn_label": "Amígdala",
                 "region_loc": "Polo Medial del Lóbulo Temporal Profundo (adyacente al asta temporal)",
                 "plane": "Corte Coronal Anterior",
                 "coords": [1.8, -0.6, -1.3],
@@ -661,6 +680,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "accumbens",
                 "name": "Núcleo Accumbens Social",
+                "btn_label": "Accumbens",
                 "region_loc": "Suelo del Estriado Ventral Anterior",
                 "plane": "Corte Coronal Basal",
                 "coords": [1.0, 1.1, -0.7],
@@ -677,6 +697,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula Somatosensorial",
+                "btn_label": "Ínsula",
                 "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
                 "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
@@ -693,6 +714,7 @@ CLINICAL_REGISTRY = {
             {
                 "id": "vmpfc",
                 "name": "vmPFC Impresionista",
+                "btn_label": "vmPFC",
                 "region_loc": "Suelo Anterior Basal del Lóbulo Frontal (Áreas 10/11 de Brodmann)",
                 "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
@@ -822,7 +844,7 @@ with col4:
     """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Motor WebGL Three.js con Leyenda Interactiva Estable y Voz Corregida
+# Motor WebGL Three.js con Botones Precisos y Etiquetas
 # -------------------------------------------------------------------------
 payload = {
     "view": view_selector,
@@ -856,11 +878,11 @@ html_webgl = f"""
       position: absolute; bottom: 20px; left: 16px; z-index: 100;
       background: rgba(11, 19, 41, 0.90); backdrop-filter: blur(12px);
       border: 1px solid #1e293b; border-radius: 8px;
-      padding: 10px 14px; color: #cbd5e1; font-size: 0.74rem; max-width: 380px;
+      padding: 10px 14px; color: #cbd5e1; font-size: 0.74rem; max-width: 420px;
     }}
     .menu-item {{
       display: inline-block; background: #1e293b; color: #f8fafc; border: 1px solid #334155;
-      padding: 4px 8px; margin: 3px 2px; border-radius: 4px; cursor: pointer; font-size: 0.72rem;
+      padding: 5px 10px; margin: 3px 2px; border-radius: 4px; cursor: pointer; font-size: 0.74rem; font-weight: 600;
     }}
     .menu-item:hover {{ background: #0284c7; border-color: #38bdf8; }}
     
@@ -896,10 +918,10 @@ html_webgl = f"""
     </div>
     <div id="hud">
       <div id="hud-head" class="hud-title">Conectoma 3D Interactivo</div>
-      <div id="hud-body" class="hud-desc">Arrastra libremente con el ratón para rotar el encéfalo en 360° o usa la rueda para zoom.<br><br><b>Haz clic en cualquier estructura rotulada</b> para escuchar su análisis clínico, analogías y citas.</div>
+      <div id="hud-body" class="hud-desc">Arrastra libremente con el ratón para rotar el encéfalo en 360° o usa la rueda para zoom.<br><br><b>Haz clic en cualquier estructura</b> para escuchar su análisis clínico, analogías y citas.</div>
     </div>
     <div id="selection-menu">
-      <div style="font-weight: 700; color: #38bdf8; margin-bottom: 4px;">Explorar Elementos:</div>
+      <div style="font-weight: 700; color: #38bdf8; margin-bottom: 4px;">Explorar Estructuras / Dominios:</div>
       <div id="menu-items-container"></div>
     </div>
   </div>
@@ -1097,7 +1119,7 @@ html_webgl = f"""
     const menuContainer = document.getElementById('menu-items-container');
 
     if (DATA.view.includes("1.")) {{
-      DATA.nodes.forEach((n, idx) => {{
+      DATA.nodes.forEach((n) => {{
         const geo = new THREE.SphereGeometry(n.rad, 24, 24);
         const mat = new THREE.MeshStandardMaterial({{
           color: n.color,
@@ -1130,9 +1152,10 @@ html_webgl = f"""
         aura.position.copy(mesh.position);
         modelGroup.add(aura);
 
+        // Botón corregido con nombre exacto sin recortar
         const btn = document.createElement('span');
         btn.className = 'menu-item';
-        btn.innerText = n.name.split(" ")[0];
+        btn.innerText = n.btn_label;
         btn.onclick = () => {{
           triggerObjectInspect(mesh);
         }};
@@ -1333,30 +1356,24 @@ with tab_neuro:
 
     active_node = next(n for n in current_data["nodes"] if n["name"] == selected_node_name)
 
-    # Generación de gráficos anatómicos de alta fidelidad estética (SVG médico detallado)
+    # Renderizado anatómico vectorial con orientación clínica precisa
     def render_medical_svg(struct_id, is_patient, color_hex):
         focal_color = color_hex if is_patient else "#10b981"
         pulse_op = "0.88" if is_patient else "0.35"
         label_text = "PATRÓN DE SEÑAL ANÓMALO" if is_patient else "ACTIVACIÓN CONTROLADA"
         
         if struct_id == "amg":
-            # Corte Coronal Médico a nivel de lóbulos temporales
+            # Corte Coronal a nivel temporal
             return f"""
             <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Manto cortical coronal con surcos definidos -->
                 <path d="M 60 130 C 50 80, 80 40, 180 35 C 280 40, 310 80, 300 130 C 295 160, 275 190, 240 190 C 215 190, 205 165, 180 165 C 155 165, 145 190, 120 190 C 85 190, 65 160, 60 130 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
-                <!-- Surcos piales superiores -->
                 <path d="M 120 40 C 130 55, 135 70, 130 85" fill="none" stroke="#1e293b" stroke-width="1.8"/>
                 <path d="M 240 40 C 230 55, 225 70, 230 85" fill="none" stroke="#1e293b" stroke-width="1.8"/>
-                <!-- Cisura sagital interhemisférica -->
                 <line x1="180" y1="35" x2="180" y2="105" stroke="#1e293b" stroke-width="2.5"/>
-                <!-- Ventrículos laterales con asta frontal y cuerpo -->
                 <path d="M 160 88 C 160 70, 172 65, 180 75 C 188 65, 200 70, 200 88 C 200 110, 180 120, 180 120 C 180 120, 160 110, 160 88 Z" fill="#020617" stroke="#38bdf8" stroke-width="1.5" opacity="0.6"/>
-                <!-- Astas temporales profundas -->
                 <ellipse cx="115" cy="150" rx="14" ry="10" fill="#020617" stroke="#1e293b"/>
                 <ellipse cx="245" cy="150" rx="14" ry="10" fill="#020617" stroke="#1e293b"/>
                 
-                <!-- Mapa de calor fMRI en Complejo Amigdalino Bilateral -->
                 <circle cx="125" cy="148" r="22" fill="{focal_color}" opacity="{pulse_op}">
                     <animate attributeName="r" values="18;24;18" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
@@ -1371,48 +1388,39 @@ with tab_neuro:
             </svg>
             """
         elif struct_id == "vmpfc" or struct_id == "dacc":
-            # Corte Sagital Medial Detallado (Cuerpo Calloso, Suelo Frontal, Cerebelo)
-            target_cx = "235" if struct_id == "vmpfc" else "185"
-            target_cy = "135" if struct_id == "vmpfc" else "92"
-            tag_name = "vmPFC (SUELO FRONTAL MEDIAL)" if struct_id == "vmpfc" else "dACC (ARCO DEL CÍNGULO)"
+            # Corte Sagital Medial: Orientación Anterior (Izquierda) - Posterior (Derecha) estricta
+            target_cx = "115" if struct_id == "vmpfc" else "175"
+            target_cy = "142" if struct_id == "vmpfc" else "90"
+            tag_name = "vmPFC (SUELO FRONTAL ANTERIOR)" if struct_id == "vmpfc" else "dACC (ARCO SUPRACALLOSO)"
             return f"""
             <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Perfil medial hemisférico -->
-                <path d="M 75 145 C 50 105, 80 40, 170 35 C 255 35, 295 75, 295 130 C 295 150, 270 160, 235 160 C 205 160, 185 190, 150 190 C 120 190, 105 165, 75 145 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
-                <!-- Cuerpo Calloso continuo (Arco grueso característico) -->
-                <path d="M 135 118 C 145 88, 215 88, 230 118" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
-                <!-- Surco del cíngulo -->
-                <path d="M 130 102 C 145 72, 220 72, 240 105" fill="none" stroke="#1e293b" stroke-width="1.8"/>
-                <!-- Fosa posterior: Cerebelo y Tronco -->
-                <path d="M 90 148 C 80 180, 120 190, 130 170 Z" fill="#0f172a" stroke="#1e293b"/>
-                <path d="M 130 160 L 150 190 L 165 190" fill="none" stroke="#1e293b" stroke-width="2"/>
+                <!-- Perfil sagital: Polo Frontal Anterior a la izquierda, Occipital a la derecha -->
+                <path d="M 90 145 C 60 130, 65 75, 120 40 C 180 35, 270 45, 290 115 C 295 145, 270 170, 235 170 C 205 170, 195 190, 160 190 C 135 190, 120 165, 90 145 Z" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
+                <!-- Cuerpo Calloso (Arco cian anatómico) -->
+                <path d="M 140 118 C 150 88, 215 88, 225 118" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+                <!-- Cerebelo y fosa posterior a la derecha -->
+                <path d="M 230 165 C 255 170, 270 190, 245 195 C 225 195, 215 180, 230 165 Z" fill="#0f172a" stroke="#1e293b"/>
                 
-                <!-- Foco Funcional BOLD -->
                 <circle cx="{target_cx}" cy="{target_cy}" r="22" fill="{focal_color}" opacity="{pulse_op}">
                     <animate attributeName="r" values="18;25;18" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
                 <circle cx="{target_cx}" cy="{target_cy}" r="9" fill="{focal_color}"/>
                 
-                <text x="180" y="22" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE SAGITAL MEDIAL: {tag_name}</text>
+                <text x="180" y="22" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE SAGITAL: {tag_name}</text>
                 <text x="180" y="215" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
             </svg>
             """
         else:
-            # Corte Axial Medio (Ínsula en profundidad de cisura de Silvio)
+            # Corte Axial Medio (Ínsula o Accumbens)
             return f"""
             <svg width="100%" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
-                <!-- Corte transversal ovoide anatómico -->
                 <ellipse cx="180" cy="115" rx="98" ry="80" fill="#090e1a" stroke="#334155" stroke-width="2.5"/>
-                <!-- Fisura longitudinal sagital -->
                 <line x1="180" y1="35" x2="180" y2="195" stroke="#1e293b" stroke-width="2.5"/>
-                <!-- Cisuras laterales de Silvio profundas bilaterales (opérculo e ínsula) -->
                 <path d="M 82 115 C 115 115, 130 110, 138 98" fill="none" stroke="#334155" stroke-width="2.2"/>
                 <path d="M 278 115 C 245 115, 230 110, 222 98" fill="none" stroke="#334155" stroke-width="2.2"/>
-                <!-- Ventrículos en asta anterior y posterior -->
                 <path d="M 170 85 C 170 70, 190 70, 190 85 C 190 100, 170 100, 170 85 Z" fill="#020617" stroke="#38bdf8" stroke-width="1.2" opacity="0.6"/>
                 <path d="M 172 145 C 172 135, 188 135, 188 145 C 188 158, 172 158, 172 145 Z" fill="#020617" stroke="#38bdf8" stroke-width="1.2" opacity="0.6"/>
                 
-                <!-- Foco Funcional BOLD en Ínsula Anterior -->
                 <circle cx="132" cy="108" r="20" fill="{focal_color}" opacity="{pulse_op}">
                     <animate attributeName="r" values="16;22;16" dur="2.2s" repeatCount="indefinite"/>
                 </circle>
@@ -1427,9 +1435,8 @@ with tab_neuro:
             </svg>
             """
 
-    # Componente visual comparativo ampliado para evitar cualquier corte de texto
     comp_html = f"""
-    <div style="display: flex; gap: 16px; font-family: -apple-system, sans-serif; height: 100%; box-sizing: border-box;">
+    <div style="display: flex; gap: 16px; font-family: -apple-system, sans-serif; box-sizing: border-box;">
         <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid #10b981; padding: 16px; border-radius: 8px;">
             <div style="color: #10b981; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">🟢 Sujeto Control Sano (Homeostasis)</div>
             <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']}<br><b>Localización:</b> {active_node['region_loc']}</div>
@@ -1449,7 +1456,7 @@ with tab_neuro:
         </div>
     </div>
     """
-    components.html(comp_html, height=470, scrolling=False)
+    components.html(comp_html, height=480, scrolling=False)
 
 # ----------------- SOLAPA 2: COMPENDIO NOSOLÓGICO Y CRITERIOS -----------------
 with tab_diag:
@@ -1491,7 +1498,7 @@ with tab_case:
     </div>
     """, unsafe_allow_html=True)
 
-# ----------------- SOLAPA 4: MATRIZ DE DISCAPACIDAD WHODAS 2.0 -----------------
+# ----------------- SOLAPA 4: MATRIZ DE DISCAPACIDAD WHODAS 2.0 (SIMÉTRICA) -----------------
 with tab_social:
     st.markdown("### Matriz de Discapacidad Funcional y Ruptura Relacional")
     st.caption("Alineada con el modelo dimensional de la CIE-11 y estudios longitudinales basados en la escala WHODAS 2.0 (OMS)")
@@ -1500,10 +1507,14 @@ with tab_social:
     for idx, item in enumerate(current_data["whodas_matrix"]):
         with matrix_cols[idx]:
             st.markdown(f"""
-            <div style="background: #0b1329; border: 1px solid #1e293b; border-top: 4px solid {item['color']}; padding: 12px; border-radius: 6px; min-height: 240px;">
-                <div style="font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">{item['domain']}</div>
-                <div style="font-size: 0.86rem; font-weight: 800; color: {item['color']}; margin: 6px 0;">{item['pct_label']}</div>
-                <div style="font-size: 0.72rem; color: #cbd5e1; line-height: 1.35; margin-bottom: 8px;"><b>Patrón conductual:</b><br>{item['clinical_correlate']}</div>
-                <div style="font-size: 0.68rem; color: #64748b; border-top: 1px solid #1e293b; padding-top: 6px; font-style: italic;"><b>Base científica:</b><br>{item['scientific_basis']}</div>
+            <div class="whodas-card" style="border-top: 4px solid {item['color']};">
+                <div>
+                    <div style="font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">{item['domain']}</div>
+                    <div style="font-size: 0.86rem; font-weight: 800; color: {item['color']}; margin: 6px 0;">{item['pct_label']}</div>
+                    <div style="font-size: 0.72rem; color: #cbd5e1; line-height: 1.35; margin-bottom: 8px;"><b>Patrón conductual:</b><br>{item['clinical_correlate']}</div>
+                </div>
+                <div style="font-size: 0.68rem; color: #64748b; border-top: 1px solid #1e293b; padding-top: 6px; font-style: italic;">
+                    <b>Base científica:</b><br>{item['scientific_basis']}
+                </div>
             </div>
             """, unsafe_allow_html=True)
