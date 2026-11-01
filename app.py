@@ -45,6 +45,10 @@ st.markdown("""
         background: #0f172a; border: 1px solid #334155; border-left: 4px solid #f59e0b;
         padding: 14px 18px; border-radius: 8px; margin-top: 12px; margin-bottom: 12px;
     }
+    .whodas-card {
+        background: #0b1329; border: 1px solid #1e293b; padding: 14px; border-radius: 8px;
+        min-height: 255px; display: flex; flex-direction: column; justify-content: space-between;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -874,20 +878,33 @@ view_selector = st.sidebar.radio("Nivel de Representación 3D:", ["1. Conectoma 
 
 current_data = CLINICAL_REGISTRY[selected_disorder]
 
-# Acceso directo al PowerPoint / PDF en la barra lateral
+# Acceso directo al PowerPoint y PDF en la barra lateral
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📥 Material de Presentación")
-pdf_path = "Trastornos_de_la_Personalidad_Cluster_B_(6).pdf"
-if os.path.exists(pdf_path):
-    with open(pdf_path, "rb") as f:
+
+pdf_file = "presentacion_cluster_b.pdf"
+pptx_file = "presentacion_cluster_b.pptx"
+
+if os.path.exists(pdf_file):
+    with open(pdf_file, "rb") as f:
         st.sidebar.download_button(
             label="📄 Descargar Presentación (PDF)",
             data=f,
             file_name="Presentacion_Cluster_B_Ponce_Labella.pdf",
             mime="application/pdf"
         )
-else:
-    st.sidebar.info("💡 Colocá el archivo PDF o PPTX en el repo para habilitar la descarga directa.")
+
+if os.path.exists(pptx_file):
+    with open(pptx_file, "rb") as f:
+        st.sidebar.download_button(
+            label="📊 Descargar Presentación (PowerPoint)",
+            data=f,
+            file_name="Presentacion_Cluster_B_Ponce_Labella.pptx",
+            mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        )
+
+if not os.path.exists(pdf_file) and not os.path.exists(pptx_file):
+    st.sidebar.info("💡 Colocá los archivos 'presentacion_cluster_b.pdf' o 'presentacion_cluster_b.pptx' en el repo para habilitar la descarga directa.")
 
 # --- Encabezado ---
 st.title(selected_disorder)
@@ -1588,7 +1605,6 @@ with tab_treat:
                 </div>
                 """, unsafe_allow_html=True)
     
-    # Perla farmacológica
     st.markdown(f"""
     <div class="pearl-box">
         <h4 style="color: #f59e0b; margin: 0 0 6px 0;">💊 Perla Clínica: Psicofarmacología</h4>
@@ -1596,7 +1612,6 @@ with tab_treat:
     </div>
     """, unsafe_allow_html=True)
     
-    # Estudio longitudinal si corresponde (TLP)
     if "longitudinal_data" in current_data:
         ld = current_data["longitudinal_data"]
         st.markdown(f"#### 📈 {ld['title']}")
@@ -1666,7 +1681,7 @@ with tab_social:
     for idx, item in enumerate(current_data["whodas_matrix"]):
         with matrix_cols[idx]:
             st.markdown(f"""
-            <div style="background: #0b1329; border: 1px solid #1e293b; border-top: 4px solid {item['color']}; padding: 12px; border-radius: 6px; min-height: 250px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="whodas-card" style="border-top: 4px solid {item['color']};">
                 <div>
                     <div style="font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">{item['domain']}</div>
                     <div style="font-size: 0.86rem; font-weight: 800; color: {item['color']}; margin: 6px 0;">{item['pct_label']}</div>
