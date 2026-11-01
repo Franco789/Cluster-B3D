@@ -3,13 +3,13 @@ import streamlit.components.v1 as components
 import json
 
 st.set_page_config(
-    page_title="Atlas Neurobiológico & Conectómico del Cluster B",
+    page_title="Atlas Neurobiológico & Nosológico del Cluster B",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Estética de consola quirúrgica limpia y ordenada
+# Estética de consola médica de neuropsiquiatría
 st.markdown("""
 <style>
     .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -20,14 +20,9 @@ st.markdown("""
         padding: 12px 14px; border-radius: 8px; margin-bottom: 8px;
     }
     .evidence-header { font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.06em; }
-    .evidence-title { font-size: 1.05rem; font-weight: 800; color: #38bdf8; font-family: ui-monospace, Menlo, monospace; margin: 2px 0; }
-    .evidence-body { font-size: 0.76rem; color: #cbd5e1; line-height: 1.4; margin-top: 3px; }
+    .evidence-title { font-size: 1.02rem; font-weight: 800; color: #38bdf8; font-family: ui-monospace, Menlo, monospace; margin: 2px 0; }
+    .evidence-body { font-size: 0.75rem; color: #cbd5e1; line-height: 1.4; margin-top: 4px; }
     .evidence-ref { font-size: 0.68rem; color: #64748b; font-style: italic; margin-top: 4px; }
-    
-    .compare-card {
-        background: #090e1a; border: 1px solid #1e293b; border-radius: 8px;
-        padding: 14px 18px; margin-top: 10px; margin-bottom: 12px;
-    }
     
     .clinical-case-box {
         background: #080d1a; border: 1px solid #1e293b; border-left: 4px solid #ef4444;
@@ -37,48 +32,71 @@ st.markdown("""
         background: rgba(15, 23, 42, 0.7); border: 1px solid #334155; border-radius: 6px;
         padding: 8px 14px; font-size: 0.74rem; color: #94a3b8; margin-bottom: 12px; line-height: 1.35;
     }
+    .criteria-box {
+        background: #0d1527; border: 1px solid #1e293b; border-radius: 8px;
+        padding: 16px 20px; margin-top: 15px; margin-bottom: 15px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Base de Datos Neurocientífica, Pedagógica y de Neuroimagen Comparativa
+# Base de Datos Neurocientífica, Pedagógica y Nosológica Completa
 # -------------------------------------------------------------------------
 CLINICAL_REGISTRY = {
     "Trastorno Límite de la Personalidad (TLP)": {
         "short_key": "TLP",
         "circuit_name": "Falla del Freno Frontal & Alarma Desregulada del Dolor Social",
         "color_accent": "#ef4444",
+        "definition": "Patrón persistente de inestabilidad en las relaciones interpersonales, la autoimagen y los afectos, con notable impulsividad, que comienza en las primeras etapas de la edad adulta y se presenta en diversos contextos.",
+        "textbooks": [
+            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
+            "Gabbard: Psiquiatría Psicodinámica en la Práctica Clínica (5.ª Edición, Editorial Médica Panamericana)",
+            "Linehan, M. M.: Terapia Dialéctico-Conductual para el Trastorno Límite de la Personalidad (Guilford Press)",
+            "Kernberg, O. F.: Desórdenes Fronterizos y Narcisismo Patológico (Paidós)"
+        ],
+        "dsm5_criteria": [
+            "1. Esfuerzos desesperados para evitar el desamparo o abandono real o imaginado.",
+            "2. Patrón de relaciones interpersonales inestables e intensas, alternando entre extremos de idealización y devaluación (escisión).",
+            "3. Alteración marcada y persistente de la identidad: inestabilidad de la autoimagen o del sentido del self.",
+            "4. Impulsividad en al menos dos áreas potencialmente dañinas (ej. gastos, abuso de sustancias, atracones, conducción temeraria).",
+            "5. Comportamientos, intentos o amenazas recurrentes de suicidio, o conductas autolesivas no suicidas (CANS).",
+            "6. Inestabilidad afectiva debida a una marcada reactividad del estado de ánimo (disforia, irritabilidad o ansiedad episódica).",
+            "7. Sensación crónica de vacío interior.",
+            "8. Enfado inapropiado e intenso, o dificultad para controlar la ira.",
+            "9. Ideación paranoide transitoria relacionada con el estrés o síntomas disociativos graves."
+        ],
+        "icd11_framework": "CIE-11 codifica el diagnóstico mediante el dominio de Trastorno de la Personalidad clasificado por grado de severidad (Leve, Moderado, Grave), complementado con el calificador de 'Patrón Límite' y los rasgos dimensionales predominantes: Afectividad Negativa, Desinhibición y Disocialidad.",
         "biomarkers": {
             "dti": {
-                "header": "Tractografía de Sustancia Blanca (DTI)",
+                "header": "Resonancia por Tensor de Difusión (DTI)",
                 "title": "Fascículo Uncinado Bilateral",
-                "status": "Aislamiento Axonal Disminuido (Schmahl et al.)",
-                "analogy": "Como un cable de freno deshilachado: la orden de la razón tarda demasiado en llegar a la emoción.",
-                "summary": "Pérdida de integridad microestructural en la vía que comunica la corteza orbitofrontal con la amígdala. El lóbulo frontal no logra frenar a tiempo la tormenta afectiva.",
+                "status": "Anisotropía Fraccional Disminuida (FA < 0.20)",
+                "analogy": "Un cable de freno deshilachado: la orden reguladora emitida por la corteza frontal llega tarde a la amígdala.",
+                "summary": "Pérdida de integridad microestructural en sustancia blanca frontolímbica. La vía eferente orbitofrontal presenta retraso en modular la respuesta afectiva visceral.",
                 "ref": "Schmahl et al. (2014, Biological Psychiatry) | New et al. (2009, NeuroImage)"
             },
             "fmri_amygdala": {
-                "header": "Reactividad Funcional (fMRI / BOLD)",
+                "header": "Resonancia Funcional / BOLD (Nivel de Oxigenación)",
                 "title": "Complejo Amigdalino Basolateral",
-                "status": "Alarma en Hiperactividad Fásica (Ruocco et al.)",
-                "analogy": "Un detector de humo tan descalibrado que suena con fuerza ante el simple vapor de una taza de café.",
-                "summary": "Respuesta desproporcionada ante rostros serios o una demora en responder un mensaje, decodificados como una amenaza inmediata de rechazo o abandono.",
+                "status": "Hiperreactividad Fásica con Retardo en Extinción",
+                "analogy": "Un sensor de humo descalibrado que se activa con el simple vapor de una taza de café.",
+                "summary": "Respuesta desproporcionada ante caras neutras o pausas interpersonales breves, que son codificadas por la amígdala como amenaza inminente de separación o rechazo.",
                 "ref": "Ruocco et al. (2013, Am J Psychiatry meta-análisis de 28 estudios)"
             },
             "fmri_pain": {
-                "header": "Red de Detección de Amenaza (Prominencia)",
+                "header": "Red de Prominencia (Salience Network)",
                 "title": "Cíngulo Dorsal (dACC) e Ínsula Anterior",
-                "status": "Activación Nociceptiva del Rechazo (Eisenberger et al.)",
-                "analogy": "Para el cerebro, la exclusión o el silencio afectivo duele con la misma intensidad que una quemadura en la piel.",
-                "summary": "En pruebas de laboratorio de rechazo social (Cyberball), el cerebro activa los mismos centros del dolor físico agudo, induciendo una desesperación visceral por calmarlo.",
+                "status": "Activación Nociceptiva ante la Exclusión",
+                "analogy": "Para el cerebro, el distanciamiento afectivo genera una señal idéntica a una quemadura física real.",
+                "summary": "En paradigmas experimentales de exclusión (Cyberball), la distancia vincular recluta los mismos circuitos nociceptivos que el dolor somático agudo.",
                 "ref": "Eisenberger & Lieberman (2004, Science) | Domsalla et al. (2014)"
             },
             "ratio": {
-                "header": "Equilibrio Freno - Acelerador",
+                "header": "Acoplamiento Frontolímbico",
                 "title": "Corteza Prefrontal Ventromedial (vmPFC)",
-                "status": "Desconexión del Freno Reflexivo (Cullen et al.)",
-                "analogy": "Un auto con el acelerador atascado y sin líquido en los frenos durante una bajada empinada.",
-                "summary": "Durante los picos de angustia, la corteza reflexiva pierde el control, impidiendo que el paciente pueda calmarse pensando lógicamente las cosas.",
+                "status": "Desacoplamiento Inhibitorio Top-Down",
+                "analogy": "Un pedal de freno que pierde eficacia hidráulica en plena bajada empinada.",
+                "summary": "Dificultad de la corteza prefrontal ventromedial para reclutar recursos reflexivos (mentalización) durante picos de desregulación autonómica elevada.",
                 "ref": "Cullen et al. (2011) | Coccaro et al. (2007)"
             }
         },
@@ -86,34 +104,34 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Basolateral",
-                "plane": "Corte Coronal Anterior (a la altura del lóbulo temporal)",
+                "plane": "Corte Coronal Anterior (polo medial temporal)",
                 "coords": [1.9, -0.6, -1.3],
                 "color": "#ef4444",
                 "rad": 0.40,
                 "hz": 8.0,
-                "status": "HIPERACTIVIDAD FÁSICA",
-                "analogy": "Alarma de incendio ultrasensible que se activa ante el vapor de una taza de café.",
-                "example": "Su pareja tarda 30 minutos en contestar un mensaje y el paciente experimenta taquicardia y pánico como si estuviera frente a un peligro físico mortal.",
-                "healthy_scan": "Verde suave: reactividad baja y regulada ante estímulos neutros.",
-                "patient_scan": "Rojo intenso y brillante: paroxismo BOLD masivo con retardo en apagarse.",
-                "desc": "Detecta peligro y abandono donde solo hay una pausa cotidiana normal.",
-                "voice": "Amígdala basolateral. Imaginemos una alarma de humo tan sensible que suena ante el simple vapor de un café. En el trastorno límite, un mensaje sin responder durante media hora es interpretado como un riesgo vital de abandono. New y Schmahl demostraron que este núcleo no logra apagar la señal de miedo a tiempo."
+                "status": "HIPERTRÓFICA FÁSICA",
+                "analogy": "Sensor de alarma descalibrado que suena ante el mínimo estímulo.",
+                "example": "Una demora de 30 minutos en un mensaje de texto detona taquicardia y pánico de abandono inminente.",
+                "healthy_color": "#10b981",
+                "patient_color": "#ef4444",
+                "desc": "Alarma paroxística; decodifica la neutralidad o la pausa vincular como amenaza inminente.",
+                "voice": "Amígdala basolateral derecha. Imaginemos una alarma de humo ultrasensible que se activa no solo ante el fuego, sino ante el simple vapor de una taza de café. En el trastorno límite, un mensaje sin responder durante media hora es interpretado como un riesgo vital de abandono. New y colaboradores documentaron en NeuroImage que este núcleo presenta un retardo significativo en extinguir la señal de miedo."
             },
             {
                 "id": "vmpfc",
                 "name": "Corteza Prefrontal Ventromedial (vmPFC)",
-                "plane": "Corte Sagital Medial (suelo anterior del lóbulo frontal)",
+                "plane": "Corte Sagital Medial (suelo anterior frontal)",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#38bdf8",
                 "rad": 0.38,
                 "hz": 1.0,
                 "status": "COLAPSO INHIBITORIO",
-                "analogy": "Pedal de freno hidráulico que se queda sin líquido en plena velocidad.",
-                "example": "La persona sabe que romper un celular o autolesionarse no solucionará nada, pero el freno cerebral no tiene fuerza sináptica para parar el impulso.",
-                "healthy_scan": "Azul/Cian activo: modulación inhibitoria continua sobre las emociones.",
-                "patient_scan": "Gris oscuro / Apagado: desconexión funcional transitoria durante la crisis.",
-                "desc": "Pierde la capacidad de reflexionar y tranquilizar al sistema emocional.",
-                "voice": "Corteza prefrontal ventromedial. Es el pedal de freno del cerebro emocional. En este cuadro, el freno pierde eficacia durante la crisis. Aunque la persona comprenda racionalmente que autolesionarse empeorará todo, la corteza no logra ejercer la fuerza necesaria para detener el impulso."
+                "analogy": "Freno hidráulico que pierde presión durante una emergencia.",
+                "example": "El paciente comprende que romper objetos empeorará todo, pero no logra detener el impulso motor en el momento crítico.",
+                "healthy_color": "#06b6d4",
+                "patient_color": "#475569",
+                "desc": "Falla del freno inhibitorio; incapacidad de modular el afecto negativo en crisis.",
+                "voice": "Corteza prefrontal ventromedial. Actúa como el pedal de freno del cerebro emocional. En este cuadro, el freno pierde eficacia hidráulica durante la crisis. Aunque la persona comprenda racionalmente que autolesionarse empeorará la situación, la corteza no logra ejercer la fuerza sináptica necesaria para detener la inercia del impulso."
             },
             {
                 "id": "dacc",
@@ -124,37 +142,37 @@ CLINICAL_REGISTRY = {
                 "rad": 0.42,
                 "hz": 7.2,
                 "status": "DOLOR SOCIAL AGUDO",
-                "analogy": "Un procesador que traduce el desapego en una quemadura física real.",
-                "example": "Una discusión cotidiana se siente literalmente como una herida en el cuerpo; el corte físico busca muchas veces tapar o distraer ese dolor psíquico atroz.",
-                "healthy_scan": "Tono neutro: distingue la incomodidad social del dolor físico real.",
-                "patient_scan": "Naranja y rojo vivo: activación idéntica a una lesión tisular física.",
-                "desc": "Procesa la exclusión afectiva con la misma crudeza que una agresión física.",
-                "voice": "Córtex cingulado anterior dorsal. Es el nodo del dolor social. Naomi Eisenberger demostró en Science que el cerebro procesa la exclusión en los mismos circuitos que una quemadura. Ante el rechazo percibido, este núcleo se enciende con tal fuerza que la autolesión suele buscar mitigar ese dolor psíquico abrumador."
+                "analogy": "Procesador que traduce el desapego en dolor físico visceral.",
+                "example": "Una discusión se vive como una quemadura física; las conductas autolesivas buscan mitigar esa angustia psíquica.",
+                "healthy_color": "#10b981",
+                "patient_color": "#f43f5e",
+                "desc": "Epicentro de la Red de Prominencia; traduce la distancia vincular en angustia física.",
+                "voice": "Córtex cingulado anterior dorsal. Es el nodo central del dolor social. Naomi Eisenberger demostró en la revista Science que el cerebro procesa la exclusión en los mismos circuitos que una quemadura somática. Ante la vivencia de rechazo, este núcleo se activa con tal intensidad que la autolesión suele buscar, de manera disfuncional, atenuar un dolor psíquico que resulta intolerable."
             },
             {
                 "id": "insula",
                 "name": "Ínsula Anterior Agranular",
-                "plane": "Corte Axial Medio (profundidad de la cisura lateral)",
+                "plane": "Corte Axial Medio (profundidad de cisura lateral)",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#e11d48",
                 "rad": 0.36,
                 "hz": 6.5,
-                "status": "MALESTAR INTEROCEPTIVO",
-                "analogy": "El altavoz que traduce la angustia en una sensación de vacío en el pecho.",
-                "example": "Sensación constante de tener un 'hueco en el estómago' que la persona intenta llenar desesperadamente con comida, sustancias o compañía constante.",
-                "healthy_scan": "Actividad fisiológica normal de monitorización visceral del cuerpo.",
-                "patient_scan": "Amarillo brillante: hipersensibilidad interoceptiva y vivencia de vacío crónico.",
-                "desc": "Sustrato del vacío crónico y de la tensión visceral intolerable.",
-                "voice": "Ínsula anterior agranular. Traduce el malestar emocional en sensaciones corporales. Constituye el sustrato de esa vivencia de vacío en el pecho que se describe en consultorio y que precipita intentos urgentes de alivio inmediato."
+                "status": "HIPEREXCITACIÓN INTEROCEPTIVA",
+                "analogy": "El altavoz que proyecta el vacío interno como dolor somático.",
+                "example": "Sensación constante de un vacío físico en el pecho que se intenta calmar con conductas impulsivas.",
+                "healthy_color": "#10b981",
+                "patient_color": "#e11d48",
+                "desc": "Sustrato neurofisiológico de la vivencia de vacío crónico y malestar visceral.",
+                "voice": "Ínsula anterior agranular. Traduce el malestar afectivo en sensaciones corporales. Constituye el sustrato de esa vivencia de vacío interior o dolor en el pecho que se describe con frecuencia en la clínica y que precipita intentos de alivio inmediato."
             }
         ],
         "tracts": [
             {
-                "from": [1.8, -0.6, -1.3], "to": [0.0, 3.8, -0.8], "ctrl": [2.6, 1.5, -1.6],
-                "name": "Fascículo Uncinado",
+                "from": [1.9, -0.6, -1.3], "to": [0.0, 3.8, -0.8], "ctrl": [2.6, 1.5, -1.6],
+                "name": "Fascículo Uncinado Derecho",
                 "status": "broken",
-                "analogy": "Un cable de fibra óptica roto por donde la señal de calma llega tarde.",
-                "voice": "Fascículo uncinado. Es la vía de sustancia blanca que conecta la corteza frontal con la amígdala. En el trastorno límite presenta desorganización microestructural, retrasando la llegada de la señal reguladora."
+                "desc": "Tracto axonómico desmielinizado; pérdida de anisotropía fraccional (DTI).",
+                "voice": "Fascículo uncinado derecho. Es la vía de sustancia blanca que conecta la corteza frontal con la amígdala. En el trastorno límite, este canal presenta una desorganización microestructural que retrasa la llegada de la señal reguladora."
             }
         ],
         "case_vignette": {
@@ -164,37 +182,42 @@ CLINICAL_REGISTRY = {
         },
         "whodas_matrix": [
             {
-                "domain": "Esfera Conyugal & Apego (CIE-11)",
-                "pct_label": "Prevalencia observada: ~96%",
-                "scientific_basis": "Cohorte CLPS (Collaborative Longitudinal Personality Disorders Study, Gunderson et al., 2011; Zanarini et al., 2012): el 96% de los pacientes presenta antecedentes de inestabilidad conyugal severa, escisión vincular o rupturas conflictivas recurrentes.",
+                "domain": "Esfera Conyugal & Apego",
+                "short_label": "Apego",
+                "pct_label": "Aproximadamente un 96 por ciento de prevalencia observada",
+                "scientific_basis": "Cohorte CLPS (Collaborative Longitudinal Personality Disorders Study, Gunderson et al., 2011; Zanarini et al., 2012): el 96% de los pacientes evaluados presenta antecedentes de inestabilidad conyugal severa o rupturas conflictivas recurrentes.",
                 "color": "#ef4444",
                 "clinical_correlate": "Mecanismos de escisión o splitting. La figura de apego oscila entre la idealización y el rechazo extremo ante la mínima sospecha de abandono."
             },
             {
-                "domain": "Servicios de Urgencia & Salud Mental",
-                "pct_label": "Prevalencia observada: ~92%",
-                "scientific_basis": "Zanarini et al. (2008, Am J Psychiatry, seguimiento a 10 años): el 92% de los pacientes diagnosticados requirió al menos una admisión de urgencia o internación por conductas autolesivas no suicidas o crisis de angustia.",
+                "domain": "Servicio de Guardia & Urgencias",
+                "short_label": "Urgencias",
+                "pct_label": "Aproximadamente un 92 por ciento de frecuentación en crisis",
+                "scientific_basis": "Zanarini et al. (2008, Am J Psychiatry, seguimiento a 10 años): el 92% de los pacientes diagnosticados requirió al menos una admisión de urgencia por conductas autolesivas o crisis afectivas.",
                 "color": "#ef4444",
-                "clinical_correlate": "Utilización reiterada de servicios de guardia motivada por conductas autolesivas no suicidas o desregulaciones afectivas paroxísticas."
+                "clinical_correlate": "Utilización reiterada de servicios de guardia motivada por conductas autolesivas no suicidas o desregulaciones afectivas agudas."
             },
             {
                 "domain": "Cohesión del Self & Identidad",
-                "pct_label": "Prevalencia observada: ~94%",
+                "short_label": "Identidad",
+                "pct_label": "Aproximadamente un 94 por ciento de compromiso identitario",
                 "scientific_basis": "Criterio de Difusión de Identidad (DSM-5 Sección III / Kernberg, 2006): el 94% de los casos reporta sensación crónica de vacío, incertidumbre vocacional y labilidad en la autoimagen.",
                 "color": "#f43f5e",
                 "clinical_correlate": "Vivencia de vacío interior; adaptación maleable de valores o metas personales a la figura cercana para evitar la soledad."
             },
             {
-                "domain": "Red Familiar Primaria (WHODAS 2.0)",
-                "pct_label": "Prevalencia observada: ~88%",
-                "scientific_basis": "Estudios de carga familiar en TLP (Bailey & Grenyer, 2013; Skodol et al., 2005): el 88% de las familias de origen puntúa en rangos de sobrecarga y desgaste emocional severo.",
+                "domain": "Red Familiar Primaria",
+                "short_label": "Familia",
+                "pct_label": "Aproximadamente un 88 por ciento de sobrecarga en cuidadores",
+                "scientific_basis": "Estudios de sobrecarga familiar (Bailey & Grenyer, 2013; Skodol et al., 2005): el 88% de las familias de origen puntúa en rangos de sobrecarga y desgaste emocional severo.",
                 "color": "#fb923c",
                 "clinical_correlate": "Convivencia marcada por hiperalerta y desgaste afectivo en cuidadores primarios frente a la imprevisibilidad de las crisis."
             },
             {
-                "domain": "Funcionamiento Laboral / Académico",
-                "pct_label": "Prevalencia observada: ~72%",
-                "scientific_basis": "Estudio CLPS (Skodol et al., 2002): el 72% de la muestra evidencia interrupciones prolongadas de empleo o estudios secundarios/superiores por desregulación interpersonal.",
+                "domain": "Funcionamiento Laboral",
+                "short_label": "Laboral",
+                "pct_label": "Aproximadamente un 72 por ciento de discontinuidad",
+                "scientific_basis": "Estudio CLPS (Skodol et al., 2002): el 72% de la muestra evidencia interrupciones prolongadas de empleo o estudios por desregulación interpersonal.",
                 "color": "#eab308",
                 "clinical_correlate": "Dificultad para sostener proyectos sistemáticos a mediano plazo por fricciones interpersonales con compañeros o superiores."
             }
@@ -204,37 +227,54 @@ CLINICAL_REGISTRY = {
         "short_key": "TASP",
         "circuit_name": "Ablación Funcional Frontolímbica & Falla de Aversión Moral",
         "color_accent": "#f59e0b",
+        "definition": "Patrón dominante de inatención y vulneración de los derechos de los demás, que se produce desde los 15 años de edad (con antecedentes de trastorno de conducta antes de dicha edad), manifestado por incumplimiento de normas sociales, engaño, impulsividad e irritabilidad.",
+        "textbooks": [
+            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
+            "Hare, R. D.: Manual for the Revised Psychopathy Checklist (PCL-R, Multi-Health Systems)",
+            "Cleckley, H.: The Mask of Sanity (Mosby Medical)",
+            "Blair, J. et al.: The Psychopath: Emotion and the Brain (Blackwell Publishing)"
+        ],
+        "dsm5_criteria": [
+            "1. Incumplimiento de las normas sociales respecto a los comportamientos legales (detenciones reiteradas).",
+            "2. Engaño manifiesto por mentiras repetidas, uso de alias o estafa para provecho o placer personal.",
+            "3. Impulsividad o fracaso para planear con antelación.",
+            "4. Irritabilidad y agresividad, manifestada por peleas o agresiones físicas repetidas.",
+            "5. Desatención imprudente de la seguridad propia o de los demás.",
+            "6. Irresponsabilidad constante, manifestada por la incapacidad de mantener un trabajo o liquidar deudas.",
+            "7. Ausencia de remordimiento, manifestada con indiferencia o racionalización tras haber herido o robado a alguien."
+        ],
+        "icd11_framework": "CIE-11 define la disfunción de la personalidad clasificando el grado de severidad e identifica el dominio de 'Disocialidad' (marcado desprecio por los derechos de los demás, insensibilidad, hostilidad e instrumentalización interpersonal sin culpa).",
         "biomarkers": {
             "dti": {
-                "header": "Tractografía de Sustancia Blanca (DTI)",
+                "header": "Resonancia por Tensor de Difusión (DTI)",
                 "title": "Fascículo Uncinado Bilateral",
-                "status": "Interrupción de la Conexión Moral (Craig et al.)",
-                "analogy": "Un teléfono con la línea cortada entre el centro del miedo y el juzgado de la conciencia.",
-                "summary": "Interrupción estructural mayor en la vía que une la amígdala con la corteza orbitofrontal. El cerebro no puede enviar la señal de freno moral ante la transgresión.",
+                "status": "Ablación Microestructural Mayor (FA < 0.10)",
+                "analogy": "Un teléfono con la línea cortada entre el centro del miedo y el juzgado de la conciencia moral.",
+                "summary": "Interrupción de la vía de sustancia blanca que conecta la amígdala con la corteza orbitofrontal. Desconexión física entre el procesamiento aversivo y la deliberación ética.",
                 "ref": "Craig et al. (2009, Mol Psychiatry) | Motzkin et al. (2011, J Neurosci)"
             },
             "fmri_amygdala": {
-                "header": "Reactividad Funcional (fMRI / BOLD)",
+                "header": "Resonancia Funcional / BOLD (Nivel de Oxigenación)",
                 "title": "Complejo Amigdalino Basolateral",
-                "status": "Hipoactividad e Inmunidad al Castigo (Blair et al.)",
-                "analogy": "Un detector de humo sin batería: aunque haya fuego real alrededor, no emite ningún sonido.",
-                "summary": "Ausencia de respuesta autonómica y hemodinámica ante expresiones de terror o llanto ajeno. Refractariedad biológica al aprendizaje por castigo.",
+                "status": "Hipoactividad e Inmunidad al Condicionamiento",
+                "analogy": "Un detector de humo sin batería: aunque haya fuego real, no emite ningún sonido.",
+                "summary": "Ausencia de respuesta autonómica y hemodinámica ante expresiones de terror o angustia ajena. Refractariedad al aprendizaje aversivo por castigo.",
                 "ref": "Blair et al. (2004, NeuroImage) | Birbaumer et al. (2005)"
             },
             "fmri_pain": {
                 "header": "Red de Resonancia Social (Empatía)",
                 "title": "Ínsula Anterior (Empatía Afectiva)",
-                "status": "Anestesia Somatosensorial Vicaria (Glenn & Raine)",
-                "analogy": "Mirar a alguien sangrar a través de un vidrio blindado sin sentir ninguna molestia en el estómago.",
-                "summary": "Falla en la activación insular frente al sufrimiento ajeno. Teoría de la Mente cognitiva intacta (capacidad de engaño) con atrofia de la empatía emocional.",
+                "status": "Anestesia Somatosensorial Vicaria",
+                "analogy": "Mirar a alguien sufrir a través de un vidrio blindado sin experimentar la menor conmoción somática.",
+                "summary": "Falla en la activación insular frente al sufrimiento ajeno. Conservación de la Teoría de la Mente cognitiva (capacidad de manipulación) con atrofia de la empatía emocional.",
                 "ref": "Glenn & Raine (2014) | Decety et al. (2013)"
             },
             "ratio": {
-                "header": "Bucle Córtico-Estriatal de Recompensa",
-                "title": "Núcleo Accumbens y Estriado Ventral",
-                "status": "Búsqueda Predatoria de Beneficio Inmediato",
-                "analogy": "Un motor potente sin volante que avanza arrasando todo lo que encuentra a su paso.",
-                "summary": "Hiperreactividad dopaminérgica orientada a ganancias instrumentales, sin que el lóbulo frontal compute el costo moral ni el riesgo de sanción penal.",
+                "header": "Acoplamiento Frontolímbico",
+                "title": "Bucle Córtico-Estriatal Predatorio",
+                "status": "Hipersensibilidad a la Recompensa Inmediata",
+                "analogy": "Un motor voraz sin volante que avanza arrasando con todo a su paso.",
+                "summary": "Hiperreactividad dopaminérgica en el núcleo accumbens orientada a ganancias instrumentales, sin modulación inhibitoria frontal frente al daño colateral.",
                 "ref": "Buckholtz et al. (2010, Nature Neurosci)"
             }
         },
@@ -247,12 +287,12 @@ CLINICAL_REGISTRY = {
                 "color": "#1e293b",
                 "rad": 0.30,
                 "hz": 0.4,
-                "status": "HIPORREACTIVIDAD AL MIEDO",
-                "analogy": "Un detector de humo al que le quitaron la batería: no suena ante el peligro.",
-                "example": "El sujeto comete un delito grave manteniendo una frecuencia cardíaca de 55 latidos por minuto, sin temblor ni sudoración.",
-                "healthy_scan": "Verde activo: reactividad autonómica normal frente a la transgresión y el castigo.",
-                "patient_scan": "Azul oscuro / Apagado: ausencia casi total de señal BOLD ante caras aterradas.",
-                "desc": "Inmunidad al miedo y al condicionamiento aversivo por sanciones.",
+                "status": "ATROFIA FUNCIONAL",
+                "analogy": "Detector de humo al que se le quitó la batería: no suena ante el peligro.",
+                "example": "El sujeto comete una estafa grave manteniendo 55 latidos por minuto, sin temblor ni sudoración.",
+                "healthy_color": "#10b981",
+                "patient_color": "#1e293b",
+                "desc": "Inmunidad al condicionamiento aversivo; refractariedad biológica al castigo.",
                 "voice": "Amígdala hipoactiva. Imaginemos un detector de humo sin batería. Aunque haya fuego real alrededor, no se activa. Mientras una persona promedio experimenta taquicardia ante la transgresión o el sufrimiento ajeno, aquí predomina la estabilidad autonómica. Craig y Blair documentaron en NeuroImage esta marcada refractariedad al castigo."
             },
             {
@@ -263,12 +303,12 @@ CLINICAL_REGISTRY = {
                 "color": "#334155",
                 "rad": 0.32,
                 "hz": 0.5,
-                "status": "DESCONEXIÓN MORAL",
-                "analogy": "Una calculadora de negocios fría y calculadora que no siente remordimientos.",
-                "example": "Comprende perfectamente que estafar a sus padres está mal ante la ley, pero esa noción no le genera el menor freno afectivo en el cuerpo.",
-                "healthy_scan": "Cian encendido: integra el valor moral y el daño ajeno en las decisiones.",
-                "patient_scan": "Gris apagado: juicio instrumental frío desprovisto de resonancia somática.",
-                "desc": "Conoce la norma a nivel lógico pero no siente la carga afectiva de la culpa.",
+                "status": "HIPOCONECTADA",
+                "analogy": "Calculadora desprovista de escrúpulos que no siente remordimientos.",
+                "example": "Comprende conceptualmente que defraudar a sus padres está penado por la ley, pero no le produce culpa afectiva en el cuerpo.",
+                "healthy_color": "#06b6d4",
+                "patient_color": "#334155",
+                "desc": "Juicio utilitario analítico; comprensión conceptual de la norma sin anclaje somático.",
                 "voice": "Corteza prefrontal ventromedial. Funciona de manera calculadora y analítica. Comprende las normas jurídicas a nivel conceptual, pero esa información carece de resonancia afectiva. Dañar a un tercero se procesa como un costo de transacción admisible para lograr un objetivo."
             },
             {
@@ -280,27 +320,27 @@ CLINICAL_REGISTRY = {
                 "rad": 0.44,
                 "hz": 7.5,
                 "status": "HIPERACTIVIDAD PREDATORIA",
-                "analogy": "Un acelerador voraz que busca dinero o poder sin mirar a los costados.",
-                "example": "Ante la oportunidad de una ganancia ilícita, el circuito de recompensa se sobreactiva descartando cualquier cálculo de consecuencias futuras.",
-                "healthy_scan": "Actividad modulada por el control prefrontal inhibitorio.",
-                "patient_scan": "Amarillo vivo y brillante: búsqueda insaciable de incentivo inmediato.",
-                "desc": "Motor de gratificación inmediata y dominancia instrumental.",
+                "analogy": "Acelerador voraz que busca dinero o poder sin reparar en el daño.",
+                "example": "Frente a la posibilidad de un beneficio personal rápido, el impulso motor descarta cualquier noción de riesgo legal.",
+                "healthy_color": "#10b981",
+                "patient_color": "#eab308",
+                "desc": "Búsqueda focalizada de incentivo inmediato y dominancia instrumental.",
                 "voice": "Núcleo accumbens estriatal. Es el centro de búsqueda de recompensa. Frente a la oportunidad de obtener un beneficio inmediato a costa de otros, este núcleo se sobreactiva sin que intervenga el freno inhibitorio frontal."
             },
             {
                 "id": "insula",
-                "name": "Ínsula (Empatía Afectiva Anestesiada)",
+                "name": "Ínsula Anterior (Anestesiada)",
                 "plane": "Corte Axial Medio (cisura lateral)",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#1e293b",
                 "rad": 0.26,
                 "hz": 0.3,
-                "status": "ANESTESIA EMPÁTICA",
-                "analogy": "Mirar el sufrimiento de una persona como si fuera una película de ficción en televisión.",
-                "example": "Presencia el llanto desconsolado de su víctima sin experimentar la menor sensación de malestar o compasión física.",
-                "healthy_scan": "Cálido: activación empática inmediata al ver dolor o angustia ajena.",
-                "patient_scan": "Azul frío / Cero señal: incapacidad de resonar con el dolor ajeno.",
-                "desc": "Incapacidad biológica de compadecerse del sufrimiento provocado.",
+                "status": "ANESTESIA INTEROCEPTIVA",
+                "analogy": "Mirar el sufrimiento de una persona como si fuera una película de ficción.",
+                "example": "Presencia el llanto desconsolado de su víctima sin registrar ninguna aversión o compasión interna.",
+                "healthy_color": "#10b981",
+                "patient_color": "#1e293b",
+                "desc": "Ausencia de marcadores somatosensoriales de culpa o aversión vicaria.",
                 "voice": "Ínsula anterior agranular anestesiada. Es el asiento de la empatía emocional somatizada. Su hipoactivación explica por qué estas personas pueden presenciar el daño causado sin experimentar malestar gástrico ni remordimiento."
             }
         ],
@@ -309,7 +349,7 @@ CLINICAL_REGISTRY = {
                 "from": [1.8, -0.6, -1.3], "to": [0.0, 3.8, -0.8], "ctrl": [2.6, 1.5, -1.6],
                 "name": "Fascículo Uncinado",
                 "status": "broken",
-                "analogy": "Línea cortada que impide que el miedo al castigo frene el plan delictivo.",
+                "desc": "Interrupción del canal estructural miedo-deliberación moral.",
                 "voice": "Fascículo uncinado cortado. Motzkin comprobó en poblaciones penitenciarias que la vía de comunicación entre la señal de aversión y el juicio moral está interrumpida, anulando el freno somático ante la transgresión."
             }
         ],
@@ -321,35 +361,40 @@ CLINICAL_REGISTRY = {
         "whodas_matrix": [
             {
                 "domain": "Marco Judicial & Fuero Penal",
-                "pct_label": "Prevalencia observada: ~99%",
+                "short_label": "Judicial",
+                "pct_label": "Aproximadamente un 99 por ciento de conflicto legal",
                 "scientific_basis": "Meta-análisis penitenciario (Fazel & Danesh, 2002, The Lancet; Hare, 2003 PCL-R): en poblaciones con diagnóstico confirmado de TASP/psicopatía, la tasa de conflicto judicial y reincidencia delictiva roza el 99%.",
                 "color": "#ef4444",
                 "clinical_correlate": "Reincidencia en delitos patrimoniales, transgresión deliberada de normativas y refractariedad al valor correctivo de las penas."
             },
             {
                 "domain": "Vínculos & Instrumentalización",
-                "pct_label": "Prevalencia observada: ~96%",
+                "short_label": "Vínculos",
+                "pct_label": "Aproximadamente un 96 por ciento de cosificación",
                 "scientific_basis": "Estudios de empatía interpersonal (Blair, 2008; Cleckley, 1941): el 96% de los lazos afectivos se estructuran de forma asimétrica, utilitaria o predatoria.",
                 "color": "#ef4444",
                 "clinical_correlate": "Uso instrumental de parejas o allegados con fines económicos, sexuales o de conveniencia personal, prescindiendo de ellos al cesar su utilidad."
             },
             {
                 "domain": "Ámbito Contractual & Financiero",
-                "pct_label": "Prevalencia observada: ~90%",
+                "short_label": "Financiero",
+                "pct_label": "Aproximadamente un 90 por ciento de irregularidades",
                 "scientific_basis": "Estudio epidemiológico NESARC (Grant et al., 2004): el 90% de los sujetos con rasgos antisociales graves registra cesantías por fraude, quiebras o deshonestidad.",
                 "color": "#fb923c",
                 "clinical_correlate": "Incumplimiento deliberado de compromisos económicos, estafas y falta de lealtad en acuerdos comerciales formales."
             },
             {
                 "domain": "Simulación Pericial Forense",
-                "pct_label": "Prevalencia observada: ~65%",
+                "short_label": "Peritajes",
+                "pct_label": "Aproximadamente un 65 por ciento de simulación",
                 "scientific_basis": "Mediciones con SIRS-2 (Structured Interview of Reported Symptoms, Rogers et al., 2011): un 65% de los peritados muestra maniobras activas de simulación sintomática.",
                 "color": "#eab308",
                 "clinical_correlate": "Uso instrumental del examen psiquiátrico forense para simular cuadros amnésicos o psicóticos y atenuar la imputabilidad penal."
             },
             {
                 "domain": "Insight & Conciencia de Enfermedad",
-                "pct_label": "Prevalencia observada: ~10%",
+                "short_label": "Insight",
+                "pct_label": "Aproximadamente un 10 por ciento de insight",
                 "scientific_basis": "Criterio de egosintonía (Widiger et al., 2009): menos del 10% consulta de manera voluntaria por sufrimiento intrapsíquico; el malestar es proyectado al entorno.",
                 "color": "#10b981",
                 "clinical_correlate": "Egosintonía completa. La persona no considera que sus patrones conductuales constituyan un trastorno."
@@ -360,37 +405,56 @@ CLINICAL_REGISTRY = {
         "short_key": "TNP",
         "circuit_name": "Disociación Fronto-Insular & Vulnerabilidad al Desprecio",
         "color_accent": "#a855f7",
+        "definition": "Patrón dominante de grandeza (en la fantasía o en el comportamiento), necesidad de admiración constante y profunda falta de empatía, que comienza en las primeras etapas de la edad adulta y está presente en diversos contextos.",
+        "textbooks": [
+            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
+            "Kernberg, O. F.: Trastornos Graves de la Personalidad (El Manual Moderno)",
+            "Ronningstam, E.: Identifying and Understanding the Narcissistic Personality (Oxford University Press)",
+            "Kohut, H.: El Análisis del Self (Amorrortu Editores)"
+        ],
+        "dsm5_criteria": [
+            "1. Sentimientos de grandeza y prepotencia (exagera logros y talentos, espera ser reconocido como superior).",
+            "2. Preocupación por fantasías de éxito, poder, brillantez, belleza o amor ideal ilimitados.",
+            "3. Creencia de que es 'especial' y único, y que solo puede ser comprendido por personas o instituciones de alto estatus.",
+            "4. Necesidad excesiva de admiración continua.",
+            "5. Sentimiento de privilegio o derecho a trato favorable especial.",
+            "6. Explotación interpersonal (se aprovecha de los demás para sus propios fines).",
+            "7. Carencia de empatía: renuencia a reconocer o identificarse con los sentimientos y necesidades ajenas.",
+            "8. Frecuente envidia hacia los demás o creencia de que los demás le envidian a él.",
+            "9. Comportamientos o actitudes arrogantes, soberbias o desdeñosas."
+        ],
+        "icd11_framework": "CIE-11 clasifica el trastorno por severidad general y encuadra los rasgos narcisistas principalmente dentro del dominio de 'Disocialidad' (antagonismo, desprecio, búsqueda de dominancia y explotación de otros) con componentes de 'Afectividad Negativa' en su variante vulnerable.",
         "biomarkers": {
             "dti": {
-                "header": "Tractografía de Sustancia Blanca (DTI)",
+                "header": "Resonancia por Tensor de Difusión (DTI)",
                 "title": "Sustancia Blanca Frontomedial",
                 "status": "Integridad Preservada con Sesgo de Dominancia",
-                "analogy": "Líneas de comunicación intactas para planificar estrategias, pero desconectadas del dolor ajeno.",
+                "analogy": "Canales de cálculo estratégico intactos, pero aislados de los circuitos de empatía afectiva.",
                 "summary": "Vías de mentalización cognitiva intactas. Preservación del cálculo relacional estratégico junto con hipoconectividad hacia redes de empatía emocional.",
                 "ref": "Fan et al. (2011, SCAN) | Nenadic et al. (2015)"
             },
             "fmri_amygdala": {
-                "header": "Reactividad Funcional (fMRI / BOLD)",
+                "header": "Resonancia Funcional / BOLD (Nivel de Oxigenación)",
                 "title": "Cíngulo Dorsal / Amígdala",
-                "status": "Herida Narcisista y Alarma por Pérdida de Estatus",
-                "analogy": "Un radar de prestigio que detecta una ofensa mortal ante el menor gesto de desacato.",
-                "summary": "Paroxismo en dACC ante el cuestionamiento jerárquico, desencadenando una respuesta hostil orientada a restituir la autovaloración dañada.",
+                "status": "Hiperreactividad ante Amenaza al Estatus",
+                "analogy": "Un radar de prestigio que detecta una ofensa mortal ante el menor cuestionamiento.",
+                "summary": "Alarma paroxística en el dACC ante la crítica o el cuestionamiento jerárquico ('herida narcisista'), con reactividad hostil dirigida a neutralizar la descalificación.",
                 "ref": "Pincus & Lukowitsky (2010) | Schulze et al. (2013)"
             },
             "fmri_pain": {
-                "header": "Red de Resonancia Social (Empatía)",
+                "header": "Red de Prominencia (Salience Network)",
                 "title": "Corteza Insular Anterior",
-                "status": "Disociación Empática Afectiva (Fan et al.)",
-                "analogy": "Saber exactamente cómo desarmar a alguien con palabras, sin que importe el daño provocado.",
+                "status": "Disociación Empática Afectiva",
+                "analogy": "Saber exactamente cómo herir verbalmente al otro sin conmoverse por su llanto.",
                 "summary": "Reducción de activación insular ante el dolor ajeno. El sujeto comprende conceptualmente el estado mental del otro pero no resuena visceralmente con él.",
                 "ref": "Jankowiak-Siuda et al. (2015) | Baskin-Sommers et al."
             },
             "ratio": {
-                "header": "Red por Defecto vs. Prominencia",
-                "title": "Compensación Grandiosa Frontal",
-                "status": "Gasto Metabólico en la Autoimagen (Scalabrini)",
+                "header": "Acoplamiento Frontolímbico",
+                "title": "Red por Defecto vs. Prominencia",
+                "status": "Compensación Grandiosa Hipertrófica",
                 "analogy": "Un andamio de oro construido con gran esfuerzo para tapar un piso de barro frágil.",
-                "summary": "Hiperactivación frontal sostenida para apuntalar una narrativa de autosuficiencia y superioridad que neutralice la extrema vulnerabilidad del self.",
+                "summary": "Gasto metabólico frontal sostenido para apuntalar una narrativa de autosuficiencia y superioridad que neutralice la extrema vulnerabilidad del self.",
                 "ref": "Scalabrini et al. (2017, Hum Brain Mapp)"
             }
         },
@@ -404,17 +468,17 @@ CLINICAL_REGISTRY = {
                 "rad": 0.42,
                 "hz": 7.4,
                 "status": "HIPERREACTIVO AL DESPRECIO",
-                "analogy": "Un sensor de jerarquía social en guardia permanente ante la falta de elogios.",
-                "example": "En una reunión de trabajo, si una propuesta suya no es aplaudida de inmediato, percibe una ofensa mortal a su estatus.",
-                "healthy_scan": "Modulación equilibrada frente a críticas constructivas.",
-                "patient_scan": "Violeta/Rojo paroxístico: detonación aguda de alarma por descalificación.",
+                "analogy": "Sensor de jerarquía en guardia continua ante la falta de elogios.",
+                "example": "Si en una reunión no se aprueba de inmediato su propuesta, experimenta una afrenta personal intolerable.",
+                "healthy_color": "#10b981",
+                "patient_color": "#a855f7",
                 "desc": "Alarma paroxística ante la crítica o la pérdida de admiración externa.",
-                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es aplaudida de inmediato, este núcleo detecta una ofensa mortal a su estatus, detonando una respuesta de furia fría o venganza calculada."
+                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo procesa una amenaza directa a la valía personal, facilitando respuestas de frialdad punitiva o revancha calculada."
             },
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Autoimagen Grandiosa)",
-                "plane": "Corte Sagital Medial (polo medial frontal)",
+                "plane": "Corte Sagital Medial (suelo anterior frontal)",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#c084fc",
                 "rad": 0.38,
@@ -422,10 +486,10 @@ CLINICAL_REGISTRY = {
                 "status": "COMPENSACIÓN GRANDIOSA",
                 "analogy": "Un andamio dorado que requiere energía continua para no desplomarse.",
                 "example": "Gasta horas rumiando sobre sus éxitos pasados para no sentir la angustia de un fracaso reciente.",
-                "healthy_scan": "Autoestima estable sin necesidad de reafirmación constante.",
-                "patient_scan": "Hipermetabolismo compensatorio: sostén de la fachada de superioridad.",
+                "healthy_color": "#06b6d4",
+                "patient_color": "#c084fc",
                 "desc": "Sostiene la fachada de grandeza como barrera defensiva ante el vacío.",
-                "voice": "Corteza prefrontal ventromedial. Es como construir un andamio de oro sobre cimientos de barro. Se gasta una enorme cantidad de energía metabólica en sostener el relato de que se es superior a todos, precisamente para tapar un terror pánico a la mediocridad o al vacío interior."
+                "voice": "Corteza prefrontal ventromedial. Es como sostener un andamio elevado sobre cimientos frágiles. Se invierte un volumen considerable de recursos cognitivos en reafirmar la superioridad personal precisamente para contener el miedo subyacente a la insignificancia."
             },
             {
                 "id": "amg",
@@ -436,28 +500,28 @@ CLINICAL_REGISTRY = {
                 "rad": 0.34,
                 "hz": 5.2,
                 "status": "VULNERABILIDAD FÁSICA",
-                "analogy": "Una chispa que prende fuego cuando se pone en duda su perfección.",
-                "example": "Ante una corrección menor de su pareja, reacciona con un ataque verbal despiadado para volver a tomar el control.",
-                "healthy_scan": "Regulación emocional sin hostilidad defensiva.",
-                "patient_scan": "Pico fásico de cólera ante la exposición de debilidad.",
-                "desc": "Explosiones de hostilidad vindicativa ante la herida del orgullo.",
-                "voice": "Amígdala fásica. Dispara la llamada rabia narcisista. Ante una crítica fundada de un subordinado o pareja, la herida narcisista desata una reacción colérica que busca descalificar y aniquilar verbalmente al otro para restituir el propio valor dañado."
+                "analogy": "Una chispa que enciende fuego cuando se pone en duda su perfección.",
+                "example": "Ante una corrección menor de un colaborador, responde con descalificación tajante para restablecer control.",
+                "healthy_color": "#10b981",
+                "patient_color": "#ec4899",
+                "desc": "Reacción colérica defensiva ante la exposición de falencias personales.",
+                "voice": "Amígdala reactiva. Detona la denominada rabia narcisista. Frente a una observación crítica de un allegado o colega, el afecto herido precipita una descalificación verbal tajante orientada a restituir la propia posición de valor."
             },
             {
                 "id": "insula",
-                "name": "Ínsula (Empatía Afectiva Desconectada)",
+                "name": "Ínsula (Desconexión Vicaria)",
                 "plane": "Corte Axial Medio (cisura lateral)",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#334155",
                 "rad": 0.28,
                 "hz": 0.8,
                 "status": "ANESTESIA EMPÁTICA",
-                "analogy": "Saber qué pieza mover en el ajedrez sin conmoverse por la pieza que cae.",
-                "example": "Entiende perfectamente que su desprecio hace llorar a su pareja, pero no experimenta ninguna compasión al respecto.",
-                "healthy_scan": "Resonancia afectiva compartida ante el llanto del otro.",
-                "patient_scan": "Azul grisáceo / Inactivo: ausencia de conmoción somática.",
-                "desc": "Comprende el dolor ajeno pero no siente compasión visceral por él.",
-                "voice": "Ínsula anterior desconectada. Fan demostró en la revista SCAN que el narcisista tiene empatía cognitiva intacta, es decir, sabe perfectamente qué te duele y cómo herirte, pero carece de empatía afectiva; no siente compasión alguna al hacerlo."
+                "analogy": "Mover piezas en el tablero sin conmoverse por la pieza derribada.",
+                "example": "Nota con lucidez que sus comentarios hieren a su pareja, pero no experimenta compasión somática.",
+                "healthy_color": "#10b981",
+                "patient_color": "#334155",
+                "desc": "Incapacidad para experimentar resonancia visceral con el dolor ajeno.",
+                "voice": "Ínsula anterior desconectada. Fan comprobó en la revista SCAN la presencia de una disociación central: se conserva la empatía cognitiva (sabe qué siente el otro y cómo afectarlo), pero se presenta atenuada la empatía emocional (no experimenta compasión somática)."
             }
         ],
         "tracts": [
@@ -465,8 +529,8 @@ CLINICAL_REGISTRY = {
                 "from": [0.0, 1.8, 1.8], "to": [0.0, 3.8, -0.8], "ctrl": [0.0, 2.8, 0.6],
                 "name": "Eje de Autoevaluación Hipervigilante",
                 "status": "hyper",
-                "analogy": "Circuito de alerta que monitorea la aprobación del auditorio segundo a segundo.",
-                "voice": "Eje de autoevaluación. Obliga al sujeto a monitorear obsesivamente cuántos aplausos o muestras de sumisión recibe por minuto para mantener equilibrada su autoestima."
+                "desc": "Canalización de la ofensa percibida hacia actitudes de desprecio.",
+                "voice": "Eje de autoevaluación. Obliga al individuo a monitorear continuamente las señales de aprobación o reverencia del entorno para regular su equilibrio anímico."
             }
         ],
         "case_vignette": {
@@ -477,35 +541,40 @@ CLINICAL_REGISTRY = {
         "whodas_matrix": [
             {
                 "domain": "Esfera Conyugal (Dinámica de Poder)",
-                "pct_label": "Prevalencia observada: ~92%",
+                "short_label": "Conyugal",
+                "pct_label": "Aproximadamente un 92 por ciento de conflictividad",
                 "scientific_basis": "Estudios de patología narcisista en vínculos (Campbell et al., 2002; Ronningstam, 2005): el 92% de las parejas estables refiere dinámicas de descalificación o castigo con silencio prolongado.",
                 "color": "#ef4444",
                 "clinical_correlate": "Exigencia de adhesión incondicional. El cónyuge es situado en un rol de confirmación constante; las discrepancias son castigadas con desprecio o retiro del afecto."
             },
             {
-                "domain": "Cohesión del Self (Riesgo de Colapso)",
-                "pct_label": "Prevalencia observada: ~95%",
+                "domain": "Cohesión del Self & Riesgo de Colapso",
+                "short_label": "Self",
+                "pct_label": "Aproximadamente un 95 por ciento de vulnerabilidad",
                 "scientific_basis": "Meta-análisis sobre Narcisismo Vulnerable y Suicidio (Pincus et al., 2009; Coleman et al., 2017): un 95% de los pacientes presenta oscilaciones severas hacia disforia ante fracasos reales.",
                 "color": "#a855f7",
                 "clinical_correlate": "Extrema fragilidad ante el declive laboral, financiero o físico, pudiendo desencadenar cuadros depresivos refractarios de difícil abordaje."
             },
             {
                 "domain": "Entorno Laboral & Jerárquico",
-                "pct_label": "Prevalencia observada: ~84%",
+                "short_label": "Laboral",
+                "pct_label": "Aproximadamente un 84 por ciento de fricción",
                 "scientific_basis": "Psicología organizacional de la personalidad (Babiak & O'Toole, 2012): el 84% de los puestos de liderazgo con rasgos de grandiosidad presenta rotación elevada de colaboradores.",
                 "color": "#fb923c",
                 "clinical_correlate": "Dificultad para el trabajo horizontal. Apropiación de logros de subordinados y hostilidad ante colegas evaluados como competencia."
             },
             {
                 "domain": "Red Familiar de Origen",
-                "pct_label": "Prevalencia observada: ~76%",
+                "short_label": "Familia",
+                "pct_label": "Aproximadamente un 76 por ciento de instrumentalización",
                 "scientific_basis": "Dinámicas transgeneracionales (Kernberg, 1984; Miller, 1981): el 76% de los vínculos con hijos está condicionado al cumplimiento de expectativas de éxito del progenitor.",
                 "color": "#fb923c",
                 "clinical_correlate": "Valoración de los descendientes como extensiones de prestigio personal, con distanciamiento punitivo si eligen caminos divergentes."
             },
             {
                 "domain": "Adherencia a Salud Mental",
-                "pct_label": "Prevalencia observada: ~50%",
+                "short_label": "Adherencia",
+                "pct_label": "Aproximadamente un 50 por ciento de deserción",
                 "scientific_basis": "Alianza terapéutica en TNP (Gunderson et al., 2018): un 50% interrumpe el tratamiento en las primeras fases ante intervenciones que señalan aspectos a revisar.",
                 "color": "#38bdf8",
                 "clinical_correlate": "Dificultad para establecer una alianza de trabajo simétrica; abandono prematuro si se percibe que el profesional cuestiona su posición."
@@ -516,9 +585,27 @@ CLINICAL_REGISTRY = {
         "short_key": "THP",
         "circuit_name": "Labilidad Afectiva, Búsqueda de Refuerzo & Somatización",
         "color_accent": "#06b6d4",
+        "definition": "Patrón dominante de emotividad excesiva y de búsqueda de atención continua, que comienza en las primeras etapas de la edad adulta y está presente en diversos contextos.",
+        "textbooks": [
+            "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
+            "Shapiro, D.: Neurotic Styles (Basic Books)",
+            "Millon, T.: Trastornos de la Personalidad en la Vida Moderna (Masson)",
+            "Horowitz, M. J.: Hysterical Personality Style and the Histrionic Personality Disorder (Aronson)"
+        ],
+        "dsm5_criteria": [
+            "1. Se siente incómodo en situaciones en las que no es el centro de atención.",
+            "2. La interacción con los demás suele estar caracterizada por un comportamiento sexualmente seductor o provocativo inapropiado.",
+            "3. Presenta cambios rápidos y expresión plana o superficial de las emociones.",
+            "4. Utiliza constantemente el aspecto físico para llamar la atención sobre sí mismo.",
+            "5. Tiene un estilo de hablar excesivamente subjetivo e impresionista, carente de detalles.",
+            "6. Muestra autodramatización, teatralidad y una expresión exagerada de la emoción.",
+            "7. Es sugestionable (fácilmente influenciable por los demás o por las circunstancias).",
+            "8. Considera que las relaciones son más estrechas de lo que son en realidad."
+        ],
+        "icd11_framework": "CIE-11 no mantiene la categoría categorial de THP en el eje primario; sus manifestaciones se diagnostican evaluando el nivel de severidad general de la personalidad y los rasgos de 'Afectividad Negativa' (labilidad emocional) combinados con patrones de dependencia de validación externa.",
         "biomarkers": {
             "dti": {
-                "header": "Tractografía de Sustancia Blanca (DTI)",
+                "header": "Resonancia por Tensor de Difusión (DTI)",
                 "title": "Vías Frontoparietales Dorsolaterales",
                 "status": "Varianza Difusa en Conectividad Frontal",
                 "analogy": "Una pintura al óleo vista de lejos: capta la emoción general pero pierde el detalle fino de los hechos.",
@@ -526,15 +613,15 @@ CLINICAL_REGISTRY = {
                 "ref": "Buchsbaum et al. | Schore et al. (Neuropsychoanalysis)"
             },
             "fmri_amygdala": {
-                "header": "Reactividad Funcional (fMRI / BOLD)",
+                "header": "Resonancia Funcional / BOLD (Nivel de Oxigenación)",
                 "title": "Red de Recompensa Estriatal",
                 "status": "Hipersensibilidad al Halago y la Aprobación",
-                "analogy": "Un actor sobre el escenario que necesita aplausos constantes para no sentir que la obra fracasó.",
+                "analogy": "Un actor sobre el escenario que necesita aplausos continuos para no sentir que la obra fracasó.",
                 "summary": "Respuesta fásica amplificada en el núcleo accumbens y amígdala ante señales de simpatía, seducción o validación interpersonal inmediata.",
                 "ref": "Somerville et al. (2010) | Vuilleumier et al."
             },
             "fmri_pain": {
-                "header": "Red de Resonancia Social (Somatización)",
+                "header": "Red de Prominencia (Somatización)",
                 "title": "Corteza Somatosensorial / Ínsula",
                 "status": "Amplificación Conversiva Interoceptiva",
                 "analogy": "El cuerpo actuando en escena lo que las palabras no logran procesar calmadamente.",
@@ -561,9 +648,9 @@ CLINICAL_REGISTRY = {
                 "hz": 6.2,
                 "status": "HIPEREXCITABLE LÁBIL",
                 "analogy": "Fuegos artificiales intensos pero que se apagan a los pocos minutos.",
-                "example": "Llora desconsoladamente en una discusión menor y diez minutos después ríe distendida al recibir un elogio.",
-                "healthy_scan": "Modulación serena y estable del afecto cotidiano.",
-                "patient_scan": "Paroxismo breve y cambiante de respuesta emocional.",
+                "example": "Llora intensamente en un conflicto menor y poco después ríe distendida al recibir una palabra de afecto.",
+                "healthy_color": "#10b981",
+                "patient_color": "#06b6d4",
                 "desc": "Emotividad intensa y volátil; intolerancia a la neutralidad del entorno.",
                 "voice": "Amígdala límbica lábil. Presenta respuestas afectivas rápidas y de gran expresividad externa pero de corta duración. Puede observarse un llanto desconsolado ante una situación menor, seguido minutos después por serenidad si la atención del entorno se restablece."
             },
@@ -577,9 +664,9 @@ CLINICAL_REGISTRY = {
                 "hz": 6.5,
                 "status": "HIPERRESPUESTA AL FEEDBACK",
                 "analogy": "Adicción al reflector y al aplauso de los demás.",
-                "example": "Si en una reunión el grupo habla de otro tema, recurre a dramatizaciones o seducción para volver a ser el centro.",
-                "healthy_scan": "Actividad social equilibrada sin demanda de validación continua.",
-                "patient_scan": "Cian brillante: circuito de recompensa activado por la atención externa.",
+                "example": "Si en una reunión el grupo habla de otro tema, recurre a dramatizaciones para volver a ser el centro.",
+                "healthy_color": "#10b981",
+                "patient_color": "#22d3ee",
                 "desc": "Dependencia del halago y del protagonismo interpersonal.",
                 "voice": "Núcleo accumbens social. Circuito estrechamente ligado a la validación interpersonal. La persona experimenta una necesidad marcada de protagonismo, recurriendo a la seducción o al dramatismo si percibe que el interés del grupo decae."
             },
@@ -594,8 +681,8 @@ CLINICAL_REGISTRY = {
                 "status": "SOMATIZACIÓN INTEROCEPTIVA",
                 "analogy": "El cuerpo hablando en voz alta lo que la mente no pone en palabras.",
                 "example": "Ante un desacuerdo familiar, experimenta mareos súbitos y pérdida de fuerza en las piernas sin causa orgánica.",
-                "healthy_scan": "Integración visceral armónica sin conversiones.",
-                "patient_scan": "Activación marcada: amplificación de síntomas corporales funcionales.",
+                "healthy_color": "#10b981",
+                "patient_color": "#0891b2",
                 "desc": "Conversión corporal de angustias que no logran elaborarse verbalmente.",
                 "voice": "Ínsula somatosensorial. Traduce tensiones emocionales no elaboradas en manifestaciones físicas. Ante desencuentros interpersonales, amplifica las señales viscerales pudiendo generar síntomas neurológicos funcionales o desmayos psicógenos."
             },
@@ -609,9 +696,9 @@ CLINICAL_REGISTRY = {
                 "hz": 1.4,
                 "status": "PROCESAMIENTO DIFUSO",
                 "analogy": "Una mirada panorámica que no repara en la letra chica de los problemas.",
-                "example": "Relata un conflicto grave en términos teatrales y vagos ('fue horrible, todo un desastre') sin poder precisar los hechos concretos.",
-                "healthy_scan": "Procesamiento secuencial y analítico ordenado.",
-                "patient_scan": "Actividad difusa: razonamiento guiado por impresiones globales.",
+                "example": "Relata un conflicto grave en términos teatrales y vagos ('fue un desastre') sin poder precisar los hechos concretos.",
+                "healthy_color": "#06b6d4",
+                "patient_color": "#475569",
                 "desc": "Razonamiento impresionista con escaso análisis secuencial de los hechos.",
                 "voice": "Corteza prefrontal impresionista. Su estilo cognitivo capta la tonalidad afectiva general de las situaciones pero tiende a omitir el análisis detallado y secuencial de las contingencias."
             }
@@ -621,7 +708,7 @@ CLINICAL_REGISTRY = {
                 "from": [1.8, -0.6, -1.3], "to": [1.0, 1.1, -0.7], "ctrl": [1.3, 0.4, -0.8],
                 "name": "Eje Límbico-Recompensa",
                 "status": "hyper",
-                "analogy": "Vía que premia inmediatamente cualquier conducta que logre captar la atención del grupo.",
+                "desc": "Vía reforzadora de conductas de búsqueda activa de atención.",
                 "voice": "Eje límbico de recompensa. Refuerza positivamente la repetición de conductas expresivas y de seducción que garanticen la aprobación del auditorio."
             }
         ],
@@ -633,35 +720,40 @@ CLINICAL_REGISTRY = {
         "whodas_matrix": [
             {
                 "domain": "Esfera Conyugal (Sobredramatización)",
-                "pct_label": "Prevalencia observada: ~85%",
+                "short_label": "Conyugal",
+                "pct_label": "Aproximadamente un 85 por ciento de demandas continuas",
                 "scientific_basis": "Estudios clínicos de estilo histriónico (Bornstein, 2012; Horowitz, 1991): el 85% reporta desilusión recurrente con parejas al descender la intensidad apasionada inicial.",
                 "color": "#ef4444",
                 "clinical_correlate": "Exigencia de romanticismo novelesco sostenido. La rutina cotidiana normal es vivenciada como desamor, facilitando conductas de coqueteo con terceros para reactivar el interés."
             },
             {
-                "domain": "Servicio de Urgencias Médicas",
-                "pct_label": "Prevalencia observada: ~82%",
+                "domain": "Servicio de Guardia Médica",
+                "short_label": "Guardia",
+                "pct_label": "Aproximadamente un 82 por ciento de consultas funcionales",
                 "scientific_basis": "Frecuentación hospitalaria en trastornos somatomorfos/histriónicos (Kroenke et al., 2007): un 82% registra admisiones por hiperventilación o cuadros neurológicos sin base orgánica.",
                 "color": "#fb923c",
                 "clinical_correlate": "Consultas en guardias médicas generales tras conflictos afectivos, requiriendo un abordaje que evite la sobremedicalización innecesaria."
             },
             {
                 "domain": "Red Social Ampliada",
-                "pct_label": "Prevalencia observada: ~72%",
+                "short_label": "Amistades",
+                "pct_label": "Aproximadamente un 72 por ciento de rotación",
                 "scientific_basis": "Sociometría en trastornos del Cluster B (Trull et al., 2010): el 72% experimenta rotación frecuente de amistades íntimas por demandas afectivas absorbentes.",
                 "color": "#fb923c",
                 "clinical_correlate": "Idealización acelerada de vínculos recientes que luego se distancian ante el desgaste que provocan las demandas afectivas continuas."
             },
             {
                 "domain": "Autoestima & Dependencia Externa",
-                "pct_label": "Prevalencia observada: ~80%",
+                "short_label": "Autoestima",
+                "pct_label": "Aproximadamente un 80 por ciento de dependencia del halago",
                 "scientific_basis": "Medición de contingencia de autoestima (Crocker & Park, 2004): el 80% de los casos puntúa en dependencia crítica del halago y la mirada externa.",
                 "color": "#06b6d4",
                 "clinical_correlate": "Sensación de desvanecimiento o angustia de vacío cuando no se cuenta con la mirada atenta o la aprobación explícita de los demás."
             },
             {
                 "domain": "Desempeño Laboral Sistemático",
-                "pct_label": "Prevalencia observada: ~50%",
+                "short_label": "Laboral",
+                "pct_label": "Aproximadamente un 50 por ciento de dificultad en rutina",
                 "scientific_basis": "Rendimiento ocupacional en THP (Millon, 2011): un 50% presenta dificultades de permanencia en puestos rutinarios que carecen de interacción o visibilidad.",
                 "color": "#38bdf8",
                 "clinical_correlate": "Baja tolerancia a labores administrativas metódicas; mejor desenvolvimiento inicial en roles que implican relaciones públicas o contacto social."
@@ -681,7 +773,7 @@ current_data = CLINICAL_REGISTRY[selected_disorder]
 st.title(selected_disorder)
 st.caption(f"**Circuito Fisiopatológico Central:** {current_data['circuit_name']}")
 
-# --- Panel Superior de Evidencia en Neuroimagen (Con siglas desarrolladas y analogías) ---
+# --- Panel Superior de Evidencia en Neuroimagen con Acrónimos Desarrollados ---
 bm = current_data["biomarkers"]
 col1, col2, col3, col4 = st.columns(4)
 
@@ -726,7 +818,7 @@ with col4:
     """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Motor WebGL Three.js con Rótulos Visibles, Malla Bi-Hemisférica y Control Total
+# Motor WebGL Three.js con Leyenda Fija No Cortada y Audio Limpio de Símbolos
 # -------------------------------------------------------------------------
 payload = {
     "view": view_selector,
@@ -748,13 +840,26 @@ html_webgl = f"""
     
     #hud {{
       position: absolute; top: 65px; left: 16px; z-index: 100;
-      background: rgba(11, 19, 41, 0.90); backdrop-filter: blur(12px);
+      background: rgba(11, 19, 41, 0.92); backdrop-filter: blur(12px);
       border: 1px solid #1e293b; border-left: 3px solid #38bdf8; border-radius: 8px;
       padding: 12px 14px; color: #f1f5f9; max-width: 320px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.75); pointer-events: none;
     }}
     .hud-title {{ font-weight: 700; color: #38bdf8; font-size: 0.90rem; margin-bottom: 4px; font-family: monospace; }}
     .hud-desc {{ color: #94a3b8; font-size: 0.75rem; line-height: 1.4; }}
+    
+    /* Panel lateral de selección previa para no adivinar esferas */
+    #selection-menu {{
+      position: absolute; bottom: 20px; left: 16px; z-index: 100;
+      background: rgba(11, 19, 41, 0.90); backdrop-filter: blur(12px);
+      border: 1px solid #1e293b; border-radius: 8px;
+      padding: 10px 14px; color: #cbd5e1; font-size: 0.74rem; max-width: 380px;
+    }}
+    .menu-item {{
+      display: inline-block; background: #1e293b; color: #f8fafc; border: 1px solid #334155;
+      padding: 4px 8px; margin: 3px 2px; border-radius: 4px; cursor: pointer; font-size: 0.72rem;
+    }}
+    .menu-item:hover {{ background: #0284c7; border-color: #38bdf8; }}
     
     #top-bar {{
       position: absolute; top: 16px; right: 16px; z-index: 100;
@@ -790,6 +895,10 @@ html_webgl = f"""
       <div id="hud-head" class="hud-title">Conectoma 3D Interactivo</div>
       <div id="hud-body" class="hud-desc">Arrastra libremente con el ratón para rotar el encéfalo en 360° o usa la rueda para zoom.<br><br><b>Haz clic en cualquier estructura rotulada</b> para escuchar su análisis clínico, analogías y citas.</div>
     </div>
+    <div id="selection-menu">
+      <div style="font-weight: 700; color: #38bdf8; margin-bottom: 4px;">Explorar Elementos:</div>
+      <div id="menu-items-container"></div>
+    </div>
   </div>
 
   <script>
@@ -819,7 +928,7 @@ html_webgl = f"""
       if (voiceActive) {{
         b.innerText = "🔊 Voz: Activa";
         b.classList.add("btn-active");
-        speakText("Motor de síntesis vocal activado. Selecciona cualquier estructura o dominio funcional para escuchar su explicación clínica con analogías y citas.");
+        speakText("Motor de síntesis vocal activado. Selecciona cualquier estructura anatómica o esfera funcional para escuchar su explicación con rigor pedagógico.");
       }} else {{
         b.innerText = "🔇 Voz Silenciada";
         b.classList.remove("btn-active");
@@ -827,10 +936,19 @@ html_webgl = f"""
       }}
     }}
 
+    // Limpieza estricta de prosodia: elimina caracteres como ~ o - para que nunca pronuncie 'tilde'
+    function cleanTextForSpeech(text) {{
+      return text.replace(/[~]/g, "aproximadamente ")
+                 .replace(/[-]/g, " ")
+                 .replace(/%/g, " por ciento")
+                 .replace(/[\(\)]/g, "");
+    }}
+
     function speakText(text) {{
       if (!voiceActive || !window.speechSynthesis) return;
       window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
+      const cleaned = cleanTextForSpeech(text);
+      const utter = new SpeechSynthesisUtterance(cleaned);
       if (selectedVoice) utter.voice = selectedVoice;
       utter.lang = 'es-ES';
       utter.rate = 0.94;
@@ -921,33 +1039,6 @@ html_webgl = f"""
       camera.lookAt(0, 0, 0);
     }}
 
-    function createTextSprite(text, color) {{
-      const canvasText = document.createElement('canvas');
-      const ctx = canvasText.getContext('2d');
-      canvasText.width = 512;
-      canvasText.height = 128;
-
-      ctx.fillStyle = "rgba(11, 19, 41, 0.80)";
-      ctx.roundRect ? ctx.roundRect(10, 10, 492, 108, 16) : ctx.fillRect(10, 10, 492, 108);
-      ctx.fill();
-
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = color || "#38bdf8";
-      ctx.stroke();
-
-      ctx.font = "bold 42px -apple-system, sans-serif";
-      ctx.fillStyle = "#f8fafc";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(text, 256, 64);
-
-      const texture = new THREE.CanvasTexture(canvasText);
-      const spriteMaterial = new THREE.SpriteMaterial({{ map: texture, transparent: true, depthTest: false }});
-      const sprite = new THREE.Sprite(spriteMaterial);
-      sprite.scale.set(3.0, 0.75, 1.0);
-      return sprite;
-    }}
-
     function buildCleanBrainMesh() {{
       const brainGeo = new THREE.BufferGeometry();
       const pos = [];
@@ -1001,9 +1092,10 @@ html_webgl = f"""
     const clickableObjects = [];
     const pulsingNodes = [];
     const synapticFlows = [];
+    const menuContainer = document.getElementById('menu-items-container');
 
     if (DATA.view.includes("1.")) {{
-      DATA.nodes.forEach(n => {{
+      DATA.nodes.forEach((n, idx) => {{
         const geo = new THREE.SphereGeometry(n.rad, 24, 24);
         const mat = new THREE.MeshStandardMaterial({{
           color: n.color,
@@ -1025,11 +1117,6 @@ html_webgl = f"""
         clickableObjects.push(mesh);
         pulsingNodes.push(mesh);
 
-        const shortName = n.name.split(" ")[0] + (n.name.includes("vmPFC") ? " vmPFC" : (n.name.includes("dACC") ? " dACC" : ""));
-        const lbl = createTextSprite(shortName, n.color);
-        lbl.position.set(n.coords[0], n.coords[1] + 0.60, n.coords[2]);
-        modelGroup.add(lbl);
-
         const auraGeo = new THREE.SphereGeometry(n.rad * 1.35, 16, 16);
         const auraMat = new THREE.MeshBasicMaterial({{
           color: n.color,
@@ -1040,6 +1127,15 @@ html_webgl = f"""
         const aura = new THREE.Mesh(auraGeo, auraMat);
         aura.position.copy(mesh.position);
         modelGroup.add(aura);
+
+        // Botón en el menú lateral para selección directa
+        const btn = document.createElement('span');
+        btn.className = 'menu-item';
+        btn.innerText = n.name.split(" ")[0];
+        btn.onclick = () => {{
+          triggerObjectInspect(mesh);
+        }};
+        menuContainer.appendChild(btn);
       }});
 
       DATA.tracts.forEach(t => {{
@@ -1085,7 +1181,7 @@ html_webgl = f"""
       }});
 
     }} else {{
-      // Modo Matriz de Discapacidad WHODAS 2.0 / CIE-11 con rótulos claros
+      // Modo Matriz de Discapacidad WHODAS 2.0 / CIE-11
       const coordsDomains = [
         [5.2, 2.8, 1.4],
         [-5.0, 3.8, -1.8],
@@ -1110,16 +1206,11 @@ html_webgl = f"""
         mesh.position.set(...pt);
         mesh.userData = {{
           name: e.domain,
-          desc: "<b>Severidad observada:</b> " + e.pct_label + "<br><b>Fundamento:</b> " + e.scientific_basis + "<br><b>Patrón:</b> " + e.clinical_correlate,
+          desc: "<b>Prevalencia observada:</b> " + e.pct_label + "<br><b>Fundamento:</b> " + e.scientific_basis + "<br><b>Patrón:</b> " + e.clinical_correlate,
           voice: e.domain + ". " + e.pct_label + ". " + e.clinical_correlate
         }};
         modelGroup.add(mesh);
         clickableObjects.push(mesh);
-
-        const domainShort = e.domain.split(" ")[0] + " " + (e.domain.split(" ")[1] || "");
-        const lbl = createTextSprite(domainShort, e.color);
-        lbl.position.set(pt[0], pt[1] + 0.75, pt[2]);
-        modelGroup.add(lbl);
 
         const lineGeo = new THREE.BufferGeometry().setFromPoints([
           new THREE.Vector3(0, 0, 0),
@@ -1132,6 +1223,15 @@ html_webgl = f"""
           opacity: 0.8
         }});
         modelGroup.add(new THREE.Line(lineGeo, lineMat));
+
+        // Botón en el menú lateral para no adivinar esferas
+        const btn = document.createElement('span');
+        btn.className = 'menu-item';
+        btn.innerText = e.short_label;
+        btn.onclick = () => {{
+          triggerObjectInspect(mesh);
+        }};
+        menuContainer.appendChild(btn);
       }});
     }}
 
@@ -1139,6 +1239,17 @@ html_webgl = f"""
     const mouse = new THREE.Vector2();
     const hudHead = document.getElementById('hud-head');
     const hudBody = document.getElementById('hud-body');
+
+    function triggerObjectInspect(target) {{
+      if (target.userData && target.userData.name) {{
+        hudHead.innerText = target.userData.name;
+        hudBody.innerHTML = target.userData.desc;
+        hudHead.style.color = "#38bdf8";
+        if (target.userData.voice) {{
+          speakText(target.userData.voice);
+        }}
+      }}
+    }}
 
     function handleSceneClick(event) {{
       const rect = renderer.domElement.getBoundingClientRect();
@@ -1149,15 +1260,7 @@ html_webgl = f"""
       const hits = raycaster.intersectObjects(clickableObjects);
 
       if (hits.length > 0) {{
-        const target = hits[0].object;
-        if (target.userData && target.userData.name) {{
-          hudHead.innerText = target.userData.name;
-          hudBody.innerHTML = target.userData.desc;
-          hudHead.style.color = "#38bdf8";
-          if (target.userData.voice) {{
-            speakText(target.userData.voice);
-          }}
-        }}
+        triggerObjectInspect(hits[0].object);
       }}
     }}
 
@@ -1208,48 +1311,99 @@ html_webgl = f"""
 components.html(html_webgl, height=660, scrolling=False)
 
 # -------------------------------------------------------------------------
-# Panel de Neuroimagen Comparativa (Sujeto Control Sano vs. Cuadro Clínico)
+# Neuroimagen Comparativa Visual (Esquema Anatómico con Mapa de Calor fMRI)
 # -------------------------------------------------------------------------
 st.markdown("---")
-st.subheader("🔬 Neuroimagen Comparativa: Control Sano vs. Cuadro Clínico")
-st.caption("Inspección de cortes anatómicos reales con mapa de calor hemodinámico (fMRI BOLD) estandarizado")
+st.subheader("🔬 Neuroimagen Comparativa Visual: Sujeto Control Sano vs. Cuadro Clínico")
+st.caption("Cortes anatómicos de resonancia magnética con mapas de activación BOLD (fMRI) estandarizados")
 
 selected_node_name = st.selectbox(
-    "Seleccionar estructura para desplegar el corte de resonancia comparativa:",
+    "Seleccionar estructura anatómica para proyectar la comparación de neuroimagen:",
     [n["name"] for n in current_data["nodes"]]
 )
 
 active_node = next(n for n in current_data["nodes"] if n["name"] == selected_node_name)
 
+# Generador de esquema anatómico de resonancia vectorial con mapa de calor funcional
+def generate_mri_svg(plane_text, is_patient, color_hex, status_label):
+    # Base en escala de grises simulando corte T1/T2 y superposición funcional
+    halo_color = color_hex if is_patient else "#10b981"
+    pulse_intensity = "0.85" if is_patient else "0.35"
+    
+    svg = f"""
+    <svg width="100%" height="220" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+        <!-- Contorno Encefálico en escala de grises (T1 MRI) -->
+        <path d="M 60 110 C 60 50, 110 30, 160 30 C 210 30, 260 50, 260 110 C 260 160, 220 190, 160 190 C 100 190, 60 160, 60 110 Z" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+        <path d="M 160 30 L 160 190" stroke="#1e293b" stroke-width="2" stroke-dasharray="4"/>
+        <ellipse cx="160" cy="115" rx="35" ry="25" fill="#0b1329" stroke="#1e293b" stroke-width="1.5"/>
+        
+        <!-- Foco de activación funcional BOLD -->
+        <circle cx="160" cy="115" r="28" fill="{halo_color}" opacity="{pulse_intensity}">
+            <animate attributeName="r" values="24;30;24" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="{pulse_intensity};0.25;{pulse_intensity}" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="160" cy="115" r="14" fill="{halo_color}" opacity="0.95"/>
+        
+        <!-- Texto explicativo sobre la imagen -->
+        <text x="160" y="24" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="-apple-system, sans-serif">{plane_text}</text>
+        <text x="160" y="180" fill="{halo_color}" font-size="12" font-weight="bold" text-anchor="middle" font-family="monospace">{status_label}</text>
+    </svg>
+    """
+    return svg
+
 comp_col1, comp_col2 = st.columns(2)
 
 with comp_col1:
     st.markdown(f"""
-    <div class="compare-card" style="border-left: 4px solid #10b981;">
-        <h4 style="color: #10b981; margin: 0 0 6px 0;">🟢 Sujeto Control Sano</h4>
-        <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 6px;"><b>Plano de Corte:</b> {active_node['plane']}</div>
-        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.4;"><b>Patrón de Activación Fisiológico:</b><br>{active_node['healthy_scan']}</p>
-        <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #1e293b; padding-top: 6px;">
-            El balance inhibitorio frontolímbico se mantiene en homeostasis ante estímulos neutros o frustraciones cotidianas menores.
+    <div style="background:#090e1a; border:1px solid #1e293b; border-left:4px solid #10b981; padding:14px; border-radius:8px;">
+        <h4 style="color: #10b981; margin:0 0 6px 0;">🟢 Sujeto Control Sano (Homeostasis)</h4>
+        <div style="font-size:0.76rem; color:#94a3b8; margin-bottom:8px;"><b>Corte:</b> {active_node['plane']}</div>
+        {generate_mri_svg(active_node['plane'], False, "#10b981", "ACTIVACIÓN CONTROLADA")}
+        <div style="font-size:0.75rem; color:#cbd5e1; margin-top:8px; line-height:1.4;">
+            <b>Respuesta Fisiológica:</b> {active_node['healthy_color']} modulada adecuadamente por el freno prefrontal; sin desregulación autonómica ante estímulos neutros.
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 with comp_col2:
     st.markdown(f"""
-    <div class="compare-card" style="border-left: 4px solid {active_node['color']};">
-        <h4 style="color: {active_node['color']}; margin: 0 0 6px 0;">🔴 Paciente: {selected_disorder.split('(')[0]}</h4>
-        <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 6px;"><b>Plano de Corte:</b> {active_node['plane']}</div>
-        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.4;"><b>Patrón de Activación Patológico:</b><br>{active_node['patient_scan']}</p>
-        <div style="font-size: 0.74rem; color: #f59e0b; border-top: 1px solid #1e293b; padding-top: 6px;">
-            <b>Analogía clínica:</b> {active_node['analogy']}
+    <div style="background:#090e1a; border:1px solid #1e293b; border-left:4px solid {active_node['color']}; padding:14px; border-radius:8px;">
+        <h4 style="color: {active_node['color']}; margin:0 0 6px 0;">🔴 Paciente: {selected_disorder.split('(')[0]}</h4>
+        <div style="font-size:0.76rem; color:#94a3b8; margin-bottom:8px;"><b>Corte:</b> {active_node['plane']}</div>
+        {generate_mri_svg(active_node['plane'], True, active_node['color'], active_node['status'])}
+        <div style="font-size:0.75rem; color:#cbd5e1; margin-top:8px; line-height:1.4;">
+            <b>Patrón Clínico:</b> <i>{active_node['analogy']}</i><br>
+            <b>Situación Real:</b> {active_node['example']}
         </div>
     </div>
     """, unsafe_allow_html=True)
 
+# -------------------------------------------------------------------------
+# Compendio Diagnóstico Nosológico: Definición, Criterios y Textos de Referencia
+# -------------------------------------------------------------------------
+st.markdown("---")
+st.subheader("📖 Compendio Nosológico & Criterios Diagnósticos")
+st.caption("Alineado con los manuales de referencia internacional (DSM-5-TR, CIE-11) y tratados de psiquiatría clínica")
+
 st.markdown(f"""
-<div style="background: #0b1329; border: 1px solid #1e293b; padding: 12px 16px; border-radius: 6px; font-size: 0.80rem; color: #cbd5e1; margin-top: -4px;">
-    <b>Ejemplo en situación de la vida real:</b> {active_node['example']}
+<div class="criteria-box">
+    <h4 style="color:#38bdf8; margin:0 0 6px 0;">Definición Nosológica Formal</h4>
+    <p style="font-size:0.86rem; color:#f8fafc; line-height:1.45; margin-bottom:12px;">{current_data['definition']}</p>
+    
+    <h4 style="color:#f59e0b; margin:14px 0 6px 0;">Criterios Diagnósticos DSM-5-TR (Asociación Estadounidense de Psiquiatría)</h4>
+    <div style="font-size:0.80rem; color:#cbd5e1; line-height:1.5;">
+        {'<br>'.join(current_data['dsm5_criteria'])}
+    </div>
+    
+    <h4 style="color:#10b981; margin:14px 0 6px 0;">Marco Conceptual Dimensional CIE-11 (Organización Mundial de la Salud)</h4>
+    <p style="font-size:0.80rem; color:#cbd5e1; line-height:1.45;">{current_data['icd11_framework']}</p>
+    
+    <div style="border-top:1px solid #1e293b; padding-top:10px; margin-top:14px;">
+        <span style="font-size:0.72rem; text-transform:uppercase; color:#94a3b8; font-weight:700;">Bibliografía y Tratados de Referencia Utilizados:</span><br>
+        <div style="font-size:0.76rem; color:#94a3b8; font-style:italic; line-height:1.4; margin-top:4px;">
+            {'<br>'.join(['• ' + b for b in current_data['textbooks']])}
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
