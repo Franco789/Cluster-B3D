@@ -9,10 +9,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estética quirúrgica dark mode de alta gama
+# Estética de consola médica de alta gama
 st.markdown("""
 <style>
-    .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
+    .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     h1, h2, h3 { color: #f8fafc; font-weight: 700; letter-spacing: -0.02em; }
     .biomarker-panel {
         background: #0b1329; border: 1px solid #1e293b; border-left: 3px solid #38bdf8;
@@ -24,7 +24,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Base de Datos Neurobiológica con Analogías Pedagógicas y Citas Académicas
+# Base de Datos Neurobiológica con Dimensiones Anatómicas Reducidas y Citas
 # -------------------------------------------------------------------------
 CLINICAL_DATABASE = {
     "Trastorno Límite de la Personalidad (TLP)": {
@@ -40,27 +40,27 @@ CLINICAL_DATABASE = {
         "nodes": [
             {
                 "name": "Amígdala Basolateral Derecha",
-                "coords": [2.3, -0.6, -1.4],
-                "color": "#ef4444",
-                "rad": 1.20,
+                "coords": [2.2, -0.6, -1.4],
+                "color": "#ff0055",
+                "rad": 0.48, # Reducido a escala anatómica real
                 "hz": 8.0,
                 "status": "HIPERTRÓFICA FÁSICA",
                 "desc": "Alarma paroxística de supervivencia; decodificación errónea de rostros neutros como amenazantes.",
-                "voice": "Amígdala basolateral derecha. Imaginemos una alarma de humo ultrasensible, tan descalibrada que no sólo detecta fuego, sino que hace sonar la sirena de evacuación ante el simple vapor de una taza de café. En el paciente con TLP, un rostro neutro o un mensaje sin responder por diez minutos es interpretado por esta amígdala como una amenaza mortal de abandono inminente. Como demostraron New y colaboradores en NeuroImage, el circuito queda atrapado en una tormenta adrenérgica prolongada sin poder extinguir el miedo."
+                "voice": "Amígdala basolateral derecha. Imaginemos una alarma de humo ultrasensible, tan descalibrada que no sólo detecta fuego, sino que hace sonar la sirena de evacuación ante el simple vapor de una taza de café. En el paciente con TLP, un rostro neutro o un mensaje sin responder por diez minutos es interpretado como una amenaza mortal de abandono inminente. Como demostraron New y colaboradores en NeuroImage, el circuito queda atrapado en una tormenta adrenérgica prolongada sin poder extinguir el miedo."
             },
             {
                 "name": "Amígdala Basolateral Izquierda",
-                "coords": [-2.3, -0.6, -1.4],
-                "color": "#ef4444",
-                "rad": 1.20,
+                "coords": [-2.2, -0.6, -1.4],
+                "color": "#ff0055",
+                "rad": 0.48,
                 "hz": 8.0,
                 "status": "HIPERTRÓFICA FÁSICA",
                 "desc": "Descarga simpática autónoma inmediata ante la sospecha de distanciamiento interpersonal.",
-                "voice": "Amígdala basolateral izquierda. Funciona como un gatillo biológico de pánico relacional. Por ejemplo, en una discusión de pareja, mientras una persona promedio experimenta incomodidad, aquí se desata una descarga autonómica de taquicardia y terror similar a estar frente a un depredador real."
+                "voice": "Amígdala basolateral izquierda. Funciona como un gatillo biológico de pánico relacional. Por ejemplo, en una discusión de pareja, mientras una persona promedio experimenta incomodidad, aquí se desata una descarga autonómica de taquicardia y terror similar a estar frente a un peligro inminente."
             },
             {
                 "name": "Córtex Prefrontal Ventromedial (vmPFC)",
-                "coords": [0.0, 4.4, -0.8],
+                "coords": [0.0, 4.2, -0.8],
                 "color": "#38bdf8",
                 "rad": 0.42,
                 "hz": 1.0,
@@ -70,42 +70,42 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "Cíngulo Anterior Dorsal (dACC)",
-                "coords": [0.0, 2.2, 2.8],
+                "coords": [0.0, 2.2, 2.6],
                 "color": "#f43f5e",
-                "rad": 1.10,
+                "rad": 0.45,
                 "hz": 7.2,
                 "status": "DOLOR SOCIAL AGUDO",
                 "desc": "Epicentro de la Red de Prominencia; traduce la distancia vincular en angustia física.",
-                "voice": "Cíngulo anterior dorsal. Es la estación central del dolor social. Naomi Eisenberger demostró en la revista Science que el cerebro no distingue la exclusión afectiva de una quemadura física real. Cuando el paciente siente que es ignorado o rechazado, este núcleo se enciende con tal violencia que el corte físico en la piel muchas veces busca paradójicamente distraer o 'apagar' este dolor psíquico abrumador."
+                "voice": "Cíngulo anterior dorsal. Es la estación central del dolor social. Naomi Eisenberger demostró en la revista Science que el cerebro no distingue la exclusión afectiva de una quemadura física real. Cuando el paciente siente que es ignorado o rechazado, este núcleo se enciende con tal violencia que el dolor físico provocado busca paradójicamente mitigar este dolor psíquico abrumador."
             },
             {
                 "name": "Ínsula Anterior Agranular",
-                "coords": [3.6, 0.8, -0.1],
+                "coords": [3.5, 0.8, -0.1],
                 "color": "#e11d48",
-                "rad": 0.95,
+                "rad": 0.44,
                 "hz": 6.5,
                 "status": "HIPEREXCITACIÓN INTEROCEPTIVA",
                 "desc": "Sustrato neurofisiológico de la vivencia de vacío crónico y disforia visceral.",
-                "voice": "Ínsula anterior agranular. Es el traductor de las vísceras. Aquí reside el correlato biológico de ese 'agujero en el pecho' o vacío crónico que describe el paciente en consultorio; una sensación visceral desagradable e intolerable que a menudo empuja al consumo compulsivo o a la búsqueda desesperada de apego."
+                "voice": "Ínsula anterior agranular. Es el traductor de las vísceras. Aquí reside el correlato biológico de ese agujero en el pecho o vacío crónico que describe el paciente en consultorio; una sensación visceral intolerable que empuja al consumo compulsivo o a la búsqueda desesperada de apego."
             }
         ],
         "tracts": [
             {
-                "from": [2.3, -0.6, -1.4], "to": [0.0, 4.4, -0.8], "ctrl": [3.4, 1.8, -2.2],
+                "from": [2.2, -0.6, -1.4], "to": [0.0, 4.2, -0.8], "ctrl": [3.2, 1.8, -2.0],
                 "name": "Fascículo Uncinado Derecho",
                 "status": "broken",
                 "desc": "Tracto axonómico desmielinizado; pérdida de anisotropía fraccional (FA: 0.18).",
-                "voice": "Fascículo uncinado derecho. Es el cable de fibra óptica que conecta la razón con la emoción. En el TLP, este cable está deshilachado y con pérdida severa de aislamiento de mielina. La orden de 'cálmate, no te están abandonando' que envía el lóbulo frontal llega demasiado tarde o degradada a la amígdala."
+                "voice": "Fascículo uncinado derecho. Es el cable de fibra óptica que conecta la razón con la emoción. En el TLP, este cable está deshilachado y con pérdida severa de aislamiento de mielina. La orden de calmarse que envía el lóbulo frontal llega demasiado tarde o degradada a la amígdala."
             },
             {
-                "from": [-2.3, -0.6, -1.4], "to": [0.0, 4.4, -0.8], "ctrl": [-3.4, 1.8, -2.2],
+                "from": [-2.2, -0.6, -1.4], "to": [0.0, 4.2, -0.8], "ctrl": [-3.2, 1.8, -2.0],
                 "name": "Fascículo Uncinado Izquierdo",
                 "status": "broken",
                 "desc": "Interrupción de la conectividad recíproca amígdalo-prefrontal bilateral.",
                 "voice": "Fascículo uncinado izquierdo. La tractografía DTI documentada por Schmahl revela una baja anisotropía fraccional bilateral, explicando por qué las crisis emocionales son tan difíciles de regular mediante la lógica convencional."
             },
             {
-                "from": [0.0, 2.2, 2.8], "to": [0.0, 4.4, -0.8], "ctrl": [0.0, 3.4, 1.0],
+                "from": [0.0, 2.2, 2.6], "to": [0.0, 4.2, -0.8], "ctrl": [0.0, 3.4, 0.9],
                 "name": "Proyección Cíngulo-Frontal",
                 "status": "hyper",
                 "desc": "Sobrecarga de conflicto social transmitida sin modulación prefrontal.",
@@ -113,11 +113,11 @@ CLINICAL_DATABASE = {
             }
         ],
         "ecosystem": [
-            {"name": "Vínculo de Pareja / Apego", "desc": "Splitting, idealización vs devaluación y terror pánico al desapego.", "tension": 0.98, "coords": [7.0, 4.0, 2.0], "color": "#ef4444", "voice": "Esfera de pareja. Opera como un péndulo sin amortiguador. En un instante la pareja es el salvador absoluto, y ante una mínima tardanza pasa a ser el peor enemigo. Este mecanismo de escisión o splitting es la manifestación relacional directa de la desregulación amigdalina."},
-            {"name": "Guardia Médica / Urgencias", "desc": "Consultas reiteradas por gestos parasuicidas, sobredosis e impulsividad.", "tension": 0.95, "coords": [-6.5, 5.0, -2.5], "color": "#ef4444", "voice": "Servicio de guardia. El paciente llega en crisis paroxística tras una discusión afectiva, requiriendo contención institucional ante gestos autolesivos que no siempre buscan la muerte, sino silenciar la agonía del dolor psíquico."},
-            {"name": "Sentido de Identidad / Self", "desc": "Sensación de vacío insoportable, autodifusión y fluctuación moral.", "tension": 0.94, "coords": [5.0, -5.5, -2.5], "color": "#f43f5e", "voice": "Eje identitario. Es como un camaleón que cambia de color para no morir. El paciente adopta los gustos, valores o ideologías de la persona que tiene al lado por terror a que, al quedarse solo, no quede nada de sí mismo."},
-            {"name": "Soporte Familiar Primario", "desc": "Agotamiento de cuidadores, dinámicas de doble vínculo y claudicación.", "tension": 0.88, "coords": [-5.5, -4.0, 3.5], "color": "#fb923c", "voice": "Entorno familiar. Los familiares viven caminando sobre cáscaras de huevo, midiendo cada palabra para no disparar una crisis, lo que a largo plazo agota los recursos de soporte y genera rechazo involuntario."},
-            {"name": "Ámbito Académico / Laboral", "desc": "Interrupción de ciclos de estudio/trabajo por crisis afectivas cíclicas.", "tension": 0.70, "coords": [2.0, 6.5, -3.5], "color": "#eab308", "voice": "Ámbito laboral y académico. Se caracteriza por renuncias intempestivas o despidos tras discusiones explosivas con jefes o compañeros, desmoronando carreras promisorias por fallas en la tolerancia a la frustración."}
+            {"name": "Vínculo de Pareja / Apego", "desc": "Splitting, idealización vs devaluación y terror pánico al desapego.", "tension": 0.98, "coords": [6.5, 3.5, 1.8], "color": "#ef4444", "voice": "Esfera de pareja. Opera como un péndulo sin amortiguador. En un instante la pareja es el salvador absoluto, y ante una mínima tardanza pasa a ser el peor enemigo. Este mecanismo de escisión o splitting es la manifestación relacional directa de la desregulación amigdalina."},
+            {"name": "Guardia Médica / Urgencias", "desc": "Consultas reiteradas por gestos parasuicidas, sobredosis e impulsividad.", "tension": 0.95, "coords": [-6.0, 4.5, -2.2], "color": "#ef4444", "voice": "Servicio de guardia. El paciente llega en crisis paroxística tras una discusión afectiva, requiriendo contención institucional ante gestos autolesivos que no siempre buscan la muerte, sino silenciar la agonía del dolor psíquico."},
+            {"name": "Sentido de Identidad / Self", "desc": "Sensación de vacío insoportable, autodifusión y fluctuación moral.", "tension": 0.94, "coords": [4.5, -5.0, -2.2], "color": "#f43f5e", "voice": "Eje identitario. Es como un camaleón que cambia de color para no morir. El paciente adopta los gustos, valores o ideologías de la persona que tiene al lado por terror a que, al quedarse solo, no quede nada de sí mismo."},
+            {"name": "Soporte Familiar Primario", "desc": "Agotamiento de cuidadores, dinámicas de doble vínculo y claudicación.", "tension": 0.88, "coords": [-5.0, -3.5, 3.0], "color": "#fb923c", "voice": "Entorno familiar. Los familiares viven caminando sobre cáscaras de huevo, midiendo cada palabra para no disparar una crisis, lo que a largo plazo agota los recursos de soporte y genera rechazo involuntario."},
+            {"name": "Ámbito Académico / Laboral", "desc": "Interrupción de ciclos de estudio/trabajo por crisis afectivas cíclicas.", "tension": 0.70, "coords": [1.8, 6.0, -3.0], "color": "#eab308", "voice": "Ámbito laboral y académico. Se caracteriza por renuncias intempestivas o despidos tras discusiones explosivas con jefes o compañeros, desmoronando carreras promisorias por fallas en la tolerancia a la frustración."}
         ]
     },
     "Trastorno Antisocial de la Personalidad (TASP)": {
@@ -133,9 +133,9 @@ CLINICAL_DATABASE = {
         "nodes": [
             {
                 "name": "Amígdala (Hipoactiva / Atrofiada)",
-                "coords": [2.3, -0.6, -1.4],
+                "coords": [2.2, -0.6, -1.4],
                 "color": "#1e293b",
-                "rad": 0.38,
+                "rad": 0.35,
                 "hz": 0.4,
                 "status": "ATROFIA FUNCIONAL",
                 "desc": "Inmunidad al condicionamiento por miedo o castigo; refractariedad autonómica.",
@@ -143,9 +143,9 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "vmPFC (Polo Moral Desconectado)",
-                "coords": [0.0, 4.4, -0.8],
+                "coords": [0.0, 4.2, -0.8],
                 "color": "#334155",
-                "rad": 0.42,
+                "rad": 0.38,
                 "hz": 0.5,
                 "status": "HIPOCONECTADA",
                 "desc": "Juicio lógico analítico frío, pero sin integración somática del sufrimiento ajeno.",
@@ -153,9 +153,9 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "Núcleo Accumbens (Estriado)",
-                "coords": [1.3, 1.4, -0.8],
+                "coords": [1.2, 1.4, -0.8],
                 "color": "#eab308",
-                "rad": 1.25,
+                "rad": 0.52,
                 "hz": 7.5,
                 "status": "HIPERACTIVIDAD PREDATORIA",
                 "desc": "Búsqueda insaciable de recompensa inmediata y dominancia instrumental.",
@@ -163,7 +163,7 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "Ínsula Anterior (Anestesiada)",
-                "coords": [3.6, 0.8, -0.1],
+                "coords": [3.5, 0.8, -0.1],
                 "color": "#1e293b",
                 "rad": 0.32,
                 "hz": 0.3,
@@ -174,14 +174,14 @@ CLINICAL_DATABASE = {
         ],
         "tracts": [
             {
-                "from": [2.3, -0.6, -1.4], "to": [0.0, 4.4, -0.8], "ctrl": [3.4, 1.8, -2.2],
+                "from": [2.2, -0.6, -1.4], "to": [0.0, 4.2, -0.8], "ctrl": [3.2, 1.8, -2.0],
                 "name": "Fascículo Uncinado (Ablación Conectómica)",
                 "status": "broken",
                 "desc": "Interrupción casi completa del tracto microestructural (FA: 0.08).",
                 "voice": "Fascículo uncinado cortado. Motzkin comprobó en reclusos que la línea de comunicación entre el centro del miedo y el juicio moral está rota. El cerebro no puede enviar la señal de freno somático ante la transgresión."
             },
             {
-                "from": [0.0, 4.4, -0.8], "to": [1.3, 1.4, -0.8], "ctrl": [0.7, 3.0, -0.8],
+                "from": [0.0, 4.2, -0.8], "to": [1.2, 1.4, -0.8], "ctrl": [0.6, 2.8, -0.8],
                 "name": "Vía Córtico-Estriatal Desinhibida",
                 "status": "hyper",
                 "desc": "El estriado opera sin freno inhibitorio frontal, facilitando conductas predatorias.",
@@ -189,11 +189,11 @@ CLINICAL_DATABASE = {
             }
         ],
         "ecosystem": [
-            {"name": "Fuero Penal & Penitenciario", "desc": "Reiteración delictiva, crímenes patrimoniales/violentos y encarcelamiento.", "tension": 0.99, "coords": [-7.5, -3.5, 2.5], "color": "#ef4444", "voice": "Fuero penal y penitenciario. El paciente no aprende del castigo ni de la cárcel. Al salir de prisión, la falta de condicionamiento al miedo hace que reincida exactamente en las mismas conductas delictivas."},
-            {"name": "Víctimas / Vínculos Explotados", "desc": "Cosificación instrumental, violencia predatoria y despojo patrimonial.", "tension": 0.96, "coords": [7.0, 4.5, 3.0], "color": "#ef4444", "voice": "Vínculos explotados. Las parejas y allegados son considerados meras herramientas o fichas de ajedrez. Una vez que ya no proveen dinero, estatus o placer, son desechados sin el menor atisbo de nostalgia."},
-            {"name": "Ámbito Contractual / Financiero", "desc": "Fraudes sistemáticos, estafas y ausencia de lealtad comercial.", "tension": 0.88, "coords": [-5.0, 5.5, -3.5], "color": "#fb923c", "voice": "Ámbito financiero. Creación de empresas fantasma, estafas piramidales y desvío de fondos. La promesa verbal es utilizada como un anzuelo sin intención real de cumplimiento."},
-            {"name": "Peritajes Médico-Legales", "desc": "Simulación calculada de trastornos mentales para eludir sanciones penales.", "tension": 0.65, "coords": [3.5, -6.0, -3.0], "color": "#eab308", "voice": "Peritajes forenses. El sujeto simula delirios o amnesia durante el examen psiquiátrico forense para ser declarado inimputable, desarmando la farsa cuando está fuera del ámbito judicial."},
-            {"name": "Eje Identitario", "desc": "Egosintonía perfecta; ausencia de autocrítica o malestar interno.", "tension": 0.12, "coords": [5.5, -2.0, 4.5], "color": "#10b981", "voice": "Eje identitario. Plena egosintonía. El individuo no acude voluntariamente a consulta porque no sufre en absoluto; considera que el problema es de los demás por ser débiles o ingenuos."}
+            {"name": "Fuero Penal & Penitenciario", "desc": "Reiteración delictiva, crímenes patrimoniales/violentos y encarcelamiento.", "tension": 0.99, "coords": [-7.0, -3.2, 2.2], "color": "#ef4444", "voice": "Fuero penal y penitenciario. El paciente no aprende del castigo ni de la cárcel. Al salir de prisión, la falta de condicionamiento al miedo hace que reincida exactamente en las mismas conductas delictivas."},
+            {"name": "Víctimas / Vínculos Explotados", "desc": "Cosificación instrumental, violencia predatoria y despojo patrimonial.", "tension": 0.96, "coords": [6.5, 4.0, 2.5], "color": "#ef4444", "voice": "Vínculos explotados. Las parejas y allegados son considerados meras herramientas o fichas de ajedrez. Una vez que ya no proveen dinero, estatus o placer, son desechados sin el menor atisbo de nostalgia."},
+            {"name": "Ámbito Contractual / Financiero", "desc": "Fraudes sistemáticos, estafas y ausencia de lealtad comercial.", "tension": 0.88, "coords": [-4.5, 5.0, -3.0], "color": "#fb923c", "voice": "Ámbito financiero. Creación de empresas fantasma, estafas piramidales y desvío de fondos. La promesa verbal es utilizada como un anzuelo sin intención real de cumplimiento."},
+            {"name": "Peritajes Médico-Legales", "desc": "Simulación calculada de trastornos mentales para eludir sanciones penales.", "tension": 0.65, "coords": [3.2, -5.5, -2.6], "color": "#eab308", "voice": "Peritajes forenses. El sujeto simula delirios o amnesia durante el examen psiquiátrico forense para ser declarado inimputable, desarmando la farsa cuando está fuera del ámbito judicial."},
+            {"name": "Eje Identitario", "desc": "Egosintonía perfecta; ausencia de autocrítica o malestar interno.", "tension": 0.12, "coords": [5.0, -1.8, 4.0], "color": "#10b981", "voice": "Eje identitario. Plena egosintonía. El individuo no acude voluntariamente a consulta porque no sufre en absoluto; considera que el problema es de los demás por ser débiles o ingenuos."}
         ]
     },
     "Trastorno Narcisista de la Personalidad (TNP)": {
@@ -209,9 +209,9 @@ CLINICAL_DATABASE = {
         "nodes": [
             {
                 "name": "dACC (Radar de Jerarquía)",
-                "coords": [0.0, 2.2, 2.8],
+                "coords": [0.0, 2.2, 2.6],
                 "color": "#a855f7",
-                "rad": 1.20,
+                "rad": 0.50,
                 "hz": 7.4,
                 "status": "HIPERREACTIVO AL DESPRECIO",
                 "desc": "Alarma desmedida ante el desacato, la crítica o la pérdida de admiración.",
@@ -219,9 +219,9 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "vmPFC (Autoimagen Grandiosa)",
-                "coords": [0.0, 4.4, -0.8],
+                "coords": [0.0, 4.2, -0.8],
                 "color": "#c084fc",
-                "rad": 0.85,
+                "rad": 0.46,
                 "hz": 2.8,
                 "status": "COMPENSACIÓN GRANDIOSA",
                 "desc": "Mantenimiento activo del constructo de superioridad como defensa ante el vacío.",
@@ -229,42 +229,42 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "Amígdala (Rabia Narcisista)",
-                "coords": [2.3, -0.6, -1.4],
+                "coords": [2.2, -0.6, -1.4],
                 "color": "#ec4899",
-                "rad": 0.80,
+                "rad": 0.42,
                 "hz": 5.2,
                 "status": "VULNERABILIDAD FÁSICA",
                 "desc": "Explosiones coléricas vindicativas ante la exposición de debilidad.",
-                "voice": "Amígdala fásica. Dispara la llamada 'rabia narcisista'. Ante una crítica fundada de un colega o pareja, la herida narcisista desata una reacción colérica desproporcionada que busca descalificar y aniquilar verbalmente al otro para restituir el propio valor dañado."
+                "voice": "Amígdala fásica. Dispara la llamada rabia narcisista. Ante una crítica fundada de un colega o pareja, la herida narcisista desata una reacción colérica desproporcionada que busca descalificar y aniquilar verbalmente al otro para restituir el propio valor dañado."
             },
             {
                 "name": "Ínsula (Desconexión Vicaria)",
-                "coords": [3.6, 0.8, -0.1],
+                "coords": [3.5, 0.8, -0.1],
                 "color": "#334155",
-                "rad": 0.38,
+                "rad": 0.35,
                 "hz": 0.8,
                 "status": "ANESTESIA EMPÁTICA",
                 "desc": "Incapacidad neurofisiológica de registrar el dolor causado a subordinados.",
-                "voice": "Ínsula anterior desconectada. Fan demostró en la revista SCAN la presencia de una disociación clave: el narcisista tiene empatía cognitiva intacta, es decir, 'sabe' perfectamente qué te duele y cómo herirte, pero carece de empatía afectiva, lo que significa que 'no siente' compasión alguna al hacerlo."
+                "voice": "Ínsula anterior desconectada. Fan demostró en la revista SCAN la presencia de una disociación clave: el narcisista tiene empatía cognitiva intacta, es decir, sabe perfectamente qué te duele y cómo herirte, pero carece de empatía afectiva, lo que significa que no siente compasión alguna al hacerlo."
             }
         ],
         "tracts": [
             {
-                "from": [0.0, 2.2, 2.8], "to": [0.0, 4.4, -0.8], "ctrl": [0.0, 3.4, 1.0],
+                "from": [0.0, 2.2, 2.6], "to": [0.0, 4.2, -0.8], "ctrl": [0.0, 3.4, 0.9],
                 "name": "Eje de Autoevaluación Hipervigilante",
                 "status": "hyper",
                 "desc": "Circuito de monitoreo constante del estatus y de la aprobación externa.",
-                "voice": "Eje de autoevaluación. Obliga al sujeto a monitorear obsesivamente cuántos 'me gusta', aplausos o muestras de sumisión recibe por minuto para mantener equilibrado su estado de ánimo."
+                "voice": "Eje de autoevaluación. Obliga al sujeto a monitorear obsesivamente cuántos me gusta, aplausos o muestras de sumisión recibe por minuto para mantener equilibrado su estado de ánimo."
             },
             {
-                "from": [2.3, -0.6, -1.4], "to": [0.0, 2.2, 2.8], "ctrl": [1.2, 0.7, 0.8],
+                "from": [2.2, -0.6, -1.4], "to": [0.0, 2.2, 2.6], "ctrl": [1.1, 0.7, 0.8],
                 "name": "Circuito de Ira Vindicativa",
                 "status": "hyper",
                 "desc": "Descarga amigdalina directa al cíngulo que alimenta la hostilidad defensiva.",
                 "voice": "Circuito de ira vindicativa. Es el puente por donde la herida del orgullo se transforma en desprecio hacia quien osó marcarle un error."
             },
             {
-                "from": [3.6, 0.8, -0.1], "to": [0.0, 4.4, -0.8], "ctrl": [2.2, 2.4, -0.5],
+                "from": [3.5, 0.8, -0.1], "to": [0.0, 4.2, -0.8], "ctrl": [2.0, 2.2, -0.5],
                 "name": "Desconexión Fronto-Insular",
                 "status": "broken",
                 "desc": "Bloqueo selectivo de la resonancia afectiva hacia el sufrimiento ajeno.",
@@ -272,11 +272,11 @@ CLINICAL_DATABASE = {
             }
         ],
         "ecosystem": [
-            {"name": "Vínculo de Pareja", "desc": "Cosificación, exigencia de pleitesía, humillación y ley del hielo.", "tension": 0.92, "coords": [6.5, 4.0, 2.0], "color": "#ef4444", "voice": "Vínculo conyugal. Se establece una dinámica de dominación donde la pareja debe orbitar en torno a sus necesidades. El menor desacuerdo es castigado con semanas de silencio gélido o devaluación humillante."},
-            {"name": "Autoimagen & Cohesión del Self", "desc": "Fragilidad extrema; colapso disfórico profundo ante pérdidas de estatus.", "tension": 0.96, "coords": [0.0, -7.0, -2.5], "color": "#a855f7", "voice": "Cohesión del self. Cuando se produce una quiebra real de estatus (una bancarrota, un divorcio público o el envejecimiento), el andamio grandioso se derrumba, dando paso a una depresión disfórica de altísimo riesgo suicida."},
-            {"name": "Ámbito Corporativo / Laboral", "desc": "Rivalidades destructivas, litigios por honra y boicot a colaboradores.", "tension": 0.84, "coords": [-6.0, 4.5, 3.0], "color": "#fb923c", "voice": "Ámbito laboral. Como líderes o jefes son tiranos que se apropian de los éxitos de los empleados y culpan a otros de sus propios errores, generando ambientes laborales tóxicos y renuncias masivas."},
-            {"name": "Familia de Origen", "desc": "Exigencia de tributo incondicional o ruptura agresiva con exclusión total.", "tension": 0.76, "coords": [-5.0, -4.5, 3.0], "color": "#fb923c", "voice": "Familia de origen. Trata a los hijos como extensiones de su propia imagen. El hijo que triunfa es exhibido como trofeo; el que piensa por sí mismo es desheredado o rechazado."},
-            {"name": "Consultas a Salud Mental", "desc": "Abandono de psicoterapia ante señalamientos que confronten la grandiosidad.", "tension": 0.52, "coords": [4.0, 6.0, -3.0], "color": "#38bdf8", "voice": "Consulta psiquiátrica. Llegan derivados o arrastrados por terceros. Ante la primera interpretación del terapeuta que señale sus falencias, abandonan el tratamiento argumentando que el profesional 'no está a su nivel'."}
+            {"name": "Vínculo de Pareja", "desc": "Cosificación, exigencia de pleitesía, humillación y ley del hielo.", "tension": 0.92, "coords": [6.0, 3.5, 1.8], "color": "#ef4444", "voice": "Vínculo conyugal. Se establece una dinámica de dominación donde la pareja debe orbitar en torno a sus necesidades. El menor desacuerdo es castigado con semanas de silencio gélido o devaluación humillante."},
+            {"name": "Autoimagen & Cohesión del Self", "desc": "Fragilidad extrema; colapso disfórico profundo ante pérdidas de estatus.", "tension": 0.96, "coords": [0.0, -6.5, -2.2], "color": "#a855f7", "voice": "Cohesión del self. Cuando se produce una quiebra real de estatus (una bancarrota, un divorcio público o el envejecimiento), el andamio grandioso se derrumba, dando paso a una depresión disfórica de altísimo riesgo suicida."},
+            {"name": "Ámbito Corporativo / Laboral", "desc": "Rivalidades destructivas, litigios por honra y boicot a colaboradores.", "tension": 0.84, "coords": [-5.5, 4.0, 2.8], "color": "#fb923c", "voice": "Ámbito laboral. Como líderes o jefes son tiranos que se apropian de los éxitos de los empleados y culpan a otros de sus propios errores, generando ambientes laborales tóxicos y renuncias masivas."},
+            {"name": "Familia de Origen", "desc": "Exigencia de tributo incondicional o ruptura agresiva con exclusión total.", "tension": 0.76, "coords": [-4.5, -4.0, 2.8], "color": "#fb923c", "voice": "Familia de origen. Trata a los hijos como extensiones de su propia imagen. El hijo que triunfa es exhibido como trofeo; el que piensa por sí mismo es desheredado o rechazado."},
+            {"name": "Consultas a Salud Mental", "desc": "Abandono de psicoterapia ante señalamientos que confronten la grandiosidad.", "tension": 0.52, "coords": [3.6, 5.5, -2.6], "color": "#38bdf8", "voice": "Consulta psiquiátrica. Llegan derivados o arrastrados por terceros. Ante la primera interpretación del terapeuta que señale sus falencias, abandonan el tratamiento argumentando que el profesional no está a su nivel."}
         ]
     },
     "Trastorno Histriónico de la Personalidad (THP)": {
@@ -292,9 +292,9 @@ CLINICAL_DATABASE = {
         "nodes": [
             {
                 "name": "Amígdala Límbica",
-                "coords": [2.3, -0.6, -1.4],
+                "coords": [2.2, -0.6, -1.4],
                 "color": "#06b6d4",
-                "rad": 0.90,
+                "rad": 0.44,
                 "hz": 6.2,
                 "status": "HIPEREXCITABLE LÁBIL",
                 "desc": "Emotividad intensa y cambiante; intolerancia al desinterés del entorno.",
@@ -302,9 +302,9 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "Núcleo Accumbens Social",
-                "coords": [1.3, 1.4, -0.8],
+                "coords": [1.2, 1.4, -0.8],
                 "color": "#22d3ee",
-                "rad": 1.10,
+                "rad": 0.48,
                 "hz": 6.5,
                 "status": "HIPERRESPUESTA AL FEEDBACK",
                 "desc": "Dependencia absoluta del halago, la seducción y la validación externa.",
@@ -312,9 +312,9 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "Ínsula Somatosensorial",
-                "coords": [3.6, 0.8, -0.1],
+                "coords": [3.5, 0.8, -0.1],
                 "color": "#0891b2",
-                "rad": 0.85,
+                "rad": 0.42,
                 "hz": 5.4,
                 "status": "SOMATIZACIÓN INTEROCEPTIVA",
                 "desc": "Conversión corporal de angustias afectivas; teatralidad física y somatizaciones.",
@@ -322,9 +322,9 @@ CLINICAL_DATABASE = {
             },
             {
                 "name": "vmPFC Impresionista",
-                "coords": [0.0, 4.4, -0.8],
+                "coords": [0.0, 4.2, -0.8],
                 "color": "#475569",
-                "rad": 0.42,
+                "rad": 0.38,
                 "hz": 1.4,
                 "status": "PROCESAMIENTO DIFUSO",
                 "desc": "Falla en el procesamiento lógico analítico; razonamiento guiado por impresiones.",
@@ -333,26 +333,26 @@ CLINICAL_DATABASE = {
         ],
         "tracts": [
             {
-                "from": [2.3, -0.6, -1.4], "to": [1.3, 1.4, -0.8], "ctrl": [1.7, 0.4, -1.0],
+                "from": [2.2, -0.6, -1.4], "to": [1.2, 1.4, -0.8], "ctrl": [1.6, 0.4, -1.0],
                 "name": "Eje Límbico-Recompensa Interpersonal",
                 "status": "hyper",
                 "desc": "Circuito reforzador del histrionismo relacional.",
                 "voice": "Eje límbico de recompensa. Condiciona la conducta para que el individuo repita permanentemente puestas en escena teatrales que le aseguren la aprobación externa."
             },
             {
-                "from": [0.0, 4.4, -0.8], "to": [2.3, -0.6, -1.4], "ctrl": [1.4, 1.9, -1.1],
+                "from": [0.0, 4.2, -0.8], "to": [2.2, -0.6, -1.4], "ctrl": [1.3, 1.8, -1.1],
                 "name": "Modulación Frontal Deficitaria",
                 "status": "broken",
                 "desc": "Falla del control prefrontal para modular la labilidad afectiva.",
-                "voice": "Modulación frontal deficitaria. Falla en poner orden y sobriedad cuando la situación amerita contención emocional, como velorios o reuniones formales de trabajo."
+                "voice": "Modulación frontal deficitaria. Falla en poner orden y sobriedad cuando la situación amerita contención emocional, como reuniones formales de trabajo o velorios."
             }
         ],
         "ecosystem": [
-            {"name": "Vínculo Conyugal / Pareja", "desc": "Seducción inapropiada, celopatía y reclamo permanente de protagonismo.", "tension": 0.85, "coords": [6.0, 3.5, 2.0], "color": "#ef4444", "voice": "Pareja. Exige demostraciones de amor novelescas y apasionadas todos los días. La rutina cotidiana normal es vivida como desamor, provocando celos infundados o coqueteos con terceros para reactivar el drama."},
-            {"name": "Guardia Médica de Emergencias", "desc": "Ingresos por síntomas neurológicos funcionales, pseudocrisis o hiperventilación.", "tension": 0.82, "coords": [-5.0, 5.5, -2.5], "color": "#fb923c", "voice": "Guardia médica. Clásica consulta de madrugada por pseudocrisis no epilépticas o crisis de hiperventilación tras una discusión doméstica, requiriendo un abordaje empático pero firme que evite la sobremedicalización innecesaria."},
-            {"name": "Círculo Social Amplio", "desc": "Relaciones superficiales asumidas como íntimas; agotamiento del entorno.", "tension": 0.72, "coords": [4.5, -5.0, 2.5], "color": "#fb923c", "voice": "Círculo de amistades. Conocen a alguien hace dos días y ya lo consideran su 'hermano del alma', para luego distanciarse con la misma velocidad ante cualquier pequeñez que no satisfaga su estándar novelesco."},
-            {"name": "Eje de Autoestima", "desc": "Sensación de desvanecimiento subjetivo ante la falta de atención o halago.", "tension": 0.80, "coords": [-1.8, -6.0, -2.0], "color": "#06b6d4", "voice": "Autoestima. Si nadie los mira, sienten literalmente que no existen. Su valor interno es totalmente prestado por la mirada del público circunstancial."},
-            {"name": "Ámbito Laboral Metódico", "desc": "Incapacidad para labores rutinarias o sin visibilidad protagónica.", "tension": 0.50, "coords": [2.2, 6.5, -3.5], "color": "#38bdf8", "voice": "Ámbito laboral. Excelente desenvolvimiento inicial en relaciones públicas o ventas, pero con un rápido agotamiento cuando el rol exige trabajo metódico de archivo o concentración sin público."}
+            {"name": "Vínculo Conyugal / Pareja", "desc": "Seducción inapropiada, celopatía y reclamo permanente de protagonismo.", "tension": 0.85, "coords": [5.5, 3.2, 1.8], "color": "#ef4444", "voice": "Pareja. Exige demostraciones de amor novelescas y apasionadas todos los días. La rutina cotidiana normal es vivida como desamor, provocando celos infundados o coqueteos con terceros para reactivar el drama."},
+            {"name": "Guardia Médica de Emergencias", "desc": "Ingresos por síntomas neurológicos funcionales, pseudocrisis o hiperventilación.", "tension": 0.82, "coords": [-4.5, 5.0, -2.2], "color": "#fb923c", "voice": "Guardia médica. Clásica consulta de madrugada por pseudocrisis no epilépticas o crisis de hiperventilación tras una discusión doméstica, requiriendo un abordaje empático pero firme que evite la sobremedicalización innecesaria."},
+            {"name": "Círculo Social Amplio", "desc": "Relaciones superficiales asumidas como íntimas; agotamiento del entorno.", "tension": 0.72, "coords": [4.0, -4.5, 2.2], "color": "#fb923c", "voice": "Círculo de amistades. Conocen a alguien hace dos días y ya lo consideran su hermano del alma, para luego distanciarse con la misma velocidad ante cualquier pequeñez que no satisfaga su estándar novelesco."},
+            {"name": "Eje de Autoestima", "desc": "Sensación de desvanecimiento subjetivo ante la falta de atención o halago.", "tension": 0.80, "coords": [-1.5, -5.5, -1.8], "color": "#06b6d4", "voice": "Autoestima. Si nadie los mira, sienten literalmente que no existen. Su valor interno es totalmente prestado por la mirada del público circunstancial."},
+            {"name": "Ámbito Laboral Metódico", "desc": "Incapacidad para labores rutinarias o sin visibilidad protagónica.", "tension": 0.50, "coords": [2.0, 5.8, -3.0], "color": "#38bdf8", "voice": "Ámbito laboral. Excelente desenvolvimiento inicial en relaciones públicas o ventas, pero con un rápido agotamiento cuando el rol exige trabajo metódico de archivo o concentración sin público."}
         ]
     }
 }
@@ -388,7 +388,7 @@ with m4:
     st.markdown(f"""<div class="biomarker-panel"><div class="biomarker-lbl">Ratio Inhibitorio Top-Down</div><div class="biomarker-val" style="color: {col_r};">{ratio_ctrl:.2f}</div></div>""", unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Motor WebGL Three.js con Manejo Nativo de PointerEvents y Voz Humanizada
+# Motor WebGL Three.js con HUD Compacto no Invasivo y Escala Anatómica
 # -------------------------------------------------------------------------
 payload = {
     "view": view_selector,
@@ -408,28 +408,33 @@ html_webgl = f"""
     body {{ margin: 0; overflow: hidden; background: #020617; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
     #viewport {{ width: 100vw; height: 100vh; position: relative; touch-action: none; }}
     canvas {{ width: 100% !important; height: 100% !important; display: block; outline: none; }}
+    
+    /* HUD Lateral Flotante que no tapa el centro del cerebro */
     #hud {{
-      position: absolute; bottom: 20px; left: 20px; z-index: 100;
-      background: rgba(11, 19, 41, 0.94); backdrop-filter: blur(14px);
+      position: absolute; top: 75px; left: 16px; z-index: 100;
+      background: rgba(11, 19, 41, 0.88); backdrop-filter: blur(12px);
       border: 1px solid #1e293b; border-left: 3px solid #38bdf8; border-radius: 8px;
-      padding: 16px 20px; color: #f1f5f9; max-width: 500px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85); pointer-events: none;
+      padding: 12px 16px; color: #f1f5f9; max-width: 320px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7); pointer-events: none;
     }}
-    .hud-title {{ font-weight: 700; color: #38bdf8; font-size: 1.0rem; margin-bottom: 4px; font-family: monospace; }}
-    .hud-desc {{ color: #94a3b8; font-size: 0.82rem; line-height: 1.45; }}
+    .hud-title {{ font-weight: 700; color: #38bdf8; font-size: 0.90rem; margin-bottom: 4px; font-family: monospace; }}
+    .hud-desc {{ color: #94a3b8; font-size: 0.76rem; line-height: 1.4; }}
+    
     #top-bar {{
-      position: absolute; top: 20px; right: 20px; z-index: 100;
+      position: absolute; top: 16px; right: 16px; z-index: 100;
       display: flex; gap: 8px;
     }}
     .btn {{
-      background: rgba(15, 23, 42, 0.9); border: 1px solid #334155; color: #cbd5e1;
-      padding: 7px 14px; border-radius: 5px; font-size: 0.74rem; cursor: pointer;
+      background: rgba(15, 23, 42, 0.85); border: 1px solid #334155; color: #cbd5e1;
+      padding: 6px 12px; border-radius: 5px; font-size: 0.72rem; cursor: pointer;
       font-family: monospace; text-transform: uppercase; font-weight: 600;
+      backdrop-filter: blur(8px);
     }}
     .btn:hover {{ background: #1e293b; color: #38bdf8; border-color: #38bdf8; }}
     .btn-active {{ background: #0284c7; color: #ffffff; border-color: #38bdf8; }}
+    
     #voice-prompt {{
-      position: absolute; top: 20px; left: 20px; z-index: 100;
+      position: absolute; top: 16px; left: 16px; z-index: 100;
     }}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -437,7 +442,7 @@ html_webgl = f"""
 <body>
   <div id="viewport">
     <div id="voice-prompt">
-      <button id="voice-btn" class="btn btn-active" onclick="initVoiceSystem()">🔊 Audio Desactivado: Clic para Iniciar</button>
+      <button id="voice-btn" class="btn btn-active" onclick="initVoiceSystem()">🔊 Iniciar Audio</button>
     </div>
     <div id="top-bar">
       <button class="btn" onclick="setCameraView('sagittal')">Sagital</button>
@@ -446,8 +451,8 @@ html_webgl = f"""
       <button class="btn" onclick="setCameraView('iso')">3D Libre</button>
     </div>
     <div id="hud">
-      <div id="hud-head" class="hud-title">Conectoma Interactivo 3D</div>
-      <div id="hud-body" class="hud-desc">1. Haz clic en "Iniciar Audio" arriba a la izquierda.<br>2. Arrastra con el ratón directamente sobre el cerebro para rotarlo en 360° o usa la rueda para zoom.<br>3. Haz clic sobre cualquier estructura para escuchar su análisis clínico, analogías y citas científicas.</div>
+      <div id="hud-head" class="hud-title">Conectoma Interactivo</div>
+      <div id="hud-body" class="hud-desc">Arrastra con el ratón para rotar el cerebro 360° o usa la rueda para zoom.<br><br><b>Haz clic en cualquier núcleo</b> para escuchar su explicación clínica y citas.</div>
     </div>
   </div>
 
@@ -456,7 +461,7 @@ html_webgl = f"""
     const container = document.getElementById('viewport');
 
     // -------------------------------------------------------------
-    // MOTOR DE VOZ CLÍNICA HUMANIZADA (SELECCIÓN DE VOCES NATURALES)
+    // MOTOR DE VOZ CLÍNICA HUMANIZADA
     // -------------------------------------------------------------
     let voiceActive = false;
     let selectedVoice = null;
@@ -464,7 +469,6 @@ html_webgl = f"""
     function populateVoices() {{
       if (!window.speechSynthesis) return;
       const voices = window.speechSynthesis.getVoices();
-      // Priorizar voces en español naturales/neuronales
       selectedVoice = voices.find(v => v.lang.startsWith('es') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Paulina') || v.name.includes('Jorge') || v.name.includes('Sabina'))) ||
                       voices.find(v => v.lang.startsWith('es')) || null;
     }}
@@ -480,7 +484,7 @@ html_webgl = f"""
       voiceActive = !voiceActive;
       const b = document.getElementById('voice-btn');
       if (voiceActive) {{
-        b.innerText = "🔊 Voz Humanizada: Activa";
+        b.innerText = "🔊 Voz: Activa";
         b.classList.add("btn-active");
         speakText("Motor de síntesis vocal activado. Selecciona cualquier estructura o vía axonal para escuchar su mecanismo fisiopatológico con ejemplos y evidencia científica.");
       }} else {{
@@ -496,8 +500,8 @@ html_webgl = f"""
       const utter = new SpeechSynthesisUtterance(text);
       if (selectedVoice) utter.voice = selectedVoice;
       utter.lang = 'es-ES';
-      utter.rate = 0.94;  // Cadencia más pausada, estilo clase/conferencia médica
-      utter.pitch = 1.02; // Modulación tonal más natural y menos metálica
+      utter.rate = 0.94;
+      utter.pitch = 1.02;
       window.speechSynthesis.speak(utter);
     }}
 
@@ -508,14 +512,14 @@ html_webgl = f"""
     scene.fog = new THREE.FogExp2(0x020617, 0.024);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 3, 22);
+    camera.position.set(0, 2, 21);
 
     const renderer = new THREE.WebGLRenderer({{ antialias: true, alpha: true, powerPreference: "high-performance" }});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Luces quirúrgicas
+    // Iluminación
     scene.add(new THREE.AmbientLight(0xffffff, 0.85));
     const p1 = new THREE.PointLight(0x38bdf8, 2.5, 60);
     p1.position.set(6, 12, 14);
@@ -529,11 +533,11 @@ html_webgl = f"""
     scene.add(modelGroup);
 
     // -------------------------------------------------------------
-    // CONTROL TOTAL DE RATÓN (POINTER EVENTS INTRANSFERIBLES)
+    // CONTROL TOTAL CON POINTER EVENTS
     // -------------------------------------------------------------
     let isPointerDown = false;
     let startX = 0, startY = 0;
-    let targetRotX = 0.2, targetRotY = 0;
+    let targetRotX = 0.15, targetRotY = 0;
     let autoRotate = true;
     let isClickGesture = true;
 
@@ -554,7 +558,7 @@ html_webgl = f"""
       const dy = e.clientY - startY;
 
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {{
-        isClickGesture = false; // Fue arrastre, no clic
+        isClickGesture = false;
       }}
 
       targetRotY += dx * 0.007;
@@ -585,14 +589,14 @@ html_webgl = f"""
       }} else if (view === 'axial') {{
         targetRotX = Math.PI / 2; targetRotY = 0; camera.position.set(0, 24, 0);
       }} else {{
-        targetRotX = 0.2; targetRotY = 0; camera.position.set(0, 3, 22);
+        targetRotX = 0.15; targetRotY = 0; camera.position.set(0, 2, 21);
         autoRotate = true;
       }}
       camera.lookAt(0, 0, 0);
     }}
 
     // -------------------------------------------------------------
-    // MALLA CORTICAL ANATÓMICA (GLASS BRAIN BIOFIEL PBR)
+    // CABLEADO CORTICAL ANATÓMICO (GLASS BRAIN EN WIREFRAME FÓSFORO)
     // -------------------------------------------------------------
     function createAnatomicalGlassCortex() {{
       const uSegs = 90, vSegs = 90;
@@ -605,7 +609,6 @@ html_webgl = f"""
           let v = (j / vSegs) * Math.PI;
 
           let rx = 4.4, ry = 5.8, rz = 4.1;
-          // Ondulaciones calibradas según surcos piales y cisura de Silvio
           let sulci = 0.28 * Math.sin(8 * u) * Math.cos(7 * v) + 
                       0.18 * Math.sin(16 * v) * Math.cos(4 * u) +
                       0.08 * Math.sin(24 * u);
@@ -616,7 +619,6 @@ html_webgl = f"""
 
           // Cisura interhemisférica longitudinal
           if (x >= 0) x += 0.50; else x -= 0.50;
-          // Curvatura polo frontal y fosa temporal
           z -= 0.08 * (y * y) / ry;
 
           pos.push(x, y, z);
@@ -626,12 +628,13 @@ html_webgl = f"""
       geo.computeVertexNormals();
 
       const mat = new THREE.MeshPhysicalMaterial({{
-        color: 0x1e293b,
-        emissive: 0x020617,
+        color: 0x38bdf8,
+        emissive: 0x0284c7,
+        emissiveIntensity: 0.35,
         roughness: 0.2,
         metalness: 0.1,
         transparent: true,
-        opacity: DATA.view.includes("1.") ? 0.24 : 0.06,
+        opacity: DATA.view.includes("1.") ? 0.32 : 0.08,
         wireframe: true,
         depthWrite: false
       }});
@@ -642,21 +645,23 @@ html_webgl = f"""
     modelGroup.add(cortexMesh);
 
     // -------------------------------------------------------------
-    // CONSTRUCCIÓN DE NODOS Y TRACTOS
+    // NODOS EN TAMAÑO ANATÓMICO CALIBRADO (NO GIGANTES)
     // -------------------------------------------------------------
     const clickableObjects = [];
     const pulsingNodes = [];
     const synapticFlows = [];
 
     if (DATA.view.includes("1.")) {{
-      // Modo Conectoma & Tractografía
       DATA.nodes.forEach(n => {{
-        const geo = new THREE.SphereGeometry(n.rad, 32, 32);
+        // Esfera central precisa y translúcida
+        const geo = new THREE.SphereGeometry(n.rad, 24, 24);
         const mat = new THREE.MeshStandardMaterial({{
           color: n.color,
           emissive: n.color,
-          emissiveIntensity: 1.6,
-          roughness: 0.3
+          emissiveIntensity: 2.2,
+          roughness: 0.2,
+          transparent: true,
+          opacity: 0.90
         }});
         const mesh = new THREE.Mesh(geo, mat);
         mesh.position.set(...n.coords);
@@ -670,12 +675,12 @@ html_webgl = f"""
         clickableObjects.push(mesh);
         pulsingNodes.push(mesh);
 
-        // Halo de activación fMRI
-        const auraGeo = new THREE.SphereGeometry(n.rad * 1.45, 16, 16);
+        // Halo tenue calibrado para que no opaque la pantalla
+        const auraGeo = new THREE.SphereGeometry(n.rad * 1.35, 16, 16);
         const auraMat = new THREE.MeshBasicMaterial({{
           color: n.color,
           transparent: true,
-          opacity: 0.22,
+          opacity: 0.25,
           wireframe: true
         }});
         const aura = new THREE.Mesh(auraGeo, auraMat);
@@ -696,9 +701,9 @@ html_webgl = f"""
         const tubeMat = new THREE.MeshStandardMaterial({{
           color: tubeColor,
           emissive: tubeColor,
-          emissiveIntensity: isBroken ? 0.5 : 1.2,
+          emissiveIntensity: isBroken ? 0.6 : 1.4,
           transparent: true,
-          opacity: isBroken ? 0.45 : 0.85
+          opacity: isBroken ? 0.50 : 0.88
         }});
         const tube = new THREE.Mesh(tubeGeo, tubeMat);
         tube.userData = {{
@@ -709,7 +714,7 @@ html_webgl = f"""
         modelGroup.add(tube);
         clickableObjects.push(tube);
 
-        // Potenciales de acción activos
+        // Partículas en flujo axonal
         if (!isBroken) {{
           const pCount = 10;
           const pGeo = new THREE.BufferGeometry();
@@ -727,9 +732,9 @@ html_webgl = f"""
       }});
 
     }} else {{
-      // Modo Grafo de Onda Expansiva (Vidas Afectadas)
+      // Modo Grafo de Onda Expansiva
       DATA.ecosystem.forEach(e => {{
-        const rad = 1.1 + e.tension * 0.55;
+        const rad = 0.85 + e.tension * 0.45;
         const geo = new THREE.SphereGeometry(rad, 24, 24);
         const mat = new THREE.MeshStandardMaterial({{
           color: e.color,
@@ -747,7 +752,6 @@ html_webgl = f"""
         modelGroup.add(mesh);
         clickableObjects.push(mesh);
 
-        // Tensores de rotura
         const lineGeo = new THREE.BufferGeometry().setFromPoints([
           new THREE.Vector3(0, 0, 0),
           new THREE.Vector3(...e.coords)
@@ -799,21 +803,18 @@ html_webgl = f"""
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Rotación suave manual o automática
       if (autoRotate) {{
         targetRotY += 0.003;
       }}
       modelGroup.rotation.y = targetRotY;
       modelGroup.rotation.x = targetRotX;
 
-      // Pulsación senoidal en frecuencias neuronales calibradas
       pulsingNodes.forEach(mesh => {{
         const hz = mesh.userData.hz || 2.0;
-        const s = 1.0 + Math.sin(t * hz) * 0.12;
+        const s = 1.0 + Math.sin(t * hz) * 0.10;
         mesh.scale.set(s, s, s);
       }});
 
-      // Movimiento continuo de partículas sobre los axones
       synapticFlows.forEach(sf => {{
         const pos = sf.points.geometry.attributes.position.array;
         const count = pos.length / 3;
