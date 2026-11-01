@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilos CSS generales limpios
+# Estética de consola médica de alta gama con tipografía equilibrada
 st.markdown("""
 <style>
     .stApp { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -17,22 +17,34 @@ st.markdown("""
     
     .evidence-panel {
         background: #0b1329; border: 1px solid #1e293b; border-left: 3px solid #38bdf8;
-        padding: 12px 14px; border-radius: 8px; margin-bottom: 8px; min-height: 160px;
+        padding: 12px 14px; border-radius: 8px; margin-bottom: 8px; min-height: 155px;
     }
     .evidence-header { font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.06em; }
     .evidence-title { font-size: 1.02rem; font-weight: 800; color: #38bdf8; font-family: ui-monospace, Menlo, monospace; margin: 2px 0; }
     .evidence-body { font-size: 0.75rem; color: #cbd5e1; line-height: 1.4; margin-top: 4px; }
     .evidence-ref { font-size: 0.68rem; color: #64748b; font-style: italic; margin-top: 4px; }
     
+    .clinical-case-box {
+        background: #080d1a; border: 1px solid #1e293b; border-left: 4px solid #ef4444;
+        padding: 16px 20px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px;
+    }
     .disclaimer-box {
         background: rgba(15, 23, 42, 0.7); border: 1px solid #334155; border-radius: 6px;
         padding: 10px 14px; font-size: 0.76rem; color: #94a3b8; margin-bottom: 12px; line-height: 1.35;
+    }
+    .criteria-card {
+        background: #0b1329; border: 1px solid #1e293b; border-radius: 8px;
+        padding: 16px 20px; margin-bottom: 10px;
+    }
+    .rule-badge {
+        display: inline-block; background: #0284c7; color: #ffffff; font-weight: 700;
+        font-size: 0.76rem; padding: 4px 10px; border-radius: 12px; margin-bottom: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# Base de Datos Clínica y Neurocientífica
+# Base de Datos Neurocientífica, Pedagógica y Nosológica Completa
 # -------------------------------------------------------------------------
 CLINICAL_REGISTRY = {
     "Trastorno Límite de la Personalidad (TLP)": {
@@ -40,6 +52,7 @@ CLINICAL_REGISTRY = {
         "circuit_name": "Falla del Freno Frontal & Alarma Desregulada del Dolor Social",
         "color_accent": "#ef4444",
         "definition": "Patrón persistente de inestabilidad en las relaciones interpersonales, la autoimagen y los afectos, con notable impulsividad, que comienza en las primeras etapas de la edad adulta y se presenta en diversos contextos.",
+        "dsm5_requirement": "Para el diagnóstico se exige cumplir como mínimo 5 de los siguientes 9 criterios:",
         "textbooks": [
             "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
             "Gabbard: Psiquiatría Psicodinámica en la Práctica Clínica (5.ª Edición, Editorial Médica Panamericana)",
@@ -57,7 +70,7 @@ CLINICAL_REGISTRY = {
             "Enfado inapropiado e intenso, o dificultad para controlar la ira.",
             "Ideación paranoide transitoria relacionada con el estrés o síntomas disociativos graves."
         ],
-        "icd11_framework": "CIE-11 codifica el diagnóstico mediante el dominio de Trastorno de la Personalidad clasificado por grado de severidad (Leve, Moderado, Grave), complementado con el calificador de 'Patrón Límite' y los rasgos dimensionales predominantes: Afectividad Negativa, Desinhibición y Disocialidad.",
+        "icd11_framework": "La CIE-11 clasifica el trastorno por grado de severidad (Leve, Moderado, Grave) y aplica el calificador específico de 'Patrón Límite', caracterizado por desregulación afectiva extrema, relaciones inestables e impulsividad autolesiva.",
         "biomarkers": {
             "dti": {
                 "header": "Resonancia por Tensor de Difusión (DTI)",
@@ -96,7 +109,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Basolateral",
-                "plane": "Corte Coronal Anterior (polo medial temporal)",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "plane": "Corte Coronal Anterior",
                 "coords": [1.9, -0.6, -1.3],
                 "color": "#ef4444",
                 "rad": 0.40,
@@ -111,7 +125,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "vmpfc",
                 "name": "Corteza Prefrontal Ventromedial (vmPFC)",
-                "plane": "Corte Sagital Medial (suelo anterior frontal)",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#38bdf8",
                 "rad": 0.38,
@@ -126,7 +141,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "dacc",
                 "name": "Cíngulo Anterior Dorsal (dACC)",
-                "plane": "Corte Sagital Medial (arco sobre el cuerpo calloso)",
+                "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso",
+                "plane": "Corte Sagital Medial",
                 "coords": [0.0, 1.8, 1.8],
                 "color": "#f43f5e",
                 "rad": 0.42,
@@ -141,7 +157,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula Anterior Agranular",
-                "plane": "Corte Axial Medio (profundidad de cisura lateral)",
+                "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
+                "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#e11d48",
                 "rad": 0.36,
@@ -157,7 +174,7 @@ CLINICAL_REGISTRY = {
         "tracts": [
             {
                 "from": [1.9, -0.6, -1.3], "to": [0.0, 3.8, -0.8], "ctrl": [2.6, 1.5, -1.6],
-                "name": "Fascículo Uncinado",
+                "name": "Fascículo Uncinado Derecho",
                 "status": "broken",
                 "desc": "Tracto axonómico desmielinizado; pérdida de anisotropía fraccional (DTI).",
                 "voice": "Fascículo uncinado derecho. Es la vía de sustancia blanca que conecta la corteza frontal con la amígdala. En el trastorno límite, este canal presenta una desorganización microestructural que retrasa la llegada de la señal reguladora."
@@ -216,6 +233,7 @@ CLINICAL_REGISTRY = {
         "circuit_name": "Ablación Funcional Frontolímbica & Falla de Aversión Moral",
         "color_accent": "#f59e0b",
         "definition": "Patrón dominante de inatención y vulneración de los derechos de los demás, que se produce desde los 15 años de edad (con antecedentes de trastorno de conducta antes de dicha edad), manifestado por incumplimiento de normas sociales, engaño, impulsividad e irritabilidad.",
+        "dsm5_requirement": "Para el diagnóstico se exige tener al menos 18 años, evidencia de trastorno de la conducta antes de los 15 años y cumplir al menos 3 de los 7 criterios siguientes:",
         "textbooks": [
             "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
             "Hare, R. D.: Manual for the Revised Psychopathy Checklist (PCL-R, Multi-Health Systems)",
@@ -231,7 +249,7 @@ CLINICAL_REGISTRY = {
             "Irresponsabilidad constante, manifestada por la incapacidad de mantener un trabajo o liquidar deudas.",
             "Ausencia de remordimiento, manifestada con indiferencia o racionalización tras haber herido o robado a alguien."
         ],
-        "icd11_framework": "CIE-11 define la disfunción de la personalidad clasificando el grado de severidad e identifica el dominio de 'Disocialidad' (marcado desprecio por los derechos de los demás, insensibilidad, hostilidad e instrumentalización interpersonal sin culpa).",
+        "icd11_framework": "La CIE-11 encuadra las manifestaciones dentro del dominio de 'Disocialidad' (desprecio por las normas y los derechos ajenos, hostilidad, frialdad e instrumentalización interpersonal sin culpa).",
         "biomarkers": {
             "dti": {
                 "header": "Resonancia por Tensor de Difusión (DTI)",
@@ -270,7 +288,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala (Hipoactiva)",
-                "plane": "Corte Coronal Anterior (polo medial temporal)",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "plane": "Corte Coronal Anterior",
                 "coords": [1.9, -0.6, -1.3],
                 "color": "#1e293b",
                 "rad": 0.30,
@@ -285,7 +304,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Polo Moral Desconectado)",
-                "plane": "Corte Sagital Medial (suelo anterior frontal)",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#334155",
                 "rad": 0.32,
@@ -300,7 +320,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "accumbens",
                 "name": "Núcleo Accumbens (Estriado)",
-                "plane": "Corte Coronal Basal (estriado ventral)",
+                "region_loc": "Suelo del Estriado Ventral Anterior",
+                "plane": "Corte Coronal Basal",
                 "coords": [1.0, 1.1, -0.7],
                 "color": "#eab308",
                 "rad": 0.44,
@@ -315,7 +336,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula Anterior (Anestesiada)",
-                "plane": "Corte Axial Medio (cisura lateral)",
+                "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
+                "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#1e293b",
                 "rad": 0.26,
@@ -390,6 +412,7 @@ CLINICAL_REGISTRY = {
         "circuit_name": "Disociación Fronto-Insular & Vulnerabilidad al Desprecio",
         "color_accent": "#a855f7",
         "definition": "Patrón dominante de grandeza (en la fantasía o en el comportamiento), necesidad de admiración constante y profunda falta de empatía, que comienza en las primeras etapas de la edad adulta y está presente en diversos contextos.",
+        "dsm5_requirement": "Para el diagnóstico se exige cumplir como mínimo 5 de los 9 criterios siguientes:",
         "textbooks": [
             "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
             "Kernberg, O. F.: Trastornos Graves de la Personalidad (El Manual Moderno)",
@@ -407,7 +430,7 @@ CLINICAL_REGISTRY = {
             "Frecuente envidia hacia los demás o creencia de que los demás le envidian a él.",
             "Comportamientos o actitudes arrogantes, soberbias o desdeñosas."
         ],
-        "icd11_framework": "CIE-11 clasifica el trastorno por severidad general y encuadra los rasgos narcisistas principalmente dentro del dominio de 'Disocialidad' (antagonismo, desprecio, búsqueda de dominancia y explotación de otros) con componentes de 'Afectividad Negativa' en su variante vulnerable.",
+        "icd11_framework": "La CIE-11 sitúa estos rasgos dentro del dominio de 'Disocialidad' (antagonismo, desprecio, búsqueda de dominancia y explotación de otros) con componentes de 'Afectividad Negativa' en su variante vulnerable.",
         "biomarkers": {
             "dti": {
                 "header": "Resonancia por Tensor de Difusión (DTI)",
@@ -420,15 +443,15 @@ CLINICAL_REGISTRY = {
             "fmri_amygdala": {
                 "header": "Resonancia Funcional / BOLD (Nivel de Oxigenación)",
                 "title": "Cíngulo Dorsal / Amígdala",
-                "status": "Hiperreactividad ante Amenaza al Estatus",
+                "status": "Herida Narcisista y Alarma por Pérdida de Estatus",
                 "analogy": "Un radar de prestigio que detecta una ofensa mortal ante el menor cuestionamiento.",
                 "summary": "Alarma paroxística en el dACC ante la crítica o el cuestionamiento jerárquico ('herida narcisista'), con reactividad hostil dirigida a neutralizar la descalificación.",
                 "ref": "Pincus & Lukowitsky (2010) | Schulze et al. (2013)"
             },
             "fmri_pain": {
-                "header": "Red de Prominencia (Salience Network)",
+                "header": "Red de Resonancia Social (Empatía)",
                 "title": "Corteza Insular Anterior",
-                "status": "Disociación Empática Afectiva",
+                "status": "Disociación Empática Afectiva (Fan et al.)",
                 "analogy": "Saber exactamente cómo herir verbalmente al otro sin conmoverse por su llanto.",
                 "summary": "Reducción de activación insular ante el dolor ajeno. El sujeto comprende conceptualmente el estado mental del otro pero no resuena visceralmente con él.",
                 "ref": "Jankowiak-Siuda et al. (2015) | Baskin-Sommers et al."
@@ -436,7 +459,7 @@ CLINICAL_REGISTRY = {
             "ratio": {
                 "header": "Acoplamiento Frontolímbico",
                 "title": "Red por Defecto vs. Prominencia",
-                "status": "Compensación Grandiosa Hipertrófica",
+                "status": "Compensación Grandiosa Frontal",
                 "analogy": "Un andamio de oro construido con gran esfuerzo para tapar un piso de barro frágil.",
                 "summary": "Gasto metabólico frontal sostenido para apuntalar una narrativa de autosuficiencia y superioridad que neutralice la extrema vulnerabilidad del self.",
                 "ref": "Scalabrini et al. (2017, Hum Brain Mapp)"
@@ -446,7 +469,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "dacc",
                 "name": "dACC (Radar de Jerarquía)",
-                "plane": "Corte Sagital Medial (arco sobre el cuerpo calloso)",
+                "region_loc": "Circunvolución del Cíngulo sobre el Cuerpo Calloso",
+                "plane": "Corte Sagital Medial",
                 "coords": [0.0, 1.8, 1.8],
                 "color": "#a855f7",
                 "rad": 0.42,
@@ -454,14 +478,15 @@ CLINICAL_REGISTRY = {
                 "status": "HIPERREACTIVO AL DESPRECIO",
                 "analogy": "Sensor de jerarquía en guardia continua ante la falta de elogios.",
                 "example": "Si en una reunión no se aprueba de inmediato su propuesta, experimenta una afrenta personal intolerable.",
-                "healthy_desc": "Procesamiento de evaluación social sin respuestas coléricas defensivas.",
-                "patient_desc": "Detonación fásica de alarma ante la discrepancia o crítica ajena.",
-                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo procesa una amenaza directa a la valía personal, facilitando respuestas de frialdad punitiva o revancha calculada."
+                "healthy_desc": "Modulación equilibrada frente a críticas constructivas.",
+                "patient_desc": "Violeta/Rojo paroxístico: detonación aguda de alarma por descalificación.",
+                "voice": "Cíngulo anterior dorsal. Es un radar de jerarquía social en hipervigilancia continua. Si una opinión suya no es celebrada, este núcleo detecta una ofensa mortal a su estatus, detonando una respuesta de furia fría o venganza calculada."
             },
             {
                 "id": "vmpfc",
                 "name": "vmPFC (Autoimagen Grandiosa)",
-                "plane": "Corte Sagital Medial (suelo anterior frontal)",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#c084fc",
                 "rad": 0.38,
@@ -469,14 +494,15 @@ CLINICAL_REGISTRY = {
                 "status": "COMPENSACIÓN GRANDIOSA",
                 "analogy": "Un andamio dorado que requiere energía continua para no desplomarse.",
                 "example": "Gasta horas rumiando sobre sus éxitos pasados para no sentir la angustia de un fracaso reciente.",
-                "healthy_desc": "Autoimagen realista y flexible ante contingencias cotidianas.",
-                "patient_desc": "Hipermetabolismo compensatorio para sostener la narrativa de superioridad.",
-                "voice": "Corteza prefrontal ventromedial. Es como sostener un andamio elevado sobre cimientos frágiles. Se invierte un volumen considerable de recursos cognitivos en reafirmar la superioridad personal precisamente para contener el miedo subyacente a la insignificancia."
+                "healthy_desc": "Autoestima estable sin necesidad de reafirmación constante.",
+                "patient_desc": "Hipermetabolismo compensatorio: sostén de la fachada de superioridad.",
+                "voice": "Corteza prefrontal ventromedial. Es como construir un andamio de oro sobre cimientos de barro. Se gasta una enorme cantidad de energía metabólica en sostener el relato de que se es superior a todos, precisamente para tapar un terror pánico a la mediocridad o al vacío interior."
             },
             {
                 "id": "amg",
                 "name": "Amígdala (Rabia Narcisista)",
-                "plane": "Corte Coronal Anterior (polo medial temporal)",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "plane": "Corte Coronal Anterior",
                 "coords": [1.8, -0.6, -1.3],
                 "color": "#ec4899",
                 "rad": 0.34,
@@ -484,14 +510,15 @@ CLINICAL_REGISTRY = {
                 "status": "VULNERABILIDAD FÁSICA",
                 "analogy": "Una chispa que enciende fuego cuando se pone en duda su perfección.",
                 "example": "Ante una corrección menor de un colaborador, responde con descalificación tajante para restablecer control.",
-                "healthy_desc": "Tolerancia a la frustración y a la retroalimentación sin hostilidad.",
-                "patient_desc": "Descarga colérica orientada a neutralizar la exposición de vulnerabilidad.",
-                "voice": "Amígdala reactiva. Detona la denominada rabia narcisista. Frente a una observación crítica de un allegado o colega, el afecto herido precipita una descalificación verbal tajante orientada a restituir la propia posición de valor."
+                "healthy_desc": "Regulación emocional sin hostilidad defensiva.",
+                "patient_desc": "Pico fásico de cólera ante la exposición de debilidad.",
+                "voice": "Amígdala reactiva. Detona la denominada rabia narcisista. Frente a una observación crítica de un subordinado o pareja, el afecto herido precipita una descalificación verbal tajante orientada a restituir la propia posición de valor."
             },
             {
                 "id": "insula",
                 "name": "Ínsula (Empatía Afectiva Desconectada)",
-                "plane": "Corte Axial Medio (cisura lateral)",
+                "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
+                "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#334155",
                 "rad": 0.28,
@@ -499,9 +526,9 @@ CLINICAL_REGISTRY = {
                 "status": "ANESTESIA EMPÁTICA",
                 "analogy": "Mover piezas en el tablero sin conmoverse por la pieza derribada.",
                 "example": "Nota con lucidez que sus comentarios hieren a su pareja, pero no experimenta compasión somática.",
-                "healthy_desc": "Activación vicaria armónica ante el malestar del interlocutor.",
-                "patient_desc": "Hipoactivación insular afectiva con preservación de Teoría de la Mente.",
-                "voice": "Ínsula anterior desconectada. Fan comprobó en la revista SCAN la presencia de una disociación central: se conserva la empatía cognitiva (sabe qué siente el otro y cómo afectarlo), pero se presenta atenuada la empatía emocional (no experimenta compasión somática)."
+                "healthy_desc": "Resonancia afectiva compartida ante el llanto del otro.",
+                "patient_desc": "Azul grisáceo / Inactivo: ausencia de conmoción somática.",
+                "voice": "Ínsula anterior desconectada. Fan demostró en la revista SCAN que el narcisista tiene empatía cognitiva intacta, es decir, sabe perfectamente qué te duele y cómo herirte, pero carece de empatía afectiva; no siente compasión alguna al hacerlo."
             }
         ],
         "tracts": [
@@ -566,6 +593,7 @@ CLINICAL_REGISTRY = {
         "circuit_name": "Labilidad Afectiva, Búsqueda de Refuerzo & Somatización",
         "color_accent": "#06b6d4",
         "definition": "Patrón dominante de emotividad excesiva y de búsqueda de atención continua, que comienza en las primeras etapas de la edad adulta y está presente en diversos contextos.",
+        "dsm5_requirement": "Para el diagnóstico se exige cumplir como mínimo 5 de los 8 criterios siguientes:",
         "textbooks": [
             "Kaplan & Sadock: Sinopsis de Psiquiatría (12.ª Edición, Wolters Kluwer)",
             "Shapiro, D.: Neurotic Styles (Basic Books)",
@@ -582,7 +610,7 @@ CLINICAL_REGISTRY = {
             "Es sugestionable (fácilmente influenciable por los demás o por las circunstancias).",
             "Considera que las relaciones son más estrechas de lo que son en realidad."
         ],
-        "icd11_framework": "CIE-11 no mantiene la categoría categorial de THP en el eje primario; sus manifestaciones se diagnostican evaluando el nivel de severidad general de la personalidad y los rasgos de 'Afectividad Negativa' (labilidad emocional) combinados con patrones de dependencia de validación externa.",
+        "icd11_framework": "En la CIE-11 las manifestaciones se encuadran evaluando la severidad general de la personalidad combinada con rasgos de 'Afectividad Negativa' (labilidad afectiva) y marcada dependencia de la validación externa.",
         "biomarkers": {
             "dti": {
                 "header": "Resonancia por Tensor de Difusión (DTI)",
@@ -621,7 +649,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "amg",
                 "name": "Amígdala Límbica",
-                "plane": "Corte Coronal Anterior (polo medial temporal)",
+                "region_loc": "Polo Medial del Lóbulo Temporal Profundo",
+                "plane": "Corte Coronal Anterior",
                 "coords": [1.8, -0.6, -1.3],
                 "color": "#06b6d4",
                 "rad": 0.36,
@@ -636,7 +665,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "accumbens",
                 "name": "Núcleo Accumbens Social",
-                "plane": "Corte Coronal Basal (estriado ventral)",
+                "region_loc": "Suelo del Estriado Ventral Anterior",
+                "plane": "Corte Coronal Basal",
                 "coords": [1.0, 1.1, -0.7],
                 "color": "#22d3ee",
                 "rad": 0.40,
@@ -651,7 +681,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "insula",
                 "name": "Ínsula Somatosensorial",
-                "plane": "Corte Axial Medio (cisura lateral)",
+                "region_loc": "Profundidad del Surco Lateral (Cisura de Silvio)",
+                "plane": "Corte Axial Medio",
                 "coords": [2.8, 0.7, -0.2],
                 "color": "#0891b2",
                 "rad": 0.34,
@@ -666,7 +697,8 @@ CLINICAL_REGISTRY = {
             {
                 "id": "vmpfc",
                 "name": "vmPFC Impresionista",
-                "plane": "Corte Sagital Medial (suelo anterior frontal)",
+                "region_loc": "Suelo Anterior Basal del Lóbulo Frontal",
+                "plane": "Corte Sagital Medial",
                 "coords": [0.0, 3.8, -0.8],
                 "color": "#475569",
                 "rad": 0.32,
@@ -911,7 +943,6 @@ html_webgl = f"""
       }}
     }}
 
-    // Limpieza estricta de prosodia: elimina caracteres como ~ o - para que nunca pronuncie 'tilde'
     function cleanTextForSpeech(text) {{
       return text.replace(/[~]/g, "aproximadamente ")
                  .replace(/[-]/g, " ")
@@ -1084,7 +1115,7 @@ html_webgl = f"""
         mesh.position.set(...n.coords);
         mesh.userData = {{
           name: n.name,
-          desc: "<b>Estado:</b> " + n.status + "<br><b>Analogía:</b> " + n.analogy + "<br><b>Ejemplo:</b> " + n.example,
+          desc: "<b>Región:</b> " + n.region_loc + "<br><b>Estado:</b> " + n.status + "<br><b>Analogía:</b> " + n.analogy + "<br><b>Ejemplo:</b> " + n.example,
           voice: n.voice,
           hz: n.hz
         }};
@@ -1283,111 +1314,196 @@ html_webgl = f"""
 components.html(html_webgl, height=660, scrolling=False)
 
 # -------------------------------------------------------------------------
-# Neuroimagen Comparativa Visual (Componente Web Aislado sin fallos de render)
+# Módulos Temáticos Interactivos (Diseño Limpio en Solapas/Tabs)
 # -------------------------------------------------------------------------
 st.markdown("---")
-st.subheader("🔬 Neuroimagen Comparativa Visual: Sujeto Control Sano vs. Cuadro Clínico")
-st.caption("Cortes anatómicos de resonancia magnética con mapas de activación BOLD (fMRI) estandarizados")
 
-selected_node_name = st.selectbox(
-    "Seleccionar estructura anatómica para proyectar la comparación de neuroimagen:",
-    [n["name"] for n in current_data["nodes"]]
-)
+tab_neuro, tab_diag, tab_case, tab_social = st.tabs([
+    "🔬 Neuroimagen Comparativa", 
+    "📖 Compendio Diagnóstico & Criterios", 
+    "📋 Viñeta Clínica & Salvedad", 
+    "📊 Matriz de Discapacidad WHODAS"
+])
 
-active_node = next(n for n in current_data["nodes"] if n["name"] == selected_node_name)
+# ----------------- SOLAPA 1: NEUROIMAGEN COMPARATIVA CON ESQUEMA ANATÓMICO REAL -----------------
+with tab_neuro:
+    st.subheader("Cortes Anatómicos y Localización de Estructuras Comprometidas")
+    st.caption("Esquema anatómico del encéfalo humano que ilustra la ubicación regional exacta y el patrón de activación BOLD (fMRI)")
 
-# Generación del componente visual de resonancia sin mezclar sintaxis markdown
-html_mri_comparison = f"""
-<div style="display: flex; gap: 16px; font-family: -apple-system, sans-serif; background: transparent;">
-    <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid #10b981; padding: 14px; border-radius: 8px;">
-        <div style="color: #10b981; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">🟢 Sujeto Control Sano (Homeostasis)</div>
-        <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;"><b>Corte:</b> {active_node['plane']}</div>
-        <div style="width: 100%; height: 180px; background: #030712; border-radius: 6px; border: 1px solid #1e293b; position: relative; display: flex; align-items: center; justify-content: center;">
-            <div style="width: 110px; height: 140px; border-radius: 50%; border: 2px solid #334155; background: #0f172a; position: relative; display: flex; align-items: center; justify-content: center;">
-                <div style="width: 32px; height: 32px; border-radius: 50%; background: #10b981; opacity: 0.85; box-shadow: 0 0 16px #10b981;"></div>
-            </div>
-            <div style="position: absolute; bottom: 8px; font-size: 0.70rem; color: #10b981; font-weight: bold;">ACTIVACIÓN MODULADA</div>
-        </div>
-        <div style="font-size: 0.76rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">
-            <b>Respuesta Fisiológica:</b> {active_node['healthy_desc']}
-        </div>
-    </div>
-    <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid {active_node['color']}; padding: 14px; border-radius: 8px;">
-        <div style="color: {active_node['color']}; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">🔴 Paciente: {selected_disorder.split('(')[0]}</div>
-        <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;"><b>Corte:</b> {active_node['plane']}</div>
-        <div style="width: 100%; height: 180px; background: #030712; border-radius: 6px; border: 1px solid #1e293b; position: relative; display: flex; align-items: center; justify-content: center;">
-            <div style="width: 110px; height: 140px; border-radius: 50%; border: 2px solid #334155; background: #0f172a; position: relative; display: flex; align-items: center; justify-content: center;">
-                <div style="width: 44px; height: 44px; border-radius: 50%; background: {active_node['color']}; opacity: 0.90; box-shadow: 0 0 24px {active_node['color']};"></div>
-            </div>
-            <div style="position: absolute; bottom: 8px; font-size: 0.70rem; color: {active_node['color']}; font-weight: bold;">PATRÓN DE SEÑAL ANÓMALO</div>
-        </div>
-        <div style="font-size: 0.76rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">
-            <b>Patrón Clínico:</b> {active_node['patient_desc']}<br>
-            <b>Situación Real:</b> {active_node['example']}
-        </div>
-    </div>
-</div>
-"""
-components.html(html_mri_comparison, height=310, scrolling=False)
+    selected_node_name = st.selectbox(
+        "Seleccionar estructura para desplegar su ubicación y comparación funcional:",
+        [n["name"] for n in current_data["nodes"]]
+    )
 
-# -------------------------------------------------------------------------
-# Compendio Diagnóstico Nosológico (Componentes Nativos Limpios)
-# -------------------------------------------------------------------------
-st.markdown("---")
-st.subheader("📖 Compendio Nosológico & Criterios Diagnósticos")
-st.caption("Alineado con los manuales de referencia internacional (DSM-5-TR, CIE-11) y tratados de psiquiatría clínica")
+    active_node = next(n for n in current_data["nodes"] if n["name"] == selected_node_name)
 
-st.markdown("#### Definición Nosológica Formal")
-st.info(current_data["definition"])
-
-col_dsm, col_icd = st.columns([1.2, 1.0])
-
-with col_dsm:
-    st.markdown("#### Criterios Diagnósticos DSM-5-TR (APA)")
-    for idx, crit in enumerate(current_data["dsm5_criteria"], 1):
-        st.markdown(f"**{idx}.** {crit}")
-
-with col_icd:
-    st.markdown("#### Modelo Dimensional CIE-11 (OMS)")
-    st.markdown(current_data["icd11_framework"])
+    # Esquemas anatómicos reales en SVG según la estructura
+    # 1. Amígdala: Corte coronal que muestra corteza, ventrículos laterales y lóbulo temporal medial
+    # 2. vmPFC: Corte sagital que muestra perfil frontal, cuerpo calloso y polo medial basal
+    # 3. dACC: Corte sagital medial destacando el arco sobre el cuerpo calloso
+    # 4. Ínsula: Corte axial que muestra el opérculo temporal/frontal y la cisura de Silvio profunda
     
-    st.markdown("#### Tratados y Manuales de Referencia")
-    for book in current_data["textbooks"]:
-        st.markdown(f"* 📚 {book}")
+    def get_anatomical_svg(struct_id, is_patient, color_hex):
+        focal_color = color_hex if is_patient else "#10b981"
+        pulse_op = "0.9" if is_patient else "0.35"
+        label_text = "RESPUESTA ANÓMALA" if is_patient else "ACTIVACIÓN CONTROLADA"
+        
+        if struct_id == "amg":
+            # Corte Coronal
+            return f"""
+            <svg width="100%" height="220" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+                <!-- Silueta coronal del encéfalo -->
+                <path d="M 60 120 C 60 50, 110 30, 170 30 C 230 30, 280 50, 280 120 C 280 150, 260 185, 230 185 C 210 185, 200 160, 170 160 C 140 160, 130 185, 110 185 C 80 185, 60 150, 60 120 Z" fill="#090e1a" stroke="#334155" stroke-width="2"/>
+                <!-- Cisura interhemisférica -->
+                <line x1="170" y1="30" x2="170" y2="100" stroke="#1e293b" stroke-width="2"/>
+                <!-- Ventrículos laterales -->
+                <path d="M 155 85 C 155 70, 165 65, 170 75 C 175 65, 185 70, 185 85 C 185 105, 170 115, 170 115 C 170 115, 155 105, 155 85 Z" fill="#020617" stroke="#1e293b" stroke-width="1.5"/>
+                <!-- Lóbulos temporales basales -->
+                <ellipse cx="105" cy="145" rx="20" ry="15" fill="#0f172a" stroke="#1e293b"/>
+                <ellipse cx="235" cy="145" rx="20" ry="15" fill="#0f172a" stroke="#1e293b"/>
+                
+                <!-- Foco en Amígdala Medial -->
+                <circle cx="120" cy="142" r="16" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="120" cy="142" r="7" fill="{focal_color}"/>
+                <circle cx="220" cy="142" r="16" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="220" cy="142" r="7" fill="{focal_color}"/>
+                
+                <!-- Rótulos -->
+                <text x="170" y="24" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE CORONAL (LÓBULO TEMPORAL MEDIAL)</text>
+                <text x="170" y="205" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
+            </svg>
+            """
+        elif struct_id == "vmpfc" or struct_id == "dacc":
+            # Corte Sagital Medial
+            target_cx = "225" if struct_id == "vmpfc" else "175"
+            target_cy = "130" if struct_id == "vmpfc" else "95"
+            tag_name = "vmPFC (SUELO FRONTAL)" if struct_id == "vmpfc" else "dACC (ARCO SUPRACALLOSO)"
+            return f"""
+            <svg width="100%" height="220" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+                <!-- Perfil sagital encefálico -->
+                <path d="M 70 145 C 50 110, 80 40, 160 35 C 240 35, 275 75, 275 125 C 275 145, 250 155, 220 155 C 190 155, 170 185, 140 185 C 110 185, 95 160, 70 145 Z" fill="#090e1a" stroke="#334155" stroke-width="2"/>
+                <!-- Cuerpo Calloso (Arco característico) -->
+                <path d="M 130 115 C 140 90, 200 90, 215 115" fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+                <!-- Cerebelo y tronco encefálico -->
+                <path d="M 85 145 C 75 175, 115 185, 125 165 Z" fill="#0f172a" stroke="#1e293b"/>
+                
+                <!-- Foco Funcional en Sagital -->
+                <circle cx="{target_cx}" cy="{target_cy}" r="18" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="15;20;15" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="{target_cx}" cy="{target_cy}" r="8" fill="{focal_color}"/>
+                
+                <text x="170" y="24" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE SAGITAL MEDIAL: {tag_name}</text>
+                <text x="170" y="205" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
+            </svg>
+            """
+        else:
+            # Corte Axial (Ínsula o Accumbens)
+            return f"""
+            <svg width="100%" height="220" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="background:#030712; border-radius:8px; border:1px solid #1e293b;">
+                <!-- Corte horizontal ovoide (Axial) -->
+                <ellipse cx="170" cy="110" rx="90" ry="75" fill="#090e1a" stroke="#334155" stroke-width="2"/>
+                <!-- Fisura sagital longitudinal -->
+                <line x1="170" y1="35" x2="170" y2="185" stroke="#1e293b" stroke-width="2"/>
+                <!-- Cisuras laterales de Silvio profundas (invaginación insular) -->
+                <path d="M 80 110 C 110 110, 125 105, 130 95" fill="none" stroke="#334155" stroke-width="2"/>
+                <path d="M 260 110 C 230 110, 215 105, 210 95" fill="none" stroke="#334155" stroke-width="2"/>
+                
+                <!-- Foco en Ínsula Anterior Bilateral -->
+                <circle cx="125" cy="105" r="16" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="125" cy="105" r="7" fill="{focal_color}"/>
+                <circle cx="215" cy="105" r="16" fill="{focal_color}" opacity="{pulse_op}">
+                    <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="215" cy="105" r="7" fill="{focal_color}"/>
+                
+                <text x="170" y="24" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">CORTE AXIAL MEDIO (PROFUNDIDAD DE CISURA LATERAL)</text>
+                <text x="170" y="205" fill="{focal_color}" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">{label_text}</text>
+            </svg>
+            """
 
-# -------------------------------------------------------------------------
-# Viñeta Clínica Dinámica con Salvedad Epistemológica
-# -------------------------------------------------------------------------
-st.markdown("---")
-cv = current_data["case_vignette"]
-st.markdown(f"""
-<div class="clinical-case-box">
-    <div class="disclaimer-box">
-        <b>Salvedad metodológica:</b> La siguiente viñeta clínica es puramente ilustrativa de patrones sindrómicos frecuentes documentados en la literatura y no debe interpretarse de forma dogmática ni como un curso universal aplicable a todos los casos.
-    </div>
-    <h3 style="color: #ef4444; margin: 0 0 8px 0;">📋 {cv['title']}</h3>
-    <p style="color: #f8fafc; font-size: 0.88rem; line-height: 1.5; margin-bottom: 12px;"><b>Situación de Presentación:</b><br>{cv['narrative']}</p>
-    <div style="background: rgba(15, 23, 42, 0.7); border-left: 3px solid #38bdf8; padding: 10px 14px; border-radius: 4px;">
-        <b style="color: #38bdf8; font-size: 0.82rem;">Integración Fisiopatológica y Evidencia:</b><br>
-        <span style="color: #cbd5e1; font-size: 0.80rem; line-height: 1.45;">{cv['mechanistic_reading']}</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# -------------------------------------------------------------------------
-# Matriz Psicométrica de Discapacidad Fundamentada (WHODAS 2.0 / CIE-11)
-# -------------------------------------------------------------------------
-st.subheader("📊 Matriz de Discapacidad Funcional y Ruptura Relacional")
-st.caption("Alineada con el modelo dimensional de la CIE-11 y estudios longitudinales basados en la escala WHODAS 2.0 (OMS)")
-
-matrix_cols = st.columns(len(current_data["whodas_matrix"]))
-for idx, item in enumerate(current_data["whodas_matrix"]):
-    with matrix_cols[idx]:
-        st.markdown(f"""
-        <div style="background: #0b1329; border: 1px solid #1e293b; border-top: 4px solid {item['color']}; padding: 12px; border-radius: 6px; min-height: 240px;">
-            <div style="font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">{item['domain']}</div>
-            <div style="font-size: 0.86rem; font-weight: 800; color: {item['color']}; margin: 6px 0;">{item['pct_label']}</div>
-            <div style="font-size: 0.72rem; color: #cbd5e1; line-height: 1.35; margin-bottom: 8px;"><b>Patrón conductual:</b><br>{item['clinical_correlate']}</div>
-            <div style="font-size: 0.68rem; color: #64748b; border-top: 1px solid #1e293b; padding-top: 6px; font-style: italic;"><b>Base científica:</b><br>{item['scientific_basis']}</div>
+    comp_html = f"""
+    <div style="display: flex; gap: 16px; font-family: -apple-system, sans-serif;">
+        <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid #10b981; padding: 14px; border-radius: 8px;">
+            <div style="color: #10b981; font-weight: bold; font-size: 0.92rem; margin-bottom: 4px;">🟢 Sujeto Control Sano (Homeostasis)</div>
+            <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']} | <b>Región:</b> {active_node['region_loc']}</div>
+            {get_anatomical_svg(active_node['id'], False, "#10b981")}
+            <div style="font-size: 0.76rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">
+                <b>Respuesta Fisiológica:</b> {active_node['healthy_desc']}
+            </div>
         </div>
-        """, unsafe_allow_html=True)
+        <div style="flex: 1; background: #090e1a; border: 1px solid #1e293b; border-left: 4px solid {active_node['color']}; padding: 14px; border-radius: 8px;">
+            <div style="color: {active_node['color']}; font-weight: bold; font-size: 0.92rem; margin-bottom: 4px;">🔴 Paciente: {selected_disorder.split('(')[0]}</div>
+            <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;"><b>Estructura:</b> {active_node['name']} | <b>Región:</b> {active_node['region_loc']}</div>
+            {get_anatomical_svg(active_node['id'], True, active_node['color'])}
+            <div style="font-size: 0.76rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">
+                <b>Patrón Clínico:</b> {active_node['patient_desc']}<br>
+                <b>Situación Real:</b> {active_node['example']}
+            </div>
+        </div>
+    </div>
+    """
+    components.html(comp_html, height=330, scrolling=False)
+
+# ----------------- SOLAPA 2: COMPENDIO NOSOLÓGICO Y CRITERIOS -----------------
+with tab_diag:
+    st.markdown("### Compendio Nosológico & Criterios Diagnósticos")
+    st.caption("Alineado con los manuales de referencia internacional (DSM-5-TR, CIE-11) y tratados clásicos de psiquiatría")
+    
+    st.info(f"**Definición Formal:** {current_data['definition']}")
+    
+    c_dsm, c_icd = st.columns([1.2, 1.0])
+    
+    with c_dsm:
+        st.markdown(f"#### Criterios DSM-5-TR (Asociación Estadounidense de Psiquiatría)")
+        st.markdown(f"<span class='rule-badge'>{current_data['dsm5_requirement']}</span>", unsafe_allow_html=True)
+        for idx, crit in enumerate(current_data["dsm5_criteria"], 1):
+            st.markdown(f"**{idx}.** {crit}")
+            
+    with c_icd:
+        st.markdown("#### Marco Conceptual Dimensional CIE-11 (OMS)")
+        st.markdown(current_data["icd11_framework"])
+        
+        st.markdown("#### Tratados y Manuales de Referencia Utilizados")
+        for book in current_data["textbooks"]:
+            st.markdown(f"* 📚 {book}")
+
+# ----------------- SOLAPA 3: VIÑETA CLÍNICA ILUSTRATIVA -----------------
+with tab_case:
+    cv = current_data["case_vignette"]
+    st.markdown(f"""
+    <div class="clinical-case-box">
+        <div class="disclaimer-box">
+            <b>Salvedad metodológica:</b> La siguiente viñeta clínica es puramente ilustrativa de patrones sindrómicos frecuentes documentados en la literatura y no debe interpretarse de forma dogmática ni como un curso universal aplicable a todos los casos.
+        </div>
+        <h3 style="color: #ef4444; margin: 0 0 8px 0;">📋 {cv['title']}</h3>
+        <p style="color: #f8fafc; font-size: 0.88rem; line-height: 1.5; margin-bottom: 12px;"><b>Situación de Presentación:</b><br>{cv['narrative']}</p>
+        <div style="background: rgba(15, 23, 42, 0.7); border-left: 3px solid #38bdf8; padding: 10px 14px; border-radius: 4px;">
+            <b style="color: #38bdf8; font-size: 0.82rem;">Integración Fisiopatológica y Evidencia:</b><br>
+            <span style="color: #cbd5e1; font-size: 0.80rem; line-height: 1.45;">{cv['mechanistic_reading']}</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ----------------- SOLAPA 4: MATRIZ DE DISCAPACIDAD WHODAS 2.0 -----------------
+with tab_social:
+    st.markdown("### Matriz de Discapacidad Funcional y Ruptura Relacional")
+    st.caption("Alineada con el modelo dimensional de la CIE-11 y estudios longitudinales basados en la escala WHODAS 2.0 (OMS)")
+    
+    matrix_cols = st.columns(len(current_data["whodas_matrix"]))
+    for idx, item in enumerate(current_data["whodas_matrix"]):
+        with matrix_cols[idx]:
+            st.markdown(f"""
+            <div style="background: #0b1329; border: 1px solid #1e293b; border-top: 4px solid {item['color']}; padding: 12px; border-radius: 6px; min-height: 240px;">
+                <div style="font-size: 0.68rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">{item['domain']}</div>
+                <div style="font-size: 0.86rem; font-weight: 800; color: {item['color']}; margin: 6px 0;">{item['pct_label']}</div>
+                <div style="font-size: 0.72rem; color: #cbd5e1; line-height: 1.35; margin-bottom: 8px;"><b>Patrón conductual:</b><br>{item['clinical_correlate']}</div>
+                <div style="font-size: 0.68rem; color: #64748b; border-top: 1px solid #1e293b; padding-top: 6px; font-style: italic;"><b>Base científica:</b><br>{item['scientific_basis']}</div>
+            </div>
+            """, unsafe_allow_html=True)
